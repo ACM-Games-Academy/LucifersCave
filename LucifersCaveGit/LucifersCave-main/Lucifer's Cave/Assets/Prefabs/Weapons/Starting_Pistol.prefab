@@ -97,7 +97,6 @@ MonoBehaviour:
   muzzleFlash: {fileID: 4256224652935622800}
   ammoCounter: {fileID: 0}
   plyrCamera: {fileID: 0}
-  weaponAnimator: {fileID: 0}
   aimingKey: 324
   shootingKey: 323
   reloadKey: 114
@@ -106,10 +105,11 @@ MonoBehaviour:
   allowReset: 1
   isAiming: 0
   Recoil: {fileID: 0}
+  weaponSway: {fileID: 0}
   movementScript: {fileID: 0}
   reloadPosition: {x: 0, y: -0.1, z: -0.1}
   reloadRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
-  reloadAnimSpeed: 0
+  ReloadAnimSpeed: 0
 --- !u!1 &603434968154844098
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,7 +135,7 @@ Transform:
   m_GameObject: {fileID: 603434968154844098}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.39, y: 0.2, z: 1.24}
+  m_LocalPosition: {x: 0.392, y: 0.18, z: 1.24}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -242,8 +242,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 198234346748616026, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198234346748616026, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
       propertyPath: lengthInSec
       value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 198234346748616026, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
+      propertyPath: playOnAwake
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 198234346748616026, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
       propertyPath: moveWithTransform
@@ -287,6 +295,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 198234346748616026, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
       propertyPath: ColorModule.gradient.maxGradient.m_ColorSpace
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198515452120210940, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
+      propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

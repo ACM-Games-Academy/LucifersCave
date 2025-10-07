@@ -18,7 +18,6 @@ public class EnemyBase : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        animator.applyRootMotion = false;
         RandomiseAnimation();
 
         if (health != null)

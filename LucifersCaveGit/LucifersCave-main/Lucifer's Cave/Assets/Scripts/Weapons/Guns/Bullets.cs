@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Bullets : MonoBehaviour
 {
-    public int Damage;
+    public WeaponStats weaponStats;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -10,7 +10,7 @@ public class Bullets : MonoBehaviour
 
         if (zombie != null)
         {
-            zombie.TakeDamage(Damage);
+            zombie.TakeDamage((int)weaponStats.damage);
         }
 
         Destroy(gameObject);

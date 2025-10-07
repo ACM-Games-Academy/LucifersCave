@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a9475bc38d8aed41a336f4733a46fc7, type: 3}
   m_Name: Pistol_Recoil
   m_EditorClassIdentifier: 
-  recoilX: 0
+  recoilX: -1
   recoilY: -4
-  kickBack: 0.08
+  kickBack: 0.09
   snapAmount: 15
   returnSpeed: 10

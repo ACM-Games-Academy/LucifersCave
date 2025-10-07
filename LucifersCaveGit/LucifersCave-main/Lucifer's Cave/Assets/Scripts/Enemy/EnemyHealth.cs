@@ -25,7 +25,6 @@ public class EnemyHealth : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        animator.applyRootMotion = false;
         RandomiseAnimation();
     }
 

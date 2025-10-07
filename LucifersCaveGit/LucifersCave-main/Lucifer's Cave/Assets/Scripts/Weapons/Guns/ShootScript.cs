@@ -10,7 +10,6 @@ public class ShootScript : MonoBehaviour
     [SerializeField] private ParticleSystem muzzleFlash;
     [SerializeField] private TextMeshProUGUI ammoCounter;
     [SerializeField] private Camera plyrCamera;
-    public Animator weaponAnimator;
     private int currentAmmo, reserveAmmo, currentBurst;
 
     [Header("Input")]
@@ -56,19 +55,6 @@ public class ShootScript : MonoBehaviour
         this.reserveAmmo = data.reserveAmmo;
     }
 
-    private void Awake()
-    {
-        weaponAnimator = GetComponent<Animator>();
-        if (weaponData != null && weaponAnimator != null && weaponData.animatorController != null)
-        {
-            weaponAnimator.runtimeAnimatorController = weaponData.animatorController;
-        }
-        else
-        {
-            Debug.LogWarning("WeaponData, weaponAnimator, or animatorController is missing!");
-        }
-    }
-
     private void Start()
     {
         currentAmmo = weaponData.maxAmmo;
@@ -78,6 +64,8 @@ public class ShootScript : MonoBehaviour
 
         defaultPosition = transform.localPosition;
         defaultRotation = transform.localRotation;
+
+        weaponSway = GetComponentInParent<WeaponSway>();
     }
 
     private void Update()

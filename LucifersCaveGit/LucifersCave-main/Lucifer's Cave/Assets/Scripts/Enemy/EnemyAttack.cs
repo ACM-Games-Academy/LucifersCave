@@ -21,7 +21,6 @@ public class EnemyAttack : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        animator.applyRootMotion = false;
         enemyHealth = GetComponent<EnemyHealth>();
 
         if (enemyHealth != null )
