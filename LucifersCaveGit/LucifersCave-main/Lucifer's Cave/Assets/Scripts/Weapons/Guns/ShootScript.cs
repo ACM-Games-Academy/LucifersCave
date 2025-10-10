@@ -193,20 +193,26 @@ public class ShootScript : MonoBehaviour
         readyToShoot = false;
         weaponSway.enabled = false;
 
-        transform.localPosition = Vector3.Lerp(transform.localPosition, reloadPosition, ReloadAnimSpeed * Time.deltaTime);
-        transform.localRotation = Quaternion.Lerp(transform.localRotation, reloadRotation, ReloadAnimSpeed * Time.deltaTime);
-
-        if (currentAmmo > 0)
+        float reloadTime = 0f;
+        while (reloadTime < 1f)
         {
-            yield return new WaitForSeconds(weaponData.reloadTime);
-        }
-        if (currentAmmo == 0)
-        {
-            yield return new WaitForSeconds(weaponData.reloadTimeEmpty);
+            reloadTime += Time.deltaTime * ReloadAnimSpeed;
+            transform.localPosition = Vector3.Lerp(transform.localPosition, reloadPosition, reloadTime);
+            transform.localRotation = Quaternion.Lerp(transform.localRotation, reloadRotation, reloadTime);
+            yield return null;
         }
 
-        transform.localPosition = Vector3.Lerp(transform.localPosition, defaultPosition, ReloadAnimSpeed * Time.deltaTime);
-        transform.localRotation = Quaternion.Lerp(transform.localRotation, defaultRotation, ReloadAnimSpeed * Time.deltaTime);
+        yield return new WaitForSeconds(currentAmmo > 0 ? weaponData.reloadTime : weaponData.reloadTimeEmpty);
+
+        reloadTime = 0f;
+        while (reloadTime < 1f)
+        {
+            reloadTime += Time.deltaTime * ReloadAnimSpeed;
+            transform.localPosition = Vector3.Lerp(transform.localPosition, defaultPosition, reloadTime);
+            transform.localRotation = Quaternion.Lerp(transform.localRotation, defaultRotation, reloadTime);
+            yield return null;
+        }
+
         weaponSway.enabled = true;
 
         int ammoToReload = Mathf.Min(weaponData.maxAmmo - currentAmmo, reserveAmmo);

@@ -66,6 +66,6 @@ public class EnemyHealth : MonoBehaviour
         if (col != null) col.enabled = false;
 
         OnDeathEvent?.Invoke();
-        Destroy(gameObject, 5f);
+        Destroy(transform.parent.gameObject, 5f);
     }
 }

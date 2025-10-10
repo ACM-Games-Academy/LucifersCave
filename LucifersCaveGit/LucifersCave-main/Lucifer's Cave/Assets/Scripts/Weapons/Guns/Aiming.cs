@@ -49,7 +49,7 @@ public class Aiming : MonoBehaviour
         gunFOV = FOV_decrease;
     }
 
-    void Update()
+    void LateUpdate()
     {
         if (shootingFunc.isAiming)
         {
@@ -83,7 +83,7 @@ public class Aiming : MonoBehaviour
 
         Vector3 offset = sightTarget.position - transform.position;
 
-        Vector3 desiredPos = mainCam.transform.localPosition + mainCam.transform.forward * offset.magnitude - offset;
+        Vector3 desiredPos = mainCam.transform.InverseTransformPoint(sightTarget.position);
 
         transform.localPosition = Vector3.Lerp(transform.localPosition, desiredPos, ADS_Speed * Time.deltaTime);
 

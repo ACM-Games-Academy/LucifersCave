@@ -109,7 +109,7 @@ MonoBehaviour:
   movementScript: {fileID: 0}
   reloadPosition: {x: 0, y: -0.1, z: -0.1}
   reloadRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
-  ReloadAnimSpeed: 0
+  ReloadAnimSpeed: 1
 --- !u!1 &603434968154844098
 GameObject:
   m_ObjectHideFlags: 0
