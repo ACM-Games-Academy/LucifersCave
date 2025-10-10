@@ -23,6 +23,6 @@ MonoBehaviour:
   currentAmmo: 8
   maxAmmo: 8
   reserveAmmo: 12
-  reloadTime: 1.7
-  reloadTimeEmpty: 2.5
+  reloadTime: 1
+  reloadTimeEmpty: 2
   animatorController: {fileID: 0}

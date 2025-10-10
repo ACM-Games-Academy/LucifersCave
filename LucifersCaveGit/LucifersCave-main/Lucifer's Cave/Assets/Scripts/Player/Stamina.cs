@@ -50,6 +50,13 @@ public class Stamina : MonoBehaviour
                 regenerationCoroutine = StartCoroutine(StaminaRegeneration(depletedStaminaDelay));
             }
         }
+        else
+        {
+            if (staminaBar.fillAmount < 1f && regenerationCoroutine == null)
+            {
+                regenerationCoroutine = StartCoroutine(StaminaRegeneration(staminaDelay));
+            }
+        }
     }
 
     IEnumerator StaminaRegeneration(float delay)

@@ -193,23 +193,28 @@ public class ShootScript : MonoBehaviour
         readyToShoot = false;
         weaponSway.enabled = false;
 
-        float reloadTime = 0f;
-        while (reloadTime < 1f)
+        float reloadAnimationTime = 0f;
+        while (reloadAnimationTime < 1f)
         {
-            reloadTime += Time.deltaTime * ReloadAnimSpeed;
-            transform.localPosition = Vector3.Lerp(transform.localPosition, reloadPosition, reloadTime);
-            transform.localRotation = Quaternion.Lerp(transform.localRotation, reloadRotation, reloadTime);
+            reloadAnimationTime += Time.deltaTime * ReloadAnimSpeed;
+            float reloadingTime = Mathf.Clamp01(reloadAnimationTime);
+            transform.localPosition = Vector3.Lerp(transform.localPosition, reloadPosition, reloadingTime);
+            transform.localRotation = Quaternion.Lerp(transform.localRotation, reloadRotation, reloadingTime);
             yield return null;
         }
 
-        yield return new WaitForSeconds(currentAmmo > 0 ? weaponData.reloadTime : weaponData.reloadTimeEmpty);
+        float reloadDuration = currentAmmo > 0 ? weaponData.reloadTime : weaponData.reloadTimeEmpty;
+        yield return new WaitForSeconds(reloadDuration);
 
-        reloadTime = 0f;
-        while (reloadTime < 1f)
+        reloadAnimationTime = 0f;
+        Vector3 reloadPos = transform.localPosition;
+        Quaternion reloadRot = transform.localRotation;
+        while (reloadAnimationTime < 1f)
         {
-            reloadTime += Time.deltaTime * ReloadAnimSpeed;
-            transform.localPosition = Vector3.Lerp(transform.localPosition, defaultPosition, reloadTime);
-            transform.localRotation = Quaternion.Lerp(transform.localRotation, defaultRotation, reloadTime);
+            reloadAnimationTime += Time.deltaTime * ReloadAnimSpeed;
+            float reloadingTime = Mathf.Clamp01(reloadAnimationTime);
+            transform.localPosition = Vector3.Lerp(reloadPos, defaultPosition, reloadingTime);
+            transform.localRotation = Quaternion.Lerp(reloadRot, defaultRotation, reloadingTime);
             yield return null;
         }
 
