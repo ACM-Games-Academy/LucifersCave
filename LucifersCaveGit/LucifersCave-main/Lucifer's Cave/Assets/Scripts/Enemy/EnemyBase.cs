@@ -14,11 +14,12 @@ public class EnemyBase : MonoBehaviour
     private int randomWalkIndex;
     private bool hasStartedWalking = false;
 
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        RandomiseAnimation();
+        //RandomiseAnimation();
 
         if (health != null)
         {
@@ -26,11 +27,11 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    public void RandomiseAnimation()
+    /*public void RandomiseAnimation()
     {
         randomWalkIndex = Random.Range(0, 3);
     }
-
+    */
     void Update()
     {
         if (health != null && health.isDead) return; // don’t move if dead
@@ -42,6 +43,7 @@ public class EnemyBase : MonoBehaviour
             if (!hasStartedWalking)
             {
                 animator.SetInteger("WalkInt", randomWalkIndex);
+                animator.SetBool("isMoving", true);
                 hasStartedWalking = true;
             }
             agent.SetDestination(player.position);
@@ -49,7 +51,7 @@ public class EnemyBase : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            health.Death();
+            health.TakeDamage(200);
         }
     }
 

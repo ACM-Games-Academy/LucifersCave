@@ -25,7 +25,7 @@ public class EnemyHealth : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        RandomiseAnimation();
+        //RandomiseAnimation();
     }
 
     public void TakeDamage(int amount)
@@ -39,18 +39,19 @@ public class EnemyHealth : MonoBehaviour
             Death();
         }
     }
-
+    /*
     public void RandomiseAnimation()
     {
         randomDeathIndex = UnityEngine.Random.Range(0, 2);
     }
-
+    */
     public void Death()
     {
         if (isDead) return;
         isDead = true;
 
-        animator.SetInteger("DeathInt", randomDeathIndex);
+        //animator.SetInteger("DeathInt", randomDeathIndex);
+        animator.SetTrigger("isDead");
 
         if (agent != null && agent.isOnNavMesh)
         {
