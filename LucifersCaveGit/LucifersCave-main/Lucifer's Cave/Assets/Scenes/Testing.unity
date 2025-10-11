@@ -771,6 +771,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 6901471088310724156, guid: d77dabdd70168f1419f4b08275e65977, type: 3}
+      propertyPath: weaponStats
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ac804ed50af5d2469c398dbbd14f2e5, type: 2}
     - target: {fileID: 7196445302976298107, guid: d77dabdd70168f1419f4b08275e65977, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -6317,9 +6321,10 @@ MonoBehaviour:
   movement: {fileID: 1444824103}
   aiming: {fileID: 1449320552}
   cameraLook: {fileID: 330585548}
+  reloading: {fileID: 1449320556}
   muzzleFlash: {fileID: 918852767}
-  ammoCount: {fileID: 1325043628}
   playerCamera: {fileID: 330585545}
+  ammoCounter: {fileID: 1325043628}
   fpsCamera: {fileID: 2052138492}
   player: {fileID: 1444824101}
   playerCameraTransform: {fileID: 330585546}
@@ -6878,6 +6883,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 813186567}
+  - component: {fileID: 813186568}
   m_Layer: 7
   m_Name: RightHand
   m_TagString: Untagged
@@ -6901,6 +6907,28 @@ Transform:
   - {fileID: 136688852}
   m_Father: {fileID: 2095532664}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &813186568
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 813186566}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 78ea9f278aae0c04a9193d586a7c101e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -7877,7 +7905,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Stamina
   moveScript: {fileID: 1444824103}
   staminaBar: {fileID: 1171569775}
-  staminaDecreaseTime: 2
+  staminaDecreaseTime: 0.25
   depletedStaminaDelay: 3
   staminaDelay: 1.5
   staminaRegenerationSpeed: 3
@@ -7916,6 +7944,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6fdf0e8332594840b6989075662daf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1449320556 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6901471088310724156, guid: d77dabdd70168f1419f4b08275e65977, type: 3}
+  m_PrefabInstance: {fileID: 136688851}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47e62bc2681a84843849d86316c93ed6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Reloading
 --- !u!1 &1480823409
 GameObject:
   m_ObjectHideFlags: 0

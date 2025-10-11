@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 147519616250290233}
+  - component: {fileID: 6901471088310724156}
   - component: {fileID: 1023545140521134826}
   - component: {fileID: 4613094197811623730}
   - component: {fileID: 1510100693865868246}
@@ -37,6 +38,25 @@ Transform:
   - {fileID: 4261265430426909898}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6901471088310724156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 596754205622061497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47e62bc2681a84843849d86316c93ed6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Reloading
+  ammoCounter: {fileID: 0}
+  currentAmmo: 0
+  reserveAmmo: 0
+  reloadKey: 114
+  weaponStats: {fileID: 0}
+  weaponSway: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!114 &1023545140521134826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,21 +115,19 @@ MonoBehaviour:
   weaponData: {fileID: 11400000, guid: 4ac804ed50af5d2469c398dbbd14f2e5, type: 2}
   bulletSpawnPoint: {fileID: 1037158079886734577}
   muzzleFlash: {fileID: 4256224652935622800}
-  ammoCounter: {fileID: 0}
   plyrCamera: {fileID: 0}
   aimingKey: 324
   shootingKey: 323
-  reloadKey: 114
   isShooting: 0
   readyToShoot: 1
   allowReset: 1
+  isReloading: 0
   isAiming: 0
   Recoil: {fileID: 0}
   weaponSway: {fileID: 0}
   movementScript: {fileID: 0}
-  reloadPosition: {x: 0, y: -0.1, z: -0.1}
-  reloadRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
-  ReloadAnimSpeed: 1
+  reloading: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!1 &603434968154844098
 GameObject:
   m_ObjectHideFlags: 0

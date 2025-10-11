@@ -8,42 +8,35 @@ public class ShootScript : MonoBehaviour
     public WeaponStats weaponData;
     [SerializeField] private Transform bulletSpawnPoint;
     [SerializeField] private ParticleSystem muzzleFlash;
-    [SerializeField] private TextMeshProUGUI ammoCounter;
     [SerializeField] private Camera plyrCamera;
-    private int currentAmmo, reserveAmmo, currentBurst;
+    private int currentBurst;
 
     [Header("Input")]
     [SerializeField] private KeyCode aimingKey = KeyCode.Mouse1;
     [SerializeField] private KeyCode shootingKey = KeyCode.Mouse0;
-    [SerializeField] private KeyCode reloadKey = KeyCode.R;
 
     [Header("Bools")]
-    [SerializeField] private bool isShooting, readyToShoot = true;
+    public bool isShooting, readyToShoot = true;
     [SerializeField] private bool allowReset = true;
-    private bool isReloading;
+    public bool isReloading;
     public bool isAiming;
 
     [Header("References")]
     public WeaponRecoil Recoil;
     public WeaponSway weaponSway;
     public Movement movementScript;
+    public Reloading reloading;
 
     [Header("Reloading")]
-    public Vector3 reloadPosition;
-    private Vector3 defaultPosition;
-    public Quaternion reloadRotation;
-    private Quaternion defaultRotation;
-    public float ReloadAnimSpeed;
+    public Animator animator;
 
     public void Initialize(Movement movementScript,
         ParticleSystem muzzleFlash,
-        TextMeshProUGUI ammoCounter,
         Camera playerCam,
         WeaponRecoil recoil)
     {
         this.movementScript = movementScript;
         this.muzzleFlash = muzzleFlash;
-        this.ammoCounter = ammoCounter;
         this.plyrCamera = playerCam;
         Recoil = recoil;
     }
@@ -51,35 +44,28 @@ public class ShootScript : MonoBehaviour
     public void ApplyWeaponData(WeaponStats data)
     {
         this.weaponData = data;
-        this.currentAmmo = data.currentAmmo;
-        this.reserveAmmo = data.reserveAmmo;
     }
 
     private void Start()
     {
-        currentAmmo = weaponData.maxAmmo;
-        reserveAmmo = weaponData.reserveAmmo;
         currentBurst = weaponData.bulletsPerBurst;
-        UpdateAmmo();
-
-        defaultPosition = transform.localPosition;
-        defaultRotation = transform.localRotation;
 
         weaponSway = GetComponentInParent<WeaponSway>();
+        reloading = GetComponent<Reloading>();
+        animator = GetComponentInParent<Animator>();
     }
 
     private void Update()
     {
         HandleInput();
-        UpdateAmmo();
     }
 
     private void HandleInput()
     {
         if (weaponData.shootingMode == WeaponStats.ShootingMode.Auto)
-            isShooting = Input.GetKey(shootingKey) && currentAmmo > 0;
+            isShooting = Input.GetKey(shootingKey) && reloading.currentAmmo > 0;
         else
-            isShooting = Input.GetKeyDown(shootingKey) && currentAmmo > 0;
+            isShooting = Input.GetKeyDown(shootingKey) && reloading.currentAmmo > 0;
 
         if (readyToShoot && isShooting && !isReloading && !movementScript.isSprinting)
         {
@@ -89,9 +75,6 @@ public class ShootScript : MonoBehaviour
             Recoil.HandleRecoilAnimation();
         }
 
-        if (Input.GetKeyDown(reloadKey) && currentAmmo < weaponData.maxAmmo && reserveAmmo > 0)
-            StartCoroutine(Reload());
-
         isAiming = Input.GetKey(aimingKey);
     }
 
@@ -99,7 +82,8 @@ public class ShootScript : MonoBehaviour
     {
         readyToShoot = false;
         muzzleFlash.Play();
-        currentAmmo--;
+        reloading.currentAmmo--;
+        reloading.UpdateAmmo();
 
         Vector3 shootingDirection = CalculateDirectionAndSpread().normalized;
 
@@ -170,62 +154,9 @@ public class ShootScript : MonoBehaviour
         return finalDirection;
     }
 
-    public void UpdateAmmo()
-    {
-        if (ammoCounter != null)
-        {
-            ammoCounter.text = currentAmmo + " / " + reserveAmmo;
-        }
-    }
-
     private void ResetShot()
     {
         readyToShoot = true;
         allowReset = true;
-    }
-
-    private IEnumerator Reload()
-    {
-        if (isReloading || currentAmmo == weaponData.maxAmmo)
-            yield break;
-
-        isReloading = true;
-        readyToShoot = false;
-        weaponSway.enabled = false;
-
-        float reloadAnimationTime = 0f;
-        while (reloadAnimationTime < 1f)
-        {
-            reloadAnimationTime += Time.deltaTime * ReloadAnimSpeed;
-            float reloadingTime = Mathf.Clamp01(reloadAnimationTime);
-            transform.localPosition = Vector3.Lerp(transform.localPosition, reloadPosition, reloadingTime);
-            transform.localRotation = Quaternion.Lerp(transform.localRotation, reloadRotation, reloadingTime);
-            yield return null;
-        }
-
-        float reloadDuration = currentAmmo > 0 ? weaponData.reloadTime : weaponData.reloadTimeEmpty;
-        yield return new WaitForSeconds(reloadDuration);
-
-        reloadAnimationTime = 0f;
-        Vector3 reloadPos = transform.localPosition;
-        Quaternion reloadRot = transform.localRotation;
-        while (reloadAnimationTime < 1f)
-        {
-            reloadAnimationTime += Time.deltaTime * ReloadAnimSpeed;
-            float reloadingTime = Mathf.Clamp01(reloadAnimationTime);
-            transform.localPosition = Vector3.Lerp(reloadPos, defaultPosition, reloadingTime);
-            transform.localRotation = Quaternion.Lerp(reloadRot, defaultRotation, reloadingTime);
-            yield return null;
-        }
-
-        weaponSway.enabled = true;
-
-        int ammoToReload = Mathf.Min(weaponData.maxAmmo - currentAmmo, reserveAmmo);
-        currentAmmo += ammoToReload;
-        reserveAmmo -= ammoToReload;
-
-        isReloading = false;
-        readyToShoot = true;
-        UpdateAmmo();
     }
 }

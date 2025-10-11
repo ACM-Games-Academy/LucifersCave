@@ -11,11 +11,12 @@ public class Initializer : MonoBehaviour
     public Movement movement;
     public Aiming aiming;
     public CameraLook cameraLook;
+    public Reloading reloading;
 
     [Header("References")]
     public ParticleSystem muzzleFlash;
-    public TextMeshProUGUI ammoCount;
     public Camera playerCamera;
+    public TextMeshProUGUI ammoCounter;
     public Camera fpsCamera;
     public Transform player;
     public Transform playerCameraTransform;
@@ -26,10 +27,16 @@ public class Initializer : MonoBehaviour
         EnemyAttack[] enemyAttackScripts = Object.FindObjectsByType<EnemyAttack>(FindObjectsSortMode.None);
         EnemyBase[] enemyBaseScripts = Object.FindObjectsByType<EnemyBase>(FindObjectsSortMode.None);
         ShootScript[] shootScripts = Object.FindObjectsByType<ShootScript>(FindObjectsSortMode.None);
+        Reloading[] reloadingScripts = Object.FindObjectsByType<Reloading>(FindObjectsSortMode.None);
 
         foreach (ShootScript shootScript in shootScripts)
         {
-            shootScript.Initialize(movement, muzzleFlash, ammoCount, playerCamera, weaponRecoil);
+            shootScript.Initialize(movement, muzzleFlash, playerCamera, weaponRecoil);
+        }
+
+        foreach (Reloading reloading in reloadingScripts)
+        {
+            reloading.Initialize(ammoCounter);
         }
 
         foreach (EnemyAttack enemyAttack in enemyAttackScripts)
