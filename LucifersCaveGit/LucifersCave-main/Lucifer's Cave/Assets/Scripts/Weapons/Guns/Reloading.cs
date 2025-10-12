@@ -80,7 +80,6 @@ public class Reloading : MonoBehaviour
         shootScript.readyToShoot = true;
 
         weaponStats.currentAmmo = currentAmmo;
-        weaponStats.reserveAmmo = reserveAmmo;
 
         UpdateAmmo();
     }

@@ -20,9 +20,9 @@ MonoBehaviour:
   spreadIntensity: 0.2
   shootingMode: 0
   bulletsPerBurst: 0
-  currentAmmo: 5
+  currentAmmo: 7
   maxAmmo: 8
-  reserveAmmo: 0
+  reserveAmmo: 12
   reloadTime: 1
   reloadTimeEmpty: 2
   animatorController: {fileID: 0}
