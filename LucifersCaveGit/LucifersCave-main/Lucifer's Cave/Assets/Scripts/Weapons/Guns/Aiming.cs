@@ -5,7 +5,6 @@ public class Aiming : MonoBehaviour
     [Header("Settings")]
     public float sensDecrease = 2f;
     public float aimMultiplier = 2f;
-    public float ADS_Speed = 10f;
     public Camera mainCam;
     public Camera gunCam;
     public float FOV_increase;
@@ -23,27 +22,22 @@ public class Aiming : MonoBehaviour
     public WeaponSway weaponSway;
 
     [Header("ADS Targeting")]
-    public Transform sightTarget;
-
-    private Vector3 weaponStartPos;
-    private Quaternion weaponStartRot;
-
     private float defaultSpread;
     private float defaultSensitivity;
-
     private bool wasAiming = false;
+
+    [Header("Animation")]
+    public Animator animator;
 
     void Start()
     {
-        weaponStartPos = transform.localPosition;
-        weaponStartRot = transform.localRotation;
-
         defaultSpread = weaponStats.spreadIntensity;
         defaultSensitivity = lookFunc.sensitivityAmount;
 
         mainCam = GetComponentInParent<Camera>();
-        shootingFunc = GetComponentInChildren<ShootScript>();
         weaponSway = GetComponentInParent<WeaponSway>();
+        animator = GetComponentInParent<Animator>();
+        shootingFunc = GetComponentInChildren<ShootScript>();
 
         targetFOV = FOV_decrease;
         gunFOV = FOV_decrease;
@@ -53,13 +47,13 @@ public class Aiming : MonoBehaviour
     {
         if (shootingFunc.isAiming)
         {
-            AimDownSight();
             if (!wasAiming) EnterADS();
+            AimDownSight();
         }
         else
         {
-            ReturnPosition();
             if (wasAiming) ExitADS();
+            ReturnPosition();
         }
 
         mainCam.fieldOfView = Mathf.Lerp(
@@ -75,26 +69,12 @@ public class Aiming : MonoBehaviour
 
     private void AimDownSight()
     {
-        if (sightTarget == null)
-        {
-            Debug.LogWarning("SightTarget is not assigned!");
-            return;
-        }
-
-        Vector3 offset = sightTarget.position - transform.position;
-
-        Vector3 desiredPos = mainCam.transform.InverseTransformPoint(sightTarget.position);
-
-        transform.localPosition = Vector3.Lerp(transform.localPosition, desiredPos, ADS_Speed * Time.deltaTime);
-
-        Quaternion desiredRot = Quaternion.LookRotation(mainCam.transform.forward, mainCam.transform.up);
-        transform.localRotation = Quaternion.Lerp(transform.localRotation, desiredRot, ADS_Speed * Time.deltaTime);
+        animator.SetTrigger("AimDownSight");
     }
 
     public void ReturnPosition()
     {
-        transform.localPosition = Vector3.Lerp(transform.localPosition, weaponStartPos, ADS_Speed * Time.deltaTime);
-        transform.localRotation = Quaternion.Lerp(transform.localRotation, weaponStartRot, ADS_Speed * Time.deltaTime);
+        animator.SetTrigger("HipFire");
     }
 
     private void EnterADS()

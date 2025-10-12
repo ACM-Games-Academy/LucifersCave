@@ -6,6 +6,7 @@ public class Reloading : MonoBehaviour
 {
     [Header("Stats")]
     [SerializeField] private TextMeshProUGUI ammoCounter;
+    [SerializeField] private TextMeshProUGUI reloadingText;
     public int currentAmmo, reserveAmmo, maxAmmo;
 
     [Header("Input")]
@@ -29,6 +30,8 @@ public class Reloading : MonoBehaviour
         weaponSway = GetComponentInParent<WeaponSway>();
         shootScript = GetComponent<ShootScript>();
         animator = GetComponentInParent<Animator>();
+
+        reloadingText.enabled = false;
     }
 
     public void ApplyWeaponReloadData(WeaponStats weaponStats)
@@ -38,9 +41,10 @@ public class Reloading : MonoBehaviour
         this.maxAmmo = weaponStats.maxAmmo;
     }
 
-    public void Initialize(TextMeshProUGUI ammoCounter)
+    public void Initialize(TextMeshProUGUI ammoCounter, TextMeshProUGUI reloadingText)
     {
         this.ammoCounter = ammoCounter;
+        this.reloadingText = reloadingText;
     }
 
     void Update()
@@ -59,6 +63,7 @@ public class Reloading : MonoBehaviour
         if (shootScript.isReloading || currentAmmo == weaponStats.maxAmmo)
             yield break;
 
+        reloadingText.enabled = true;
         shootScript.isReloading = true;
         shootScript.readyToShoot = false;
         weaponSway.enabled = false;
@@ -80,6 +85,7 @@ public class Reloading : MonoBehaviour
         shootScript.readyToShoot = true;
 
         weaponStats.currentAmmo = currentAmmo;
+        reloadingText.enabled = false;
 
         UpdateAmmo();
     }

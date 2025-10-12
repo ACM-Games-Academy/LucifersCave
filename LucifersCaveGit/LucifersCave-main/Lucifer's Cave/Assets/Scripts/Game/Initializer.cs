@@ -17,6 +17,7 @@ public class Initializer : MonoBehaviour
     public ParticleSystem muzzleFlash;
     public Camera playerCamera;
     public TextMeshProUGUI ammoCounter;
+    public TextMeshProUGUI reloadingText;
     public Camera fpsCamera;
     public Transform player;
     public Transform playerCameraTransform;
@@ -36,7 +37,7 @@ public class Initializer : MonoBehaviour
 
         foreach (Reloading reloading in reloadingScripts)
         {
-            reloading.Initialize(ammoCounter);
+            reloading.Initialize(ammoCounter, reloadingText);
         }
 
         foreach (EnemyAttack enemyAttack in enemyAttackScripts)
