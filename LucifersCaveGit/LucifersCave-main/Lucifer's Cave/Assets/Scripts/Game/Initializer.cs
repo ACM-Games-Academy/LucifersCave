@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Initializer : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class Initializer : MonoBehaviour
     public Camera fpsCamera;
     public Transform player;
     public Transform playerCameraTransform;
+    public Image crosshair;
 
 
     void Start()
@@ -51,6 +53,6 @@ public class Initializer : MonoBehaviour
         }
 
         weaponRecoil.Initialize(recoilProfiles, playerCameraTransform);
-        aiming.Initialize(movement, cameraLook, playerCamera, fpsCamera, weaponStats);
+        aiming.Initialize(movement, cameraLook, playerCamera, fpsCamera, weaponStats, crosshair);
     }
 }

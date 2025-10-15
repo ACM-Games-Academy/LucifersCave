@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Aiming : MonoBehaviour
 {
@@ -20,14 +21,17 @@ public class Aiming : MonoBehaviour
     public Movement movementFunc;
     public CameraLook lookFunc;
     public WeaponSway weaponSway;
+    public Reloading reloadingScript;
 
     [Header("ADS Targeting")]
     private float defaultSpread;
     private float defaultSensitivity;
     private bool wasAiming = false;
+    public Image crosshair;
 
     [Header("Animation")]
     public Animator animator;
+    public bool isAnimating;
 
     void Start()
     {
@@ -39,21 +43,33 @@ public class Aiming : MonoBehaviour
         animator = GetComponentInParent<Animator>();
         shootingFunc = GetComponentInChildren<ShootScript>();
 
+        reloadingScript = GetComponent<Reloading>();
+
         targetFOV = FOV_decrease;
         gunFOV = FOV_decrease;
     }
 
     void LateUpdate()
     {
-        if (shootingFunc.isAiming)
+        if (shootingFunc.isAiming && !reloadingScript.isReloading)
         {
-            if (!wasAiming) EnterADS();
-            AimDownSight();
+            if (!wasAiming)
+            {
+                EnterADS();
+                wasAiming = true;
+            }
+            
+            animator.SetBool("isAimingAnim", true);
         }
         else
         {
-            if (wasAiming) ExitADS();
-            ReturnPosition();
+            if (wasAiming)
+            {
+                ExitADS();
+                wasAiming = false;
+            }
+
+            animator.SetBool("isAimingAnim", false);
         }
 
         mainCam.fieldOfView = Mathf.Lerp(
@@ -67,25 +83,18 @@ public class Aiming : MonoBehaviour
             FOV_speed * Time.deltaTime);
     }
 
-    private void AimDownSight()
-    {
-        animator.SetTrigger("AimDownSight");
-    }
-
-    public void ReturnPosition()
-    {
-        animator.SetTrigger("HipFire");
-    }
-
     private void EnterADS()
     {
+        weaponSway.ResetSwayPosition();
         weaponSway.enabled = false;
+
         weaponStats.spreadIntensity = defaultSpread / aimMultiplier;
         lookFunc.sensitivityAmount = defaultSensitivity / sensDecrease;
         movementFunc.canSprint = false;
         wasAiming = true;
         targetFOV = FOV_increase;
         gunFOV = gunFOV_increase;
+        crosshair.enabled = false;
     }
 
     private void ExitADS()
@@ -97,22 +106,25 @@ public class Aiming : MonoBehaviour
         wasAiming = false;
         targetFOV = FOV_decrease;
         gunFOV = FOV_decrease;
+
+        crosshair.enabled = true;
     }
 
     public void Initialize(Movement move,
         CameraLook lookScript,
         Camera playerCamera,
         Camera fpsCam,
-        WeaponStats weaponStats)
+        WeaponStats weaponStats,
+        Image crosshair)
     {
         this.movementFunc = move;
         this.lookFunc = lookScript;
         this.mainCam = playerCamera;
         this.gunCam = fpsCam;
         this.weaponStats = weaponStats;
+        this.crosshair = crosshair;
 
         defaultSpread = weaponStats.spreadIntensity;
         defaultSensitivity = lookFunc.sensitivityAmount;
     }
 }
-

@@ -53,4 +53,10 @@ public class WeaponSway : MonoBehaviour
             targetRot,
             Time.deltaTime * rotationSmoothing);
     }
+
+    public void ResetSwayPosition()
+    {
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
+    }
 }

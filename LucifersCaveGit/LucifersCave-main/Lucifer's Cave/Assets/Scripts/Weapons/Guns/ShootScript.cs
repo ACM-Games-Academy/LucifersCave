@@ -75,7 +75,8 @@ public class ShootScript : MonoBehaviour
             Recoil.HandleRecoilAnimation();
         }
 
-        isAiming = Input.GetKey(aimingKey);
+        bool aimKeyHeld = Input.GetKey(aimingKey);
+        isAiming = aimKeyHeld && !reloading.isReloading && !movementScript.isSprinting;
     }
 
     void Shoot()

@@ -28,7 +28,7 @@ public class Movement : MonoBehaviour
 
     [Header("KeyBinds")]
     public KeyCode sprintKey = KeyCode.LeftShift;
-    public KeyCode crouchKey = KeyCode.LeftControl;
+    public KeyCode crouchKey = KeyCode.C;
 
     [Header("References")]
     public Transform orientation;

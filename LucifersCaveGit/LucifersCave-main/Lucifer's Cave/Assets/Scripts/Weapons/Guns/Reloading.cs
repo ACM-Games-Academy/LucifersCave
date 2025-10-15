@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Reloading : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class Reloading : MonoBehaviour
     [SerializeField] private TextMeshProUGUI ammoCounter;
     [SerializeField] private TextMeshProUGUI reloadingText;
     public int currentAmmo, reserveAmmo, maxAmmo;
+    public bool isReloading;
 
     [Header("Input")]
     public KeyCode reloadKey = KeyCode.R;
@@ -32,6 +34,7 @@ public class Reloading : MonoBehaviour
         animator = GetComponentInParent<Animator>();
 
         reloadingText.enabled = false;
+        isReloading = false;
     }
 
     public void ApplyWeaponReloadData(WeaponStats weaponStats)
@@ -50,11 +53,16 @@ public class Reloading : MonoBehaviour
     void Update()
     {
         HandleInput();
+
+        if (isReloading)
+        {
+            animator.SetBool("isAiming", false);
+        }
     }
 
     public void HandleInput()
     {
-        if (Input.GetKeyDown(reloadKey) && currentAmmo < maxAmmo && reserveAmmo > 0)
+        if (Input.GetKeyDown(reloadKey) && currentAmmo < maxAmmo && reserveAmmo > 0 && !shootScript.isAiming)
             StartCoroutine(Reload());
     }
 
@@ -62,6 +70,8 @@ public class Reloading : MonoBehaviour
     {
         if (shootScript.isReloading || currentAmmo == weaponStats.maxAmmo)
             yield break;
+
+        isReloading = true;
 
         reloadingText.enabled = true;
         shootScript.isReloading = true;
@@ -88,6 +98,7 @@ public class Reloading : MonoBehaviour
         reloadingText.enabled = false;
 
         UpdateAmmo();
+        isReloading = false;
     }
 
     public void UpdateAmmo()
