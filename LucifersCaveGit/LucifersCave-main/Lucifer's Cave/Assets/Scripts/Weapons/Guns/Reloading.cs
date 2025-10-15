@@ -56,7 +56,7 @@ public class Reloading : MonoBehaviour
 
         if (isReloading)
         {
-            animator.SetBool("isAiming", false);
+            animator.SetBool("isAimingAnim", false);
         }
     }
 
@@ -79,11 +79,11 @@ public class Reloading : MonoBehaviour
         weaponSway.enabled = false;
 
         animator.SetTrigger("ReloadDown");
+        StartCoroutine(PlayAfterAnimation("ReloadAnim", "ReloadUpAnim"));
 
         float reloadDuration = currentAmmo > 0 ? weaponStats.reloadTime : weaponStats.reloadTimeEmpty;
         yield return new WaitForSeconds(reloadDuration);
 
-        animator.SetTrigger("ReloadUp");
 
         weaponSway.enabled = true;
 
@@ -107,5 +107,24 @@ public class Reloading : MonoBehaviour
         {
             ammoCounter.text = currentAmmo + " / " + reserveAmmo;
         }
+    }
+
+    private IEnumerator PlayAfterAnimation(string firstAnimName, string NextAnimName)
+    {
+        AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+
+        while (!info.IsName(firstAnimName))
+        {
+            info = animator.GetCurrentAnimatorStateInfo(0);
+            yield return null;
+        }
+
+        while (info.normalizedTime < 1.0f)
+        {
+            info = animator.GetCurrentAnimatorStateInfo(0);
+            yield return null;
+        }
+
+        animator.Play(NextAnimName);
     }
 }

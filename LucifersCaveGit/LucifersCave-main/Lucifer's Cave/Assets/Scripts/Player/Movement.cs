@@ -11,8 +11,8 @@ public class Movement : MonoBehaviour
 
     [Header("Crouching")]
     public float crouchSpeed;
-    public float crouchYScale;
-    private float startYScale;
+    public Transform playerBody;
+    public Animator animator;
 
     [Header("Ground Check")]
     float groundDrag = 5f;
@@ -87,7 +87,7 @@ public class Movement : MonoBehaviour
         rb.freezeRotation = true;
         canSprint = true;
 
-        startYScale = transform.localScale.y;
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -131,13 +131,15 @@ public class Movement : MonoBehaviour
 
         if (Input.GetKeyDown(crouchKey))
         {
-            transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
+            animator.SetBool("isCrouching", true);
             rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
+            rb.useGravity = true;
             canSprint = false;
         }
         if (Input.GetKeyUp(crouchKey))
         {
-            transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
+            animator.SetBool("isCrouching", false);
+            rb.useGravity = false;
             canSprint = true;
         }
     }
@@ -176,7 +178,6 @@ public class Movement : MonoBehaviour
                 rb.linearVelocity = rb.linearVelocity.normalized * moveSpeed;
             }
         }
-
         else
         {
             Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);

@@ -6776,7 +6776,7 @@ GameObject:
   - component: {fileID: 810774892}
   - component: {fileID: 810774891}
   - component: {fileID: 810774890}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player_Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8175,7 +8175,8 @@ GameObject:
   - component: {fileID: 1444824104}
   - component: {fileID: 1444824103}
   - component: {fileID: 1444824102}
-  m_Layer: 0
+  - component: {fileID: 1444824106}
+  m_Layer: 6
   m_Name: PLAYER
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8243,7 +8244,8 @@ MonoBehaviour:
   isSprinting: 0
   canSprint: 0
   crouchSpeed: 2
-  crouchYScale: 1
+  playerBody: {fileID: 810774889}
+  animator: {fileID: 0}
   playerHeight: 2
   whatIsGround:
     serializedVersion: 2
@@ -8252,7 +8254,7 @@ MonoBehaviour:
   airMultiplier: 0.7
   maxSlopeAngle: 45
   sprintKey: 304
-  crouchKey: 306
+  crouchKey: 99
   orientation: {fileID: 1357440068}
   canMove: 0
   state: 0
@@ -8290,6 +8292,28 @@ MonoBehaviour:
   staminaRegenerationSpeed: 3
   staminaDepleted: 0
   isRegenerating: 0
+--- !u!95 &1444824106
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1444824100}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7859213a6c8d75a4185532a95928f3c6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &1449320552 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4613094197811623730, guid: d77dabdd70168f1419f4b08275e65977, type: 3}
@@ -8479,7 +8503,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1704152871}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: cam_Pos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
