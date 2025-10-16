@@ -6,6 +6,7 @@ public class EnemyHealth : MonoBehaviour
 {
     int currentHealth;
     public int maxHealth;
+    public int knifePoints;
 
     [Header("Animator")]
     Animator animator;
@@ -39,12 +40,14 @@ public class EnemyHealth : MonoBehaviour
             Death();
         }
     }
+
     /*
     public void RandomiseAnimation()
     {
         randomDeathIndex = UnityEngine.Random.Range(0, 2);
     }
     */
+
     public void Death()
     {
         if (isDead) return;

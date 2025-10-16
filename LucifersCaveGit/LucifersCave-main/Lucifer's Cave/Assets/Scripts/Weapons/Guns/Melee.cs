@@ -1,18 +1,25 @@
+using System.Collections;
 using UnityEngine;
 
 public class Melee : MonoBehaviour
 {
     public float attackRange;
+    public float attackDelay;
     public int attackDamage;
     public LayerMask zombieLyr;
     public Transform attackPoint;
-    public plyrScore PlayerScore;
+    public PlayerScore playerScore;
 
+    [Header("Input")]
     public KeyCode attackKey;
+
+    [Header("Animation")]
+    public Animator animator;
 
     void Start()
     {
-        PlayerScore = Object.FindAnyObjectByType<plyrScore>();
+        playerScore = Object.FindAnyObjectByType<PlayerScore>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -20,11 +27,13 @@ public class Melee : MonoBehaviour
         if (Input.GetKeyDown(attackKey))
         {
             MeleeAttack();
+            animator.SetTrigger("isAttackingMelee");
         }
     }
 
-    public void MeleeAttack()
+    public IEnumerator MeleeAttack()
     {
+        yield return new WaitForSeconds(attackDelay);
         Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange, zombieLyr);
 
         foreach (Collider enemy in hitEnemies)
@@ -32,7 +41,7 @@ public class Melee : MonoBehaviour
             if (enemy.TryGetComponent<EnemyHealth>(out EnemyHealth enemyHealth))
             {
                 enemyHealth.TakeDamage(attackDamage);
-                PlayerScore.AddPoints(enemyHealth.knifePoints);
+                playerScore.AddPoints(enemyHealth.knifePoints);
             }
         }
     }
@@ -47,5 +56,4 @@ public class Melee : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
-
 }

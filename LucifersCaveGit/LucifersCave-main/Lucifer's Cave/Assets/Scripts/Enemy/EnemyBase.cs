@@ -34,7 +34,7 @@ public class EnemyBase : MonoBehaviour
     */
     void Update()
     {
-        if (health != null && health.isDead) return; // don’t move if dead
+        if (health != null && health.isDead) return; 
         if (player == null || agent == null || !agent.isOnNavMesh) return;
 
         float distanceToPlayer = Vector3.Distance(player.position, transform.position);
@@ -47,11 +47,6 @@ public class EnemyBase : MonoBehaviour
                 hasStartedWalking = true;
             }
             agent.SetDestination(player.position);
-        }
-
-        if (Input.GetMouseButton(0))
-        {
-            health.TakeDamage(200);
         }
     }
 
