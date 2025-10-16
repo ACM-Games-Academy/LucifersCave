@@ -2,14 +2,18 @@ using UnityEngine;
 
 public class Melee : MonoBehaviour
 {
-    [Header("Settings")]
     public float attackRange;
     public int attackDamage;
-    public LayerMask enemyLayer;
+    public LayerMask zombieLyr;
     public Transform attackPoint;
+    public plyrScore PlayerScore;
 
-    [Header("Input")]
     public KeyCode attackKey;
+
+    void Start()
+    {
+        PlayerScore = Object.FindAnyObjectByType<plyrScore>();
+    }
 
     void Update()
     {
@@ -21,13 +25,14 @@ public class Melee : MonoBehaviour
 
     public void MeleeAttack()
     {
-        Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange, enemyLayer);
+        Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange, zombieLyr);
 
         foreach (Collider enemy in hitEnemies)
         {
             if (enemy.TryGetComponent<EnemyHealth>(out EnemyHealth enemyHealth))
             {
                 enemyHealth.TakeDamage(attackDamage);
+                PlayerScore.AddPoints(enemyHealth.knifePoints);
             }
         }
     }
@@ -42,4 +47,5 @@ public class Melee : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
+
 }
