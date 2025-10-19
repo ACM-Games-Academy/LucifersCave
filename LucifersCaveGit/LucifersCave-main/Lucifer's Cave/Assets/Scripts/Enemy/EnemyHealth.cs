@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 public class EnemyHealth : MonoBehaviour
 {
-    int currentHealth;
+    [HideInInspector] public int currentHealth;
     public int maxHealth;
     public int knifePoints;
 

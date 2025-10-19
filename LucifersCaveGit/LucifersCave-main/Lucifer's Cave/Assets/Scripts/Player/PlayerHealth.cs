@@ -23,7 +23,8 @@ public class PlayerHealth : MonoBehaviour
 
     public void Heal(float amount)
     {
-
+        currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
+        OnHealthChanged?.Invoke(currentHealth, maxHealth);
     }
 
     void Death()
@@ -31,4 +32,3 @@ public class PlayerHealth : MonoBehaviour
         Destroy(gameObject);
     }
 }
-

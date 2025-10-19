@@ -497,7 +497,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: f598d4c968134184ea45d891b685b3f6, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 295d1494a56336b43bf317647b473c1a, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &71442179
 Transform:
@@ -725,7 +725,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 127128848}
-  - component: {fileID: 127128849}
   - component: {fileID: 127128850}
   m_Layer: 0
   m_Name: pointsCounter
@@ -754,21 +753,6 @@ RectTransform:
   m_AnchoredPosition: {x: 130, y: 380}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &127128849
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 127128847}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e6d44c304bbb4541a9d676b9cee9bde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerScore
-  points: 50
-  pointsCounter: {fileID: 1792470897}
-  bodyShotPoints: 10
 --- !u!114 &127128850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -782,7 +766,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PointSpawner
   floatingTextPrefab: {fileID: 3612289087274822355, guid: 881dbfae7036d9b47a08589d1078e7e9, type: 3}
-  spawnPosition: {fileID: 1792470896}
+  spawnPosition: {fileID: 153962345}
 --- !u!1001 &136688851
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1101,6 +1085,41 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 147519616250290233, guid: d77dabdd70168f1419f4b08275e65977, type: 3}
   m_PrefabInstance: {fileID: 136688851}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &153962344
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 153962345}
+  m_Layer: 0
+  m_Name: pointsPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &153962345
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153962344}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1792470896}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 20}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &221606175
 GameObject:
   m_ObjectHideFlags: 0
@@ -6705,6 +6724,32 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410980438}
   m_CullTransparentMesh: 1
+--- !u!1 &413285839 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1683829025027718908, guid: 95f6e8d93ba12694698667b3f4971dbf, type: 3}
+  m_PrefabInstance: {fileID: 1778053970}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &413285844
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 413285839}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.851041, y: 5.4622793, z: 5.445284}
+  m_Center: {x: 0.008065462, y: 2.0109901, z: 0.008506414}
 --- !u!1 &438293252
 GameObject:
   m_ObjectHideFlags: 0
@@ -7271,13 +7316,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6765093485518613084, guid: 698a97d4464d25f4db0d77c0da328de2, type: 3}
       propertyPath: m_WarningMessage
-      value: "\nBinding warning: Some generic clip(s) animate transforms that are
-        already bound by a Humanoid avatar. These transforms can only be changed
-        by Humanoid clips.\n\tTransform 'mixamorig:Hips'\n\tTransform 'mixamorig:LeftFoot'\n\tTransform
-        'mixamorig:LeftHandIndex1'\n\tTransform 'mixamorig:LeftHandPinky2'\n\tTransform
-        'mixamorig:RightHandRing2'\n\tTransform 'mixamorig:Spine1'\n\tTransform 'mixamorig:LeftToeBase'\n\tTransform
-        'mixamorig:RightArm'\n\tTransform 'mixamorig:LeftLeg'\n\tTransform 'mixamorig:LeftHandMiddle3'\n\tand
-        more ...\n\tFrom animation clip 'Attack'"
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6911974496622670138, guid: 698a97d4464d25f4db0d77c0da328de2, type: 3}
       propertyPath: m_Layer
@@ -7765,6 +7804,7 @@ MonoBehaviour:
   attackDelay: 0
   attackDamage: 0
   zombieLyr:
+    serializedVersion: 2
     m_Bits: 0
   attackPoint: {fileID: 0}
   playerScore: {fileID: 0}
@@ -8210,7 +8250,7 @@ Transform:
   m_GameObject: {fileID: 1185111200}
   serializedVersion: 2
   m_LocalRotation: {x: 0.06104851, y: 0, z: 0, w: 0.99813485}
-  m_LocalPosition: {x: -0.28, y: -0.3, z: 0.2}
+  m_LocalPosition: {x: -0.28, y: -0.3, z: 0.275}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8905,13 +8945,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2625546432248680791, guid: 537077edf0d3e8348a3d562af2c8bf4b, type: 3}
       propertyPath: m_WarningMessage
-      value: "\nBinding warning: Some generic clip(s) animate transforms that are
-        already bound by a Humanoid avatar. These transforms can only be changed
-        by Humanoid clips.\n\tTransform 'mixamorig:Hips'\n\tTransform 'mixamorig:LeftFoot'\n\tTransform
-        'mixamorig:LeftHandIndex1'\n\tTransform 'mixamorig:LeftHandPinky2'\n\tTransform
-        'mixamorig:RightHandRing2'\n\tTransform 'mixamorig:Spine1'\n\tTransform 'mixamorig:LeftToeBase'\n\tTransform
-        'mixamorig:RightArm'\n\tTransform 'mixamorig:LeftLeg'\n\tTransform 'mixamorig:LeftHandMiddle3'\n\tand
-        more ...\n\tFrom animation clip 'Attack'"
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2765742410668411441, guid: 537077edf0d3e8348a3d562af2c8bf4b, type: 3}
       propertyPath: m_Layer
@@ -9032,6 +9066,14 @@ PrefabInstance:
     - target: {fileID: 6152110887854528203, guid: 537077edf0d3e8348a3d562af2c8bf4b, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6231942133081943743, guid: 537077edf0d3e8348a3d562af2c8bf4b, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6231942133081943743, guid: 537077edf0d3e8348a3d562af2c8bf4b, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6261912692936189752, guid: 537077edf0d3e8348a3d562af2c8bf4b, type: 3}
       propertyPath: m_Layer
@@ -9321,6 +9363,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1444824101}
+  - component: {fileID: 1444824107}
   - component: {fileID: 1444824105}
   - component: {fileID: 1444824104}
   - component: {fileID: 1444824103}
@@ -9464,6 +9507,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1444824107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1444824100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e6d44c304bbb4541a9d676b9cee9bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerScore
+  points: 50
+  pointsCounter: {fileID: 1792470897}
+  bodyShotPoints: 10
+  deathPoints: 100
 --- !u!114 &1449320552 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4613094197811623730, guid: d77dabdd70168f1419f4b08275e65977, type: 3}
@@ -10038,7 +10097,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1683829025027718908, guid: 95f6e8d93ba12694698667b3f4971dbf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 413285844}
   m_SourcePrefab: {fileID: 100100000, guid: 95f6e8d93ba12694698667b3f4971dbf, type: 3}
 --- !u!1 &1791203669
 GameObject:
@@ -10205,7 +10267,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 153962345}
   m_Father: {fileID: 127128848}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -10980,8 +11043,8 @@ MonoBehaviour:
   throwCoolDown: 1.4
   grenadeThrowKey: 103
   knifeThrowKey: 101
-  throwForce: 12
-  throwUpwardForce: 7
+  throwForce: 7
+  throwUpwardForce: 3
   knivesCounter: {fileID: 1775434234}
   grenadeCounter: {fileID: 221606177}
 --- !u!1660057539 &9223372036854775807

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -6,22 +7,29 @@ public class EnemyAttack : MonoBehaviour
     public NavMeshAgent agent;
     public Transform player;
     public LayerMask whatIsPlayer;
-    private EnemyHealth enemyHealth;
 
     [Header("Attacking")]
     public float timeBetweenAttacks;
     bool alreadyAttacked;
     public float attackRange;
+    public float attackDamage;
     public bool playerInAttack;
+    public float attackDelay;
+    bool isAttacking;
 
     [Header("Animation")]
     public Animator animator;
+
+    [Header("References")]
+    private EnemyHealth enemyHealth;
+    public PlayerHealth playerHealth;
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         enemyHealth = GetComponent<EnemyHealth>();
+
 
         if (enemyHealth != null )
         {
@@ -31,7 +39,7 @@ public class EnemyAttack : MonoBehaviour
 
     void Update()
     {
-        if (enemyHealth != null && enemyHealth.isDead) return; // don’t attack if dead
+        if (enemyHealth != null && enemyHealth.isDead) return; 
         if (player == null) return;
 
         playerInAttack = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
@@ -68,6 +76,7 @@ public class EnemyAttack : MonoBehaviour
         {
             alreadyAttacked = true;
             animator.SetTrigger("AttackTrigg");
+            StartCoroutine(PlayerDamage());
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
     }
@@ -85,9 +94,25 @@ public class EnemyAttack : MonoBehaviour
         }
     }
 
+    public IEnumerator PlayerDamage()
+    {
+        isAttacking = true;
+
+        yield return new WaitForSeconds(attackDelay);
+
+        float distance = Vector3.Distance(transform.position, player.position);
+        if (distance <= attackRange && playerHealth != null)
+        {
+            playerHealth.TakeDamage(attackDamage);
+        }
+
+        isAttacking = false;
+    }
+
     public void Initialize(Transform player)
     {
         this.player = player;
+        playerHealth = player.GetComponent<PlayerHealth>();
     }
 }
 

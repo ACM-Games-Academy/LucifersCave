@@ -18,9 +18,19 @@ public class Bullets : MonoBehaviour
         {
             zombie.TakeDamage(damage);
             playerScore.AddPoints(playerScore.bodyShotPoints);
+            FindFirstObjectByType<PointSpawner>().ShowPoints(playerScore.bodyShotPoints);
+
+            if (zombie.currentHealth <= 0)
+            {
+                playerScore.AddPoints(playerScore.deathPoints);
+                FindFirstObjectByType<PointSpawner>().ShowPoints(playerScore.deathPoints);
+            }
+
+            Destroy(gameObject);
         }
 
         Destroy(gameObject);
+
     }
 }
 

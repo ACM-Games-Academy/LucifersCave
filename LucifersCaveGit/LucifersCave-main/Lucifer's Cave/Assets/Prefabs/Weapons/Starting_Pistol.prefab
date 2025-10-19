@@ -35,7 +35,6 @@ Transform:
   m_Children:
   - {fileID: 8920576833238245115}
   - {fileID: 1037158079886734577}
-  - {fileID: 4261265430426909898}
   - {fileID: 6262738138184000898}
   - {fileID: 7254761151722917901}
   m_Father: {fileID: 0}
@@ -134,6 +133,7 @@ MonoBehaviour:
   weaponSway: {fileID: 0}
   movementScript: {fileID: 0}
   reloading: {fileID: 0}
+  playerScore: {fileID: 0}
   animator: {fileID: 0}
 --- !u!1 &603434968154844098
 GameObject:
@@ -160,42 +160,11 @@ Transform:
   m_GameObject: {fileID: 603434968154844098}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.392, y: 0.18, z: 1.24}
+  m_LocalPosition: {x: 0.3934, y: 0.1919, z: 1.3334}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4169813856631144926}
-  m_Father: {fileID: 147519616250290233}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2789768922541924349
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4261265430426909898}
-  m_Layer: 0
-  m_Name: SightPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4261265430426909898
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2789768922541924349}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.392, y: 0.205, z: 0.95}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
   m_Father: {fileID: 147519616250290233}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2858801999288442298

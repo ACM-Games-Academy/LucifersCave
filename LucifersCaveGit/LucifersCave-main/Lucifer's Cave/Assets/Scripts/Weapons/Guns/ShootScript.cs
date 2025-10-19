@@ -92,9 +92,11 @@ public class ShootScript : MonoBehaviour
         Vector3 shootingDirection = CalculateDirectionAndSpread().normalized;
 
         GameObject bullet = Instantiate(weaponData.bulletPrefab, bulletSpawnPoint.position, Quaternion.identity);
-        bullet.GetComponent<Rigidbody>().AddForce(shootingDirection * weaponData.bulletVelocity, ForceMode.Force);
+
+        bullet.GetComponent<Rigidbody>().AddForce(shootingDirection * weaponData.bulletVelocity, ForceMode.Impulse);
         StartCoroutine(DestroyBulletAfterTime(bullet, weaponData.bulletPrefabLifeTime));
         bullet.transform.forward = shootingDirection;
+
         Bullets bullets = bullet.GetComponent<Bullets>();
         bullets.Initialize(playerScore);
 
@@ -109,23 +111,6 @@ public class ShootScript : MonoBehaviour
             currentBurst--;
             Invoke("Shoot", weaponData.shootingDelay);
         }
-    }
-
-    private IEnumerator spawnTrail(TrailRenderer Trail, RaycastHit hit)
-    {
-        float time = 0;
-        Vector3 startPosition = Trail.transform.position;
-
-        while (time < 1)
-        {
-            Trail.transform.position = Vector3.Lerp(startPosition, hit.point, time);
-            time += Time.deltaTime / Trail.time;
-
-            yield return null;
-        }
-        Trail.transform.position = hit.point;
-
-        Destroy(Trail.gameObject, Trail.time);
     }
 
     private IEnumerator DestroyBulletAfterTime(GameObject bullet, float delay)

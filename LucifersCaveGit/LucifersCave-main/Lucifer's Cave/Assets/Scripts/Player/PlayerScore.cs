@@ -8,6 +8,7 @@ public class PlayerScore : MonoBehaviour
 
     [Header("Points To Gain")]
     public int bodyShotPoints;
+    public int deathPoints;
 
     void Update()
     {
