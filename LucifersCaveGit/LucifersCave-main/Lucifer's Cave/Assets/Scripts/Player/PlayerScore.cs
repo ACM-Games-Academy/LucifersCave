@@ -6,6 +6,9 @@ public class PlayerScore : MonoBehaviour
     public int points;
     public TextMeshProUGUI pointsCounter;
 
+    [Header("Points To Gain")]
+    public int bodyShotPoints;
+
     void Update()
     {
         pointsCounter.text = points.ToString();

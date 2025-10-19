@@ -1,16 +1,38 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public GameObject confirmationScreen;
+
+    public void Start()
     {
-        
+        confirmationScreen.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void StartGame()
     {
-        
+        SceneManager.LoadScene("Main_Level");
+    }
+
+    public void QuitGame()
+    {
+        OpenConfirmation();
+    }
+
+    public void OpenConfirmation()
+    {
+        confirmationScreen.SetActive(false);
+    }
+
+    public void ConfirmQuit()
+    {
+        Application.Quit();
+    }
+
+    public void ConfirmNo()
+    {
+        confirmationScreen.SetActive(false);
     }
 }
+

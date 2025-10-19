@@ -26,16 +26,19 @@ public class ShootScript : MonoBehaviour
     public WeaponSway weaponSway;
     public Movement movementScript;
     public Reloading reloading;
+    public PlayerScore playerScore;
 
     [Header("Reloading")]
     public Animator animator;
 
     public void Initialize(Movement movementScript,
+        PlayerScore playerScore,
         ParticleSystem muzzleFlash,
         Camera playerCam,
         WeaponRecoil recoil)
     {
         this.movementScript = movementScript;
+        this.playerScore = playerScore;
         this.muzzleFlash = muzzleFlash;
         this.plyrCamera = playerCam;
         Recoil = recoil;
@@ -92,6 +95,8 @@ public class ShootScript : MonoBehaviour
         bullet.GetComponent<Rigidbody>().AddForce(shootingDirection * weaponData.bulletVelocity, ForceMode.Force);
         StartCoroutine(DestroyBulletAfterTime(bullet, weaponData.bulletPrefabLifeTime));
         bullet.transform.forward = shootingDirection;
+        Bullets bullets = bullet.GetComponent<Bullets>();
+        bullets.Initialize(playerScore);
 
         if (allowReset)
         {

@@ -2,7 +2,13 @@ using UnityEngine;
 
 public class Bullets : MonoBehaviour
 {
-    public WeaponStats weaponStats;
+    public int damage;
+    public PlayerScore playerScore;
+
+    public void Initialize(PlayerScore playerScore)
+    {
+        this.playerScore = playerScore;
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -10,7 +16,8 @@ public class Bullets : MonoBehaviour
 
         if (zombie != null)
         {
-            zombie.TakeDamage((int)weaponStats.damage);
+            zombie.TakeDamage(damage);
+            playerScore.AddPoints(playerScore.bodyShotPoints);
         }
 
         Destroy(gameObject);

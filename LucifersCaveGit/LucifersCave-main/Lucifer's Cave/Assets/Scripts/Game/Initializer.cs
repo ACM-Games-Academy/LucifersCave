@@ -13,6 +13,7 @@ public class Initializer : MonoBehaviour
     public Aiming aiming;
     public CameraLook cameraLook;
     public Reloading reloading;
+    public PlayerScore playerScore;
 
     [Header("References")]
     public ParticleSystem muzzleFlash;
@@ -34,7 +35,7 @@ public class Initializer : MonoBehaviour
 
         foreach (ShootScript shootScript in shootScripts)
         {
-            shootScript.Initialize(movement, muzzleFlash, playerCamera, weaponRecoil);
+            shootScript.Initialize(movement, playerScore, muzzleFlash, playerCamera, weaponRecoil);
         }
 
         foreach (Reloading reloading in reloadingScripts)
