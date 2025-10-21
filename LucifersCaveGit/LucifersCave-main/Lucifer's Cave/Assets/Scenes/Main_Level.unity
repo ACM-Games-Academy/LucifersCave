@@ -819,6 +819,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 219532880829224969, guid: d77dabdd70168f1419f4b08275e65977, type: 3}
+      propertyPath: m_Pitch
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 391075387169395307, guid: d77dabdd70168f1419f4b08275e65977, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -6899,7 +6903,7 @@ MonoBehaviour:
   aiming: {fileID: 1449320552}
   cameraLook: {fileID: 330585548}
   reloading: {fileID: 1449320556}
-  playerScore: {fileID: 0}
+  playerScore: {fileID: 1444824107}
   muzzleFlash: {fileID: 918852767}
   playerCamera: {fileID: 330585545}
   ammoCounter: {fileID: 1325043628}
@@ -7117,6 +7121,10 @@ PrefabInstance:
     - target: {fileID: 2048035638123002617, guid: 698a97d4464d25f4db0d77c0da328de2, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2074782955480849793, guid: 698a97d4464d25f4db0d77c0da328de2, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2170053600667410464, guid: 698a97d4464d25f4db0d77c0da328de2, type: 3}
       propertyPath: m_Layer
@@ -7804,7 +7812,6 @@ MonoBehaviour:
   attackDelay: 0
   attackDamage: 0
   zombieLyr:
-    serializedVersion: 2
     m_Bits: 0
   attackPoint: {fileID: 0}
   playerScore: {fileID: 0}
@@ -9073,7 +9080,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6231942133081943743, guid: 537077edf0d3e8348a3d562af2c8bf4b, type: 3}
       propertyPath: m_IsTrigger
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6261912692936189752, guid: 537077edf0d3e8348a3d562af2c8bf4b, type: 3}
       propertyPath: m_Layer

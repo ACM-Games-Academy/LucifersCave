@@ -31,6 +31,9 @@ public class ShootScript : MonoBehaviour
     [Header("Reloading")]
     public Animator animator;
 
+    [Header("Audio")]
+    private AudioSource shootingSound;
+
     public void Initialize(Movement movementScript,
         PlayerScore playerScore,
         ParticleSystem muzzleFlash,
@@ -56,6 +59,7 @@ public class ShootScript : MonoBehaviour
         weaponSway = GetComponentInParent<WeaponSway>();
         reloading = GetComponent<Reloading>();
         animator = GetComponentInParent<Animator>();
+        shootingSound = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -88,6 +92,7 @@ public class ShootScript : MonoBehaviour
         muzzleFlash.Play();
         reloading.currentAmmo--;
         reloading.UpdateAmmo();
+        shootingSound.Play();
 
         Vector3 shootingDirection = CalculateDirectionAndSpread().normalized;
 

@@ -16,7 +16,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 4949249282052698811, guid: 8e7eb4c6bbbed534b9568acc20b8b6ca, type: 3}
   bulletPrefabLifeTime: 1
   shootingDelay: 0.1
-  spreadIntensity: 0.2
+  spreadIntensity: 0.05
   shootingMode: 0
   bulletsPerBurst: 0
   currentAmmo: 8
