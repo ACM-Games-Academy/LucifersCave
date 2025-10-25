@@ -25,7 +25,6 @@ public class Initializer : MonoBehaviour
     public Transform playerCameraTransform;
     public Image crosshair;
 
-
     void Start()
     {
         EnemyAttack[] enemyAttackScripts = Object.FindObjectsByType<EnemyAttack>(FindObjectsSortMode.None);

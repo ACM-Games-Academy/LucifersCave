@@ -32,6 +32,7 @@ public class Movement : MonoBehaviour
 
     [Header("References")]
     public Transform orientation;
+    public AudioSource walkingSound;
 
     float horizontalInput;
     float verticalInput;
@@ -88,6 +89,7 @@ public class Movement : MonoBehaviour
         canSprint = true;
 
         animator = GetComponent<Animator>();
+        walkingSound = GetComponent<AudioSource>();
     }
 
     private void Update()

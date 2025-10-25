@@ -4,46 +4,65 @@ using UnityEngine;
 public class Melee : MonoBehaviour
 {
     public float attackRange;
-    public float attackDelay;
+    public float damageDelay;
+    public float meleeDelay;
     public int attackDamage;
     public LayerMask zombieLyr;
-    public Transform attackPoint;
+    public GameObject attackPoint;
     public PlayerScore playerScore;
 
     [Header("Input")]
     public KeyCode attackKey;
+    private bool isAttacking = false;
 
     [Header("Animation")]
     public Animator animator;
+
+    [Header("Audio")]
+    private AudioSource meleeSound;
 
     void Start()
     {
         playerScore = Object.FindAnyObjectByType<PlayerScore>();
         animator = GetComponent<Animator>();
+        meleeSound = GetComponent<AudioSource>();
+        attackPoint = GameObject.Find("attackPoint");
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(attackKey))
+        if (Input.GetKeyDown(attackKey) && !isAttacking)
         {
-            MeleeAttack();
+            StartCoroutine(MeleeAttack());
             animator.SetTrigger("isAttackingMelee");
         }
     }
 
     public IEnumerator MeleeAttack()
     {
-        yield return new WaitForSeconds(attackDelay);
-        Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange, zombieLyr);
+        isAttacking = true;
+        yield return new WaitForSeconds(damageDelay);
+        meleeSound.Play();
+        Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.transform.position, attackRange, zombieLyr);
 
         foreach (Collider enemy in hitEnemies)
         {
             if (enemy.TryGetComponent<EnemyHealth>(out EnemyHealth enemyHealth))
             {
                 enemyHealth.TakeDamage(attackDamage);
-                playerScore.AddPoints(enemyHealth.knifePoints);
+                playerScore.AddPoints(playerScore.bodyShotPoints);
+                FindFirstObjectByType<PointSpawner>().ShowPoints(playerScore.bodyShotPoints);
+
+                if (enemyHealth.currentHealth <= 0)
+                {
+                    playerScore.AddPoints(enemyHealth.knifePoints);
+                    FindFirstObjectByType<PointSpawner>().ShowPoints(enemyHealth.knifePoints);
+                }
             }
         }
+
+        yield return new WaitForSeconds(meleeDelay);
+        isAttacking = false;
     }
 
     private void OnDrawGizmosSelected()
@@ -54,6 +73,6 @@ public class Melee : MonoBehaviour
         }
 
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+        Gizmos.DrawWireSphere(attackPoint.transform.position, attackRange);
     }
 }

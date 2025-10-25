@@ -6,6 +6,7 @@ public class FloatingText : MonoBehaviour
     public float moveSpeed = 30f;
     public float lifetime = 1f;
     public float fadeDuration = 0.5f;
+    public float xValue;
 
     private TextMeshProUGUI textMesh;
     private Vector3 floatDirection;
@@ -20,7 +21,7 @@ public class FloatingText : MonoBehaviour
 
         floatDirection = new Vector3(0.3f, 1f, 0f).normalized;
 
-        floatDirection += new Vector3(10, Random.Range(-10f, 10f), 0);
+        floatDirection += new Vector3(xValue, Random.Range(-12, 12), 0);
         floatDirection.Normalize();
     }
 
