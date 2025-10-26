@@ -30,9 +30,13 @@ public class Movement : MonoBehaviour
     public KeyCode sprintKey = KeyCode.LeftShift;
     public KeyCode crouchKey = KeyCode.C;
 
+    [Header("Audio")]
+    public AudioSource walkingSound;
+    public AudioSource sprintingSound;
+    public AudioSource crouchingSound;
+
     [Header("References")]
     public Transform orientation;
-    public AudioSource walkingSound;
 
     float horizontalInput;
     float verticalInput;
@@ -58,6 +62,9 @@ public class Movement : MonoBehaviour
             state = MovementState.Sprinting;
             isSprinting = true;
             moveSpeed = sprintSpeed;
+            crouchingSound.enabled = false;
+            walkingSound.enabled = false;
+            sprintingSound.enabled = true;
         }
 
         else if (Input.GetKey(crouchKey))
@@ -65,6 +72,9 @@ public class Movement : MonoBehaviour
             state = MovementState.Crouching;
             moveSpeed = crouchSpeed;
             isSprinting = false;
+            crouchingSound.enabled = true;
+            walkingSound.enabled = false;
+            sprintingSound.enabled = false;
         }
 
         else if (grounded)
@@ -72,12 +82,28 @@ public class Movement : MonoBehaviour
             state = MovementState.Walking;
             moveSpeed = walkSpeed;
             isSprinting = false;
+
+            if (rb.linearVelocity.magnitude > 0.01f)
+            {
+                crouchingSound.enabled = false;
+                walkingSound.enabled = true;
+                sprintingSound.enabled = false;
+            }
+            else
+            {
+                crouchingSound.enabled = false;
+                walkingSound.enabled = false;
+                sprintingSound.enabled = false;
+            }
         }
 
         else
         {
             state = MovementState.Air;
             isSprinting = false;
+            crouchingSound.enabled = false;
+            walkingSound.enabled = false;
+            sprintingSound.enabled = false;
         }
     }
 
@@ -89,7 +115,10 @@ public class Movement : MonoBehaviour
         canSprint = true;
 
         animator = GetComponent<Animator>();
-        walkingSound = GetComponent<AudioSource>();
+
+        crouchingSound.enabled = false;
+        walkingSound.enabled = false;
+        sprintingSound.enabled = false;
     }
 
     private void Update()
