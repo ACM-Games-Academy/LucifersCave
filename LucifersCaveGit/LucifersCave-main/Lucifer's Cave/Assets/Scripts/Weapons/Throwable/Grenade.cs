@@ -31,42 +31,51 @@ public class Grenade : MonoBehaviour
 
     public void Explode()
     {
-        if (explosionSound != null)
+        if (explosionSound != null && explosionSound.clip != null)
         {
-            Debug.Log("Playing explosion sound");
-            explosionSound.Play();
+            Debug.Log("Playing explosion sound from grenade prefab");
+
+            GameObject soundObj = new GameObject("ExplosionSound");
+            soundObj.transform.position = transform.position;
+
+            AudioSource tempSource = soundObj.AddComponent<AudioSource>();
+            tempSource.clip = explosionSound.clip;
+            tempSource.volume = explosionSound.volume;
+            tempSource.pitch = explosionSound.pitch;
+            tempSource.spatialBlend = explosionSound.spatialBlend;
+            tempSource.minDistance = explosionSound.minDistance;
+            tempSource.maxDistance = explosionSound.maxDistance;
+            tempSource.rolloffMode = explosionSound.rolloffMode;
+
+            tempSource.Play();
+            Destroy(soundObj, tempSource.clip.length);
         }
         else
         {
-            Debug.LogWarning("No AudioSource found on Grenade!");
+            Debug.LogWarning("No AudioSource or AudioClip found on Grenade prefab!");
         }
 
         if (explosionEffect != null)
         {
             ParticleSystem ps = Instantiate(explosionEffect, transform.position, transform.rotation);
             ParticleSystem ds = Instantiate(dustExplosionEffect, transform.position, transform.rotation);
-            ds.Play();
             ps.Play();
+            ds.Play();
 
             Destroy(ps.gameObject, ps.main.duration + ps.main.startLifetime.constantMax);
             Destroy(ds.gameObject, ds.main.duration + ds.main.startLifetime.constantMax);
         }
 
         Collider[] colliders = Physics.OverlapSphere(transform.position, blastRadius);
-
         foreach (Collider nearby in colliders)
         {
             EnemyHealth enemy = nearby.GetComponent<EnemyHealth>();
             if (enemy != null)
-            {
                 enemy.TakeDamage(damage);
-            }
 
             Rigidbody body = nearby.GetComponent<Rigidbody>();
             if (body != null)
-            {
                 body.AddExplosionForce(explosionForce, transform.position, blastRadius);
-            }
         }
 
         Destroy(gameObject);
