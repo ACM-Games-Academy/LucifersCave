@@ -19,7 +19,8 @@ public class ThrowableItem : MonoBehaviour
     public KeyCode grenadeThrowKey = KeyCode.G;
     public KeyCode knifeThrowKey = KeyCode.E;
     public float throwForce;
-    public float throwUpwardForce;
+    public float throwUpwardForceGrenade;
+    public float throwUpwardForceKnife;
     bool readyToThrow;
 
     [Header("Throwable UI")]
@@ -38,7 +39,7 @@ public class ThrowableItem : MonoBehaviour
             ThrowGrenade();
         }
 
-        if (Input.GetKeyDown(knifeThrowKey) && readyToThrow && totalGrenadeThrows > 0)
+        if (Input.GetKeyDown(knifeThrowKey) && readyToThrow && totalKnifeThrows > 0)
         {
             ThrowKnife();
         }
@@ -52,7 +53,7 @@ public class ThrowableItem : MonoBehaviour
 
         Rigidbody grenadeRB = grenade.GetComponent<Rigidbody>();
 
-        Vector3 forceToAdd = cam.transform.forward * throwForce + transform.up * throwUpwardForce;
+        Vector3 forceToAdd = cam.transform.forward * throwForce + transform.up * throwUpwardForceGrenade;
         grenadeRB.AddForce(forceToAdd, ForceMode.Impulse);
         totalGrenadeThrows--;
 
@@ -68,11 +69,11 @@ public class ThrowableItem : MonoBehaviour
 
         Rigidbody knifeRB = knife.GetComponent<Rigidbody>();
 
-        Vector3 forceToAdd = cam.transform.forward * throwForce + transform.up * throwUpwardForce;
+        Vector3 forceToAdd = cam.transform.forward * throwForce + transform.up * throwUpwardForceKnife;
         knifeRB.AddForce(forceToAdd, ForceMode.Impulse);
         totalKnifeThrows--;
 
-        Invoke(nameof(ThrowKnife), throwCoolDown);
+        Invoke(nameof(ResetThrow), throwCoolDown);
         KnivesHUD_Update();
     }
 

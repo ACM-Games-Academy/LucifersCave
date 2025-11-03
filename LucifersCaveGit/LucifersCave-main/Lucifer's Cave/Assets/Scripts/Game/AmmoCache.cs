@@ -12,9 +12,13 @@ public class AmmoCache : MonoBehaviour, IInteractable
     void Start()
     {
         openingSound = GetComponent<AudioSource>();
-        weaponData = FindAnyObjectByType<WeaponStats>();
         highlights = GetComponent<HighlightedObject>();
         canPickUp = true;
+    }
+
+    public void Update()
+    {
+        weaponData = FindAnyObjectByType<WeaponStats>();
     }
 
     public void Interact()

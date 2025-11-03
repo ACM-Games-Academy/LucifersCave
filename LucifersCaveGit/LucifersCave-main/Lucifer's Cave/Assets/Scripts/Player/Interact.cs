@@ -50,5 +50,9 @@ public class Interact : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            interactPrompt.enabled = false;
+        }
     }
 }

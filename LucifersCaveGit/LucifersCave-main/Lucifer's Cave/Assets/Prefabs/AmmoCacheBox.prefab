@@ -63,7 +63,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AmmoCache
   AmmoSurplus: 80
-  weaponData: {fileID: 0}
+  weaponData: {fileID: 11400000, guid: 4ac804ed50af5d2469c398dbbd14f2e5, type: 2}
   openingSound: {fileID: 0}
   highlights: {fileID: 0}
 --- !u!82 &5664784699037196331
