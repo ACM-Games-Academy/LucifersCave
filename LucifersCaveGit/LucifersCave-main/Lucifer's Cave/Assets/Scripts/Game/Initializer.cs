@@ -8,12 +8,13 @@ public class Initializer : MonoBehaviour
     public WeaponRecoil weaponRecoil;
     public WeaponStats weaponStats;
     public RecoilProfiles recoilProfiles;
-    public ShootScript shootScript;
     public Movement movement;
     public Aiming aiming;
     public CameraLook cameraLook;
-    public Reloading reloading;
     public PlayerScore playerScore;
+    public Grenade grenadeScript;
+    public WallBuy wallBuyScript;
+    public WeaponManager weaponManager;
 
     [Header("References")]
     public ParticleSystem muzzleFlash;
@@ -29,18 +30,8 @@ public class Initializer : MonoBehaviour
     {
         EnemyAttack[] enemyAttackScripts = Object.FindObjectsByType<EnemyAttack>(FindObjectsSortMode.None);
         EnemyBase[] enemyBaseScripts = Object.FindObjectsByType<EnemyBase>(FindObjectsSortMode.None);
-        ShootScript[] shootScripts = Object.FindObjectsByType<ShootScript>(FindObjectsSortMode.None);
-        Reloading[] reloadingScripts = Object.FindObjectsByType<Reloading>(FindObjectsSortMode.None);
-
-        foreach (ShootScript shootScript in shootScripts)
-        {
-            shootScript.Initialize(movement, playerScore, muzzleFlash, playerCamera, weaponRecoil);
-        }
-
-        foreach (Reloading reloading in reloadingScripts)
-        {
-            reloading.Initialize(ammoCounter, reloadingText);
-        }
+        Grenade[] grenadeScripts = Object.FindObjectsByType<Grenade>(FindObjectsSortMode.None);
+        WallBuy[] wallBuyScripts = Object.FindObjectsByType<WallBuy>(FindObjectsSortMode.None);
 
         foreach (EnemyAttack enemyAttack in enemyAttackScripts)
         {
@@ -50,6 +41,16 @@ public class Initializer : MonoBehaviour
         foreach (EnemyBase enemyBase in enemyBaseScripts)
         {
             enemyBase.Initialize(player);
+        }
+
+        foreach (Grenade grenade in grenadeScripts)
+        {
+            grenade.Initialize(playerScore);
+        }
+
+        foreach (WallBuy wallBuy in wallBuyScripts)
+        {
+            wallBuy.Initialize(weaponManager, playerScore);
         }
 
         weaponRecoil.Initialize(recoilProfiles, playerCameraTransform);

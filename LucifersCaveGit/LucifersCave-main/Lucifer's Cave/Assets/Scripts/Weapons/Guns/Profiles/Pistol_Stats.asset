@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletVelocity: 200
   bulletPrefab: {fileID: 4949249282052698811, guid: 8e7eb4c6bbbed534b9568acc20b8b6ca, type: 3}
+  weaponPrefab: {fileID: 596754205622061497, guid: d77dabdd70168f1419f4b08275e65977, type: 3}
+  weaponName: Glock 44
   bulletPrefabLifeTime: 1
   shootingDelay: 0.1
   spreadIntensity: 0.05

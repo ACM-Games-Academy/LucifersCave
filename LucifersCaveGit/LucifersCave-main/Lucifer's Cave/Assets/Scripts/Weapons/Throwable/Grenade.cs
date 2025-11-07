@@ -13,6 +13,13 @@ public class Grenade : MonoBehaviour
     private bool hasExploded = false;
     public AudioSource explosionSound;
 
+    public PlayerScore playerScore;
+
+    public void Initialize(PlayerScore playerScore)
+    {
+        this.playerScore = playerScore;
+    }
+
     void Start()
     {
         countdown = delay;
@@ -71,7 +78,20 @@ public class Grenade : MonoBehaviour
         {
             EnemyHealth enemy = nearby.GetComponent<EnemyHealth>();
             if (enemy != null)
+            {
                 enemy.TakeDamage(damage);
+
+                if (enemy.currentHealth > 0)
+                {
+                    playerScore.AddPoints(playerScore.bodyShotPoints);
+                    FindFirstObjectByType<PointSpawner>().ShowPoints(playerScore.bodyShotPoints);
+                }
+                else
+                {
+                    playerScore.AddPoints(playerScore.deathPoints);
+                    FindFirstObjectByType<PointSpawner>().ShowPoints(playerScore.deathPoints);
+                }
+            }
 
             Rigidbody body = nearby.GetComponent<Rigidbody>();
             if (body != null)

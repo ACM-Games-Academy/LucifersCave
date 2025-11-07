@@ -6,6 +6,8 @@ public class WeaponStats : ScriptableObject
     [Header("Stats")]
     public float bulletVelocity;
     public GameObject bulletPrefab;
+    public GameObject weaponPrefab;
+    public string weaponName;
 
     [Header("Shooting")]
     public float bulletPrefabLifeTime;

@@ -43,13 +43,13 @@ public class ShootScript : MonoBehaviour
         this.movementScript = movementScript;
         this.playerScore = playerScore;
         this.muzzleFlash = muzzleFlash;
-        this.plyrCamera = playerCam;
+        plyrCamera = playerCam;
         Recoil = recoil;
     }
 
     public void ApplyWeaponData(WeaponStats data)
     {
-        this.weaponData = data;
+        weaponData = data;
     }
 
     private void Start()

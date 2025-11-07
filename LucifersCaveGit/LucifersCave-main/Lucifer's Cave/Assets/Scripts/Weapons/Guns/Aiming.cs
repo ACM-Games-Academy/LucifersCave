@@ -41,8 +41,7 @@ public class Aiming : MonoBehaviour
         mainCam = GetComponentInParent<Camera>();
         weaponSway = GetComponentInParent<WeaponSway>();
         animator = GetComponentInParent<Animator>();
-        shootingFunc = GetComponentInChildren<ShootScript>();
-
+        shootingFunc = GetComponent<ShootScript>();
         reloadingScript = GetComponent<Reloading>();
 
         targetFOV = FOV_decrease;

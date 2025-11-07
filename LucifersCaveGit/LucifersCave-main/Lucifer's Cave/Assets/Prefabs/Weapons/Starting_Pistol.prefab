@@ -59,7 +59,7 @@ MonoBehaviour:
   maxAmmo: 0
   isReloading: 0
   reloadKey: 114
-  weaponStats: {fileID: 0}
+  weaponStats: {fileID: 11400000, guid: 4ac804ed50af5d2469c398dbbd14f2e5, type: 2}
   weaponSway: {fileID: 0}
   animator: {fileID: 0}
 --- !u!114 &1023545140521134826
