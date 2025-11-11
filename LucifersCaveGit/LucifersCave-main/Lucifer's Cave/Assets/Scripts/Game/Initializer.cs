@@ -5,16 +5,14 @@ using UnityEngine.UI;
 public class Initializer : MonoBehaviour
 {
     [Header("Scripts")]
-    public WeaponRecoil weaponRecoil;
     public WeaponStats weaponStats;
     public RecoilProfiles recoilProfiles;
     public Movement movement;
-    public Aiming aiming;
     public CameraLook cameraLook;
     public PlayerScore playerScore;
     public Grenade grenadeScript;
-    public WallBuy wallBuyScript;
     public WeaponManager weaponManager;
+    public PointSpawner pointSpawner;
 
     [Header("References")]
     public ParticleSystem muzzleFlash;
@@ -25,6 +23,7 @@ public class Initializer : MonoBehaviour
     public Transform player;
     public Transform playerCameraTransform;
     public Image crosshair;
+    public Transform rightHandTransform;
 
     void Start()
     {
@@ -50,10 +49,7 @@ public class Initializer : MonoBehaviour
 
         foreach (WallBuy wallBuy in wallBuyScripts)
         {
-            wallBuy.Initialize(weaponManager, playerScore);
+            wallBuy.Initialize(weaponManager, playerScore, pointSpawner);
         }
-
-        weaponRecoil.Initialize(recoilProfiles, playerCameraTransform);
-        aiming.Initialize(movement, cameraLook, playerCamera, fpsCamera, weaponStats, crosshair);
     }
 }

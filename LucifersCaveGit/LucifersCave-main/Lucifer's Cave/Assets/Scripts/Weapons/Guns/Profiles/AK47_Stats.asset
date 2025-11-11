@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AK47_Stats
   m_EditorClassIdentifier: Assembly-CSharp::WeaponStats
   bulletVelocity: 800
-  bulletPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 4949249282052698811, guid: 89041657815e24648aec165dbfebe0a4, type: 3}
   weaponPrefab: {fileID: 393862255952525591, guid: 09e623dcfc5b98f43b8783516e65f8e9, type: 3}
   weaponName: AK47
   bulletPrefabLifeTime: 1

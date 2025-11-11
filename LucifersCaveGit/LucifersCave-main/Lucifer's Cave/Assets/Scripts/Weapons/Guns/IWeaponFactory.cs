@@ -2,12 +2,12 @@ using UnityEngine;
 
 public interface IWeaponFactory
 {
-    GameObject CreateWeapon(WeaponStats weaponStats, Transform parent);
+    GameObject CreateWeapon(WeaponStats weaponStats, RecoilProfiles weaponRecoil, Transform parent, Vector3 weaponPosition);
 }
 
 public class WeaponFactory : IWeaponFactory
 {
-    public GameObject CreateWeapon(WeaponStats weaponStats, Transform parent)
+    public GameObject CreateWeapon(WeaponStats weaponStats, RecoilProfiles weaponRecoil, Transform parent, Vector3 weaponPosition)
     {
         if (weaponStats.weaponPrefab == null)
         {
@@ -16,9 +16,10 @@ public class WeaponFactory : IWeaponFactory
         }
 
         GameObject weapon = Object.Instantiate(weaponStats.weaponPrefab, parent, false);
-        weapon.transform.localPosition = Vector3.zero;
+        weapon.transform.localPosition += weaponPosition;
         weapon.transform.localRotation = Quaternion.identity;
         weapon.GetComponent<ShootScript>().ApplyWeaponData(weaponStats);
+        weapon.GetComponent<WeaponRecoil>().ApplyRecoilData(weaponRecoil);
         return weapon;
     }
 }

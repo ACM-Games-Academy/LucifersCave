@@ -33,23 +33,21 @@ public class Aiming : MonoBehaviour
     public Animator animator;
     public bool isAnimating;
 
+    private bool isInitialized = false;
+
     void Start()
     {
-        defaultSpread = weaponStats.spreadIntensity;
-        defaultSensitivity = lookFunc.sensitivityAmount;
-
-        mainCam = GetComponentInParent<Camera>();
-        weaponSway = GetComponentInParent<WeaponSway>();
-        animator = GetComponentInParent<Animator>();
-        shootingFunc = GetComponent<ShootScript>();
-        reloadingScript = GetComponent<Reloading>();
-
         targetFOV = FOV_decrease;
         gunFOV = FOV_decrease;
     }
 
     void LateUpdate()
     {
+        if (!isInitialized || shootingFunc == null || reloadingScript == null)
+        {
+            return;
+        }
+
         if (shootingFunc.isAiming && !reloadingScript.isReloading)
         {
             if (!wasAiming)
@@ -123,7 +121,14 @@ public class Aiming : MonoBehaviour
         this.weaponStats = weaponStats;
         this.crosshair = crosshair;
 
+        weaponSway = GetComponentInParent<WeaponSway>();
+        animator = GetComponentInParent<Animator>();
+        shootingFunc = GetComponent<ShootScript>();
+        reloadingScript = GetComponent<Reloading>();
+
         defaultSpread = weaponStats.spreadIntensity;
         defaultSensitivity = lookFunc.sensitivityAmount;
+
+        isInitialized = true;
     }
 }

@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5710881791146900584
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3723943310019981401}
+  m_Layer: 0
+  m_Name: attackPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3723943310019981401
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5710881791146900584}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.24, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2980802645552339151}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &3375247036219424548
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -50,18 +81,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f83710963d3d16d4c834ba216acbc913, type: 3}
       propertyPath: m_Name
-      value: knifeModelFBX
+      value: knifeModelPrefab
       objectReference: {fileID: 0}
     - target: {fileID: 3434640893384475760, guid: f83710963d3d16d4c834ba216acbc913, type: 3}
       propertyPath: m_Name
       value: knifeArmature
       objectReference: {fileID: 0}
     - target: {fileID: 8417361359673230750, guid: f83710963d3d16d4c834ba216acbc913, type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 9194adc88cec829478c8b9220ba05113, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: f83710963d3d16d4c834ba216acbc913, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3723943310019981401}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f83710963d3d16d4c834ba216acbc913, type: 3}
+--- !u!4 &2980802645552339151 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f83710963d3d16d4c834ba216acbc913, type: 3}
+  m_PrefabInstance: {fileID: 3375247036219424548}
+  m_PrefabAsset: {fileID: 0}

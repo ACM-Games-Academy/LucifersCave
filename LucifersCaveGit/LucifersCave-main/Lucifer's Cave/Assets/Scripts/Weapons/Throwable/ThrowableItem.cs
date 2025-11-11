@@ -9,6 +9,7 @@ public class ThrowableItem : MonoBehaviour
     public Transform attackPoint;
     public GameObject Grenade;
     public GameObject throwingKnife;
+    public PlayerScore playerScore;
 
     [Header("Settings")]
     public int totalGrenadeThrows;
@@ -51,6 +52,12 @@ public class ThrowableItem : MonoBehaviour
 
         GameObject grenade = Instantiate(Grenade, attackPoint.position, cam.rotation);
 
+        var GrenadeScript = grenade.GetComponent<Grenade>();
+        if (GrenadeScript != null)
+        {
+            GrenadeScript.Initialize(playerScore);
+        }
+
         Rigidbody grenadeRB = grenade.GetComponent<Rigidbody>();
 
         Vector3 forceToAdd = cam.transform.forward * throwForce + transform.up * throwUpwardForceGrenade;
@@ -66,6 +73,12 @@ public class ThrowableItem : MonoBehaviour
         readyToThrow = false;
 
         GameObject knife = Instantiate(throwingKnife, attackPoint.position, cam.rotation);
+
+        var KnifeScript = knife.GetComponent<ThrowingKnife>();
+        if (KnifeScript != null)
+        {
+            KnifeScript.Initialize(playerScore);
+        }
 
         Rigidbody knifeRB = knife.GetComponent<Rigidbody>();
 

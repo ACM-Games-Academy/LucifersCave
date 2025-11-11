@@ -26,7 +26,7 @@ public class Melee : MonoBehaviour
         playerScore = Object.FindAnyObjectByType<PlayerScore>();
         animator = GetComponent<Animator>();
         meleeSound = GetComponent<AudioSource>();
-        attackPoint = GameObject.Find("attackPoint");
+        attackPoint = transform.Find("attackPoint")?.gameObject;
     }
 
     void Update()
@@ -40,6 +40,12 @@ public class Melee : MonoBehaviour
 
     public IEnumerator MeleeAttack()
     {
+        if (attackPoint == null)
+        {
+            Debug.LogError($"{name}: attackPoint is NULL when trying to melee!");
+            yield break;
+        }
+
         isAttacking = true;
         yield return new WaitForSeconds(damageDelay);
         meleeSound.Play();

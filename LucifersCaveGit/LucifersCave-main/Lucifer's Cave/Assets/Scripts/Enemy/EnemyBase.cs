@@ -52,7 +52,7 @@ public class EnemyBase : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        animator.SetTrigger("IsAttacking");
+        animator.SetTrigger("attackTrigg");
     }
 
     public void Initialize(Transform player)

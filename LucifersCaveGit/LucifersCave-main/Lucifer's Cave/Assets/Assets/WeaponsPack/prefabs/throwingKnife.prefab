@@ -125,8 +125,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ThrowingKnife
   destructionDelay: 7
+  damage: 200
   throwingKnifeSound: {fileID: 3761605791492246877}
   impactSound: {fileID: 6517735868967190784}
+  playerScore: {fileID: 0}
 --- !u!82 &3761605791492246877
 AudioSource:
   m_ObjectHideFlags: 0

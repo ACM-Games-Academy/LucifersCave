@@ -25,6 +25,10 @@ public class WeaponRecoil : MonoBehaviour
         this.plyrCam = plyrCam;
     }
 
+    public void ApplyRecoilData(RecoilProfiles weaponRecoil)
+    {
+        this.weaponRecoil = weaponRecoil;
+    }
 
     void Start()
     {

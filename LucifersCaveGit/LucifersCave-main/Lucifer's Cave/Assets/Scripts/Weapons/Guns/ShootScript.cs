@@ -34,6 +34,8 @@ public class ShootScript : MonoBehaviour
     [Header("Audio")]
     private AudioSource shootingSound;
 
+    private bool isInitialized = false;
+
     public void Initialize(Movement movementScript,
         PlayerScore playerScore,
         ParticleSystem muzzleFlash,
@@ -45,6 +47,8 @@ public class ShootScript : MonoBehaviour
         this.muzzleFlash = muzzleFlash;
         plyrCamera = playerCam;
         Recoil = recoil;
+
+        isInitialized = true;
     }
 
     public void ApplyWeaponData(WeaponStats data)
@@ -64,6 +68,10 @@ public class ShootScript : MonoBehaviour
 
     private void Update()
     {
+        if (!isInitialized || weaponData == null || reloading == null || movementScript == null)
+        {
+            return;
+        }
         HandleInput();
     }
 
