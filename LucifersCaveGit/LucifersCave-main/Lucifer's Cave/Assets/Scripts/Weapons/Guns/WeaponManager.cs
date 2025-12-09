@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
@@ -11,6 +10,8 @@ public class WeaponManager : MonoBehaviour
     public Initializer initializer;
     public WeaponStats currentWeapon { get; private set; }
     public RecoilProfiles currentRecoil { get; private set; }
+
+    public Vector3 spawnOffset;
 
     private void Awake()
     {
@@ -37,7 +38,7 @@ public class WeaponManager : MonoBehaviour
             Destroy(currentWeaponObject);
         }
 
-        currentWeaponObject = weaponFactory.CreateWeapon(newWeapon, startingRecoil, weaponParent, Vector3.zero);
+        currentWeaponObject = weaponFactory.CreateWeapon(newWeapon, startingRecoil, weaponParent, spawnOffset);
         currentWeapon = newWeapon;
         currentWeaponObject.layer = LayerMask.NameToLayer("Hands/Weapon");
 

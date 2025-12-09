@@ -55,8 +55,8 @@ MonoBehaviour:
   aimMultiplier: 0.4
   mainCam: {fileID: 0}
   gunCam: {fileID: 0}
-  FOV_increase: 50
-  gunFOV_increase: 35
+  FOV_increase: 30
+  gunFOV_increase: 5
   FOV_decrease: 60
   FOV_speed: 4
   weaponStats: {fileID: 0}
