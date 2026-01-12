@@ -10,7 +10,8 @@ public class ThrowingKnife : MonoBehaviour
     public AudioSource throwingKnifeSound;
     public AudioSource impactSound;
 
-    public PlayerScore playerScore;
+    private PlayerScore playerScore;
+    private EnemyHealth enemyHealth;
 
     public void Initialize(PlayerScore playerScore)
     {
@@ -34,7 +35,24 @@ public class ThrowingKnife : MonoBehaviour
         rb.angularVelocity = Vector3.zero;
         rb.linearVelocity = Vector3.zero;
 
-        var enemyHealth = collision.gameObject.GetComponent<EnemyHealth>();
+        if (!collision.gameObject.CompareTag("Enemy"))
+        {
+            throwingKnifeSound.Stop();
+            impactSound.Play();
+            Destroy(gameObject, destructionDelay);
+            return;
+        }
+        if (collision.gameObject.GetComponent<EnemyHealth>() == null)
+        {
+            Debug.LogWarning("The object hit does not have an EnemyHealth component.");
+            return;
+        }
+        EnemyHealth enemyHealth;
+        if (!collision.gameObject.TryGetComponent<EnemyHealth>(out enemyHealth))
+        {
+            enemyHealth = collision.gameObject.GetComponent<EnemyHealth>();
+        }
+        
         enemyHealth.TakeDamage(damage);
 
         if (enemyHealth.currentHealth > 0)
@@ -47,11 +65,5 @@ public class ThrowingKnife : MonoBehaviour
             playerScore.AddPoints(playerScore.deathPoints);
             FindFirstObjectByType<PointSpawner>().ShowPoints(playerScore.deathPoints);
         }
-
-        transform.SetParent(collision.transform);
-        throwingKnifeSound.Stop();
-        impactSound.Play();
-
-        Destroy(gameObject, destructionDelay);
     }
 }

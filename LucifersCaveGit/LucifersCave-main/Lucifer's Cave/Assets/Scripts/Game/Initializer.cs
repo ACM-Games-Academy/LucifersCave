@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Initializer : MonoBehaviour
@@ -17,15 +18,43 @@ public class Initializer : MonoBehaviour
     [Header("References")]
     public ParticleSystem muzzleFlash;
     public Camera playerCamera;
-    public TextMeshProUGUI ammoCounter;
-    public TextMeshProUGUI reloadingText;
     public Camera fpsCamera;
+    private bool bound;
+
+    [Header("Transforms")]
     public Transform player;
     public Transform playerCameraTransform;
-    public Image crosshair;
     public Transform rightHandTransform;
 
-    void Start()
+    [Header("UI Elements")]
+    public TextMeshProUGUI ammoCounter;
+    public TextMeshProUGUI reloadingText;
+    public Image crosshair;
+
+    private void Awake()
+    {
+        BindAll();
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (!bound)
+        {
+            BindAll();
+        }
+    }
+
+    private void BindAll()
     {
         EnemyAttack[] enemyAttackScripts = Object.FindObjectsByType<EnemyAttack>(FindObjectsSortMode.None);
         EnemyBase[] enemyBaseScripts = Object.FindObjectsByType<EnemyBase>(FindObjectsSortMode.None);
