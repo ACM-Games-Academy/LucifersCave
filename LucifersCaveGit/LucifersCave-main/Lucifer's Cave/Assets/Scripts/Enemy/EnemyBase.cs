@@ -19,6 +19,7 @@ public class EnemyBase : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+        agent.isStopped = true;
         //RandomiseAnimation();
 
         if (health != null)
@@ -38,21 +39,17 @@ public class EnemyBase : MonoBehaviour
         if (player == null || agent == null || !agent.isOnNavMesh) return;
 
         float distanceToPlayer = Vector3.Distance(player.position, transform.position);
-        if (!isDead && distanceToPlayer < spottingDistance)
+        if (!isDead && distanceToPlayer < spottingDistance && !hasStartedWalking)
         {
-            if (!hasStartedWalking)
-            {
-                animator.SetInteger("WalkInt", randomWalkIndex);
-                animator.SetBool("isMoving", true);
-                hasStartedWalking = true;
-            }
+            EnemyMovement();
             agent.SetDestination(player.position);
         }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        animator.SetTrigger("attackTrigg");
+        else
+        {
+            animator.SetBool("isMoving", false);
+            hasStartedWalking = false;
+            agent.isStopped = true;
+        }
     }
 
     public void Initialize(Transform player)
@@ -66,6 +63,15 @@ public class EnemyBase : MonoBehaviour
         {
             agent.isStopped = true;
         }
+    }
+
+    private void EnemyMovement()
+    {
+        if (hasStartedWalking) return;
+        animator.SetInteger("WalkInt", randomWalkIndex);
+        animator.SetBool("isMoving", true);
+        hasStartedWalking = true;
+        agent.isStopped = false;
     }
 }
 

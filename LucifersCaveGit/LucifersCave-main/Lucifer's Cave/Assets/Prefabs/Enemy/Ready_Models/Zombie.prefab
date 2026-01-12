@@ -90,13 +90,7 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 37d9ded5870a3bf449b8af90c5ce052c, type: 2}
     - target: {fileID: 5866666021909216657, guid: af27991d71837df438899e70f577fdef, type: 3}
       propertyPath: m_WarningMessage
-      value: "\nBinding warning: Some generic clip(s) animate transforms that are
-        already bound by a Humanoid avatar. These transforms can only be changed
-        by Humanoid clips.\n\tTransform 'mixamorig:Hips'\n\tTransform 'mixamorig:LeftFoot'\n\tTransform
-        'mixamorig:LeftHandIndex1'\n\tTransform 'mixamorig:LeftHandPinky2'\n\tTransform
-        'mixamorig:RightHandRing2'\n\tTransform 'mixamorig:Spine1'\n\tTransform 'mixamorig:LeftToeBase'\n\tTransform
-        'mixamorig:RightArm'\n\tTransform 'mixamorig:LeftLeg'\n\tTransform 'mixamorig:LeftHandMiddle3'\n\tand
-        more ...\n\tFrom animation clip 'Attack'"
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -188,8 +182,11 @@ MonoBehaviour:
     m_Bits: 64
   timeBetweenAttacks: 1.5
   attackRange: 1
+  attackDamage: 0
   playerInAttack: 0
+  attackDelay: 0
   animator: {fileID: 2625546432248680791}
+  playerHealth: {fileID: 0}
 --- !u!195 &7070371251593884806
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -258,7 +255,7 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 1581363952229550673, guid: 329fedbffdcc4b14393287b7ef903f07, type: 3}
 --- !u!114 &8641810498362778979
