@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 public class EnemyHealth : MonoBehaviour
 {
-    [HideInInspector] public int currentHealth;
+    public int currentHealth;
     public int maxHealth;
     public int knifePoints;
 
@@ -26,7 +26,7 @@ public class EnemyHealth : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        //RandomiseAnimation();
+        RandomiseAnimation();
     }
 
     public void TakeDamage(int amount)
@@ -41,26 +41,29 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
-    /*
+    
     public void RandomiseAnimation()
     {
-        randomDeathIndex = UnityEngine.Random.Range(0, 2);
+        randomDeathIndex = UnityEngine.Random.Range(0, 1);
     }
-    */
 
     public void Death()
     {
         if (isDead) return;
         isDead = true;
 
-        //animator.SetInteger("DeathInt", randomDeathIndex);
+        animator.SetInteger("DeathInt", randomDeathIndex);
         animator.SetTrigger("isDead");
 
-        if (agent != null && agent.isOnNavMesh)
+        if (agent != null)
         {
-            agent.isStopped = true;
+            if (agent.isOnNavMesh)
+                agent.isStopped = true;
+
             agent.enabled = false;
         }
+
+        OnDeathEvent?.Invoke();
 
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null) rb.isKinematic = true;
@@ -70,5 +73,10 @@ public class EnemyHealth : MonoBehaviour
 
         OnDeathEvent?.Invoke();
         Destroy(transform.parent.gameObject, 5f);
+    }
+
+    private void OnDestroy()
+    {
+        OnDeathEvent = null;
     }
 }

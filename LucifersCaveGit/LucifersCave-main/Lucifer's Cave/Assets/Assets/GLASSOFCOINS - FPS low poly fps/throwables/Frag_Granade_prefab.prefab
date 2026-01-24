@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6441377450366370199}
   - component: {fileID: 5198228627639950408}
   - component: {fileID: 5991306303801938522}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Frag_Granade_prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,6 +139,7 @@ MonoBehaviour:
   explosionEffect: {fileID: 198656289721292014, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
   dustExplosionEffect: {fileID: 198220379293217532, guid: d8f0099df63275647a8bcf646df1ca00, type: 3}
   explosionSound: {fileID: 5198228627639950408}
+  playerScore: {fileID: 0}
 --- !u!82 &5198228627639950408
 AudioSource:
   m_ObjectHideFlags: 0
@@ -243,7 +244,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2743952917080061498}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 179f37b58eceb114c8efdc7622397523, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

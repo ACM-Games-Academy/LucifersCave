@@ -6,11 +6,20 @@ public class PlayerHealthBar : MonoBehaviour
     public PlayerHealth playerHealth;
     public Image playerHealthBar;
 
-    void Update()
+    private void Start()
     {
-        if (playerHealth != null && playerHealthBar != null)
-        {
-            float fillValue = playerHealth.currentHealth / playerHealth.maxHealth;
-        }
+        if (playerHealth != null)
+            playerHealth.OnHealthChanged += UpdateBar;
+    }
+
+    private void OnDestroy()
+    {
+        if (playerHealth != null)
+            playerHealth.OnHealthChanged -= UpdateBar;
+    }
+
+    private void UpdateBar(float current, float max)
+    {
+        playerHealthBar.fillAmount = current / max;
     }
 }

@@ -42,6 +42,7 @@ public class WeaponManager : MonoBehaviour
         currentWeapon = newWeapon;
         currentWeaponObject.layer = LayerMask.NameToLayer("Hands/Weapon");
 
+
         var weaponRecoil = currentWeaponObject.GetComponent<WeaponRecoil>();
         if (weaponRecoil != null)
         {
@@ -78,7 +79,7 @@ public class WeaponManager : MonoBehaviour
                 initializer.crosshair
             );
         }
-
+        /*
         var melee = initializer.rightHandTransform.GetComponent<Melee>();
         if (melee != null)
         {
@@ -93,6 +94,7 @@ public class WeaponManager : MonoBehaviour
                 Debug.LogWarning($"No 'attackPoint' found under {currentWeaponObject.name}");
             }
         }
+        */
     }
 }
 

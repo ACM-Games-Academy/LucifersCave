@@ -86,6 +86,7 @@ public class ShootScript : MonoBehaviour
         {
             currentBurst = weaponData.bulletsPerBurst;
             Shoot();
+            shootingSound.Play();
             Recoil.Recoil(isAiming);
             Recoil.HandleRecoilAnimation();
         }
@@ -100,7 +101,6 @@ public class ShootScript : MonoBehaviour
         muzzleFlash.Play();
         reloading.currentAmmo--;
         reloading.UpdateAmmo();
-        shootingSound.Play();
 
         Vector3 shootingDirection = CalculateDirectionAndSpread().normalized;
 

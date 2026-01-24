@@ -3,7 +3,6 @@ using UnityEngine.AI;
 
 public class EnemyBase : MonoBehaviour
 {
-    bool isDead;
     NavMeshAgent agent;
     [SerializeField] private Transform player;
     public float spottingDistance;
@@ -20,7 +19,7 @@ public class EnemyBase : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         agent.isStopped = true;
-        //RandomiseAnimation();
+        RandomiseAnimation();
 
         if (health != null)
         {
@@ -28,20 +27,22 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    /*public void RandomiseAnimation()
+    public void RandomiseAnimation()
     {
-        randomWalkIndex = Random.Range(0, 3);
+        randomWalkIndex = Random.Range(0, 2);
     }
-    */
+    
     void Update()
     {
         if (health != null && health.isDead) return; 
         if (player == null || agent == null || !agent.isOnNavMesh) return;
 
         float distanceToPlayer = Vector3.Distance(player.position, transform.position);
-        if (!isDead && distanceToPlayer < spottingDistance && !hasStartedWalking)
+
+        if (distanceToPlayer < spottingDistance)
         {
             EnemyMovement();
+            agent.isStopped = false;
             agent.SetDestination(player.position);
         }
         else

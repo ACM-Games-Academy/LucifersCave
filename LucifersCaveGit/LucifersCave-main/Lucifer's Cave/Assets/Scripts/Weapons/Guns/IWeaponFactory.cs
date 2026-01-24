@@ -20,6 +20,7 @@ public class WeaponFactory : IWeaponFactory
         weapon.transform.localRotation = Quaternion.identity;
         weapon.GetComponent<ShootScript>().ApplyWeaponData(weaponStats);
         weapon.GetComponent<WeaponRecoil>().ApplyRecoilData(weaponRecoil);
+        weapon.GetComponentInParent<Melee>().SetKnife(weapon.transform.Find("attackPoint"));
         return weapon;
     }
 }

@@ -10,14 +10,15 @@ public class EnemyAttack : MonoBehaviour
 
     [Header("Attacking")]
     public float timeBetweenAttacks;
-    bool alreadyAttacked;
     public float attackRange;
     public float attackDamage;
-    public bool playerInAttack;
     public float attackDelay;
-    bool isAttacking;
+
+    [Header("Coroutine")]
+    private Coroutine attackCoroutine;
 
     [Header("Animation")]
+    private bool onCooldown;
     public Animator animator;
 
     [Header("References")]
@@ -37,53 +38,70 @@ public class EnemyAttack : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        if (enemyHealth != null)
+        {
+            enemyHealth.OnDeathEvent -= HandleDeath;
+        }
+    }
+
     void Update()
     {
         if (enemyHealth != null && enemyHealth.isDead) return; 
         if (player == null) return;
 
-        playerInAttack = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
+        bool playerInAttack = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
         if (playerInAttack)
         {
-            AttackPlayer();
+            TryAttackPlayer();
         }
         else
         {
-            if (agent != null && agent.isStopped)
-            {
-                agent.isStopped = false;
-            }
+            ResumeMovement();
         }
     }
 
-    private void AttackPlayer()
+    private void TryAttackPlayer()
     {
-        if (agent != null && !agent.isStopped)
-        {
-            agent.isStopped = true;
-        }
+        StopMovementAndFacePlayer();
 
-        Vector3 direction = (player.position - transform.position).normalized;
-        direction.y = 0;
-        if (direction.magnitude > 0.1f)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
-        }
+        if (onCooldown) return;
 
-        if (!alreadyAttacked)
-        {
-            alreadyAttacked = true;
+        attackCoroutine = StartCoroutine(AttackFlow());
+    }
+
+    private IEnumerator AttackFlow()
+    {
+        onCooldown = true;
+
+        if (animator != null)
             animator.SetTrigger("AttackTrigg");
-            StartCoroutine(PlayerDamage());
-            Invoke(nameof(ResetAttack), timeBetweenAttacks);
+
+        yield return new WaitForSeconds(attackDelay);
+
+        if (enemyHealth != null && enemyHealth.isDead) yield break;
+        if (player == null || playerHealth == null) yield break;
+
+        float distance = Vector3.Distance(transform.position, player.position);
+        if (distance <= attackRange)
+        {
+            playerHealth.TakeDamage(attackDamage);
         }
+
+        yield return new WaitForSeconds(timeBetweenAttacks);
+
+        onCooldown = false;
+        attackCoroutine = null;
     }
 
-    private void ResetAttack()
+    private void ResumeMovement()
     {
-        alreadyAttacked = false;
+        if (agent != null && agent.isStopped)
+        {
+            agent.isStopped = false;
+        }
     }
 
     private void HandleDeath()
@@ -92,21 +110,29 @@ public class EnemyAttack : MonoBehaviour
         {
             agent.isStopped = true;
         }
-    }
 
-    public IEnumerator PlayerDamage()
-    {
-        isAttacking = true;
-
-        yield return new WaitForSeconds(attackDelay);
-
-        float distance = Vector3.Distance(transform.position, player.position);
-        if (distance <= attackRange && playerHealth != null)
+        if (attackCoroutine != null)
         {
-            playerHealth.TakeDamage(attackDamage);
+            StopCoroutine(attackCoroutine);
+            attackCoroutine = null;
         }
 
-        isAttacking = false;
+        onCooldown = true;
+    }
+
+    private void StopMovementAndFacePlayer()
+    {
+        if (agent != null && !agent.isStopped)
+            agent.isStopped = true;
+
+        Vector3 direction = (player.position - transform.position);
+        direction.y = 0;
+
+        if (direction.sqrMagnitude > 0.001f)
+        {
+            Quaternion target = Quaternion.LookRotation(direction.normalized);
+            transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 8f);
+        }
     }
 
     public void Initialize(Transform player)

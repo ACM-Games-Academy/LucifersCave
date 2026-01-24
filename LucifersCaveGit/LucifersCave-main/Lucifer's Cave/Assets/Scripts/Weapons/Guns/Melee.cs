@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using System.Linq;
 
 public class Melee : MonoBehaviour
 {
@@ -8,8 +9,8 @@ public class Melee : MonoBehaviour
     public float meleeDelay;
     public int attackDamage;
     public LayerMask zombieLyr;
-    public GameObject attackPoint;
     public PlayerScore playerScore;
+    [SerializeField] private Transform attackPoint;
 
     [Header("Input")]
     public KeyCode attackKey;
@@ -26,7 +27,6 @@ public class Melee : MonoBehaviour
         playerScore = Object.FindAnyObjectByType<PlayerScore>();
         animator = GetComponent<Animator>();
         meleeSound = GetComponent<AudioSource>();
-        attackPoint = transform.Find("attackPoint").gameObject;
     }
 
     void Update()
@@ -34,7 +34,6 @@ public class Melee : MonoBehaviour
         if (Input.GetKeyDown(attackKey) && !isAttacking)
         {
             StartCoroutine(MeleeAttack());
-            animator.SetTrigger("isAttackingMelee");
         }
     }
 
@@ -42,13 +41,15 @@ public class Melee : MonoBehaviour
     {
         if (attackPoint == null)
         {
-            attackPoint = transform.Find("attackPoint").gameObject;
+            Debug.LogError("AttackPoint not assigned!", this);
             yield break;
         }
 
+        animator.SetBool("Meleeing", true);
         isAttacking = true;
         yield return new WaitForSeconds(damageDelay);
         meleeSound.Play();
+
         Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.transform.position, attackRange, zombieLyr);
 
         foreach (Collider enemy in hitEnemies)
@@ -68,11 +69,14 @@ public class Melee : MonoBehaviour
         }
 
         yield return new WaitForSeconds(meleeDelay);
+        animator.SetBool("Meleeing", false);
         isAttacking = false;
     }
 
     private void OnDrawGizmosSelected()
     {
+        Transform attackPoint = transform.Find("attackPoint");
+
         if (attackPoint == null)
         {
             return;
@@ -80,5 +84,14 @@ public class Melee : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPoint.transform.position, attackRange);
+    }
+
+    public void SetKnife(Transform knifeRoot)
+    {
+        attackPoint = knifeRoot.GetComponentsInChildren<Transform>(true)
+            .FirstOrDefault(t => t.name == "attackPoint");
+
+        if (attackPoint == null)
+            Debug.LogError("attackPoint not found in knife prefab!", knifeRoot);
     }
 }
