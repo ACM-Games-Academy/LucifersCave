@@ -10556,7 +10556,7 @@ MonoBehaviour:
     m_Bits: 8
   grounded: 0
   airMultiplier: 0.7
-  maxSlopeAngle: 45
+  maxSlopeAngle: 40
   sprintKey: 304
   crouchKey: 99
   walkingSound: {fileID: 1444824109}
@@ -10577,7 +10577,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cce550348bf24da4baa865ce76f05d8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  currentHealth: 0
   maxHealth: 150
 --- !u!114 &1444824105
 MonoBehaviour:
@@ -10975,7 +10974,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealthBar
   playerHealth: {fileID: 1444824104}
   playerHealthBar: {fileID: 2061146523}
-  regenSpeed: 1
 --- !u!1 &1480823409
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,32 +10,45 @@ public class EnemyAttack : MonoBehaviour
 
     [Header("Attacking")]
     public float timeBetweenAttacks;
-    public float attackRange;
-    public float attackDamage;
+    public float attackRange = 2f;
+    public float attackDamage = 25f;
     public float attackDelay;
 
-    [Header("Coroutine")]
     private Coroutine attackCoroutine;
 
     [Header("Animation")]
     private bool onCooldown;
     public Animator animator;
 
-    [Header("References")]
     private EnemyHealth enemyHealth;
-    public PlayerHealth playerHealth;
+    private PlayerHealth playerHealth;
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         enemyHealth = GetComponent<EnemyHealth>();
-
 
         if (enemyHealth != null )
         {
             enemyHealth.OnDeathEvent += HandleDeath;
         }
+
+        if (player != null)
+        {
+            playerHealth = player.GetComponent<PlayerHealth>();
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (attackCoroutine != null)
+        {
+            StopCoroutine(attackCoroutine);
+            attackCoroutine = null;
+        }
+
+        onCooldown = false;
     }
 
     private void OnDestroy()
@@ -51,16 +64,11 @@ public class EnemyAttack : MonoBehaviour
         if (enemyHealth != null && enemyHealth.isDead) return; 
         if (player == null) return;
 
-        bool playerInAttack = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
+        bool playerInAttack = Vector3.Distance(transform.position, player.position) <= attackRange;
 
         if (playerInAttack)
-        {
             TryAttackPlayer();
-        }
-        else
-        {
-            ResumeMovement();
-        }
+        else ResumeMovement();
     }
 
     private void TryAttackPlayer()
@@ -82,7 +90,12 @@ public class EnemyAttack : MonoBehaviour
         yield return new WaitForSeconds(attackDelay);
 
         if (enemyHealth != null && enemyHealth.isDead) yield break;
-        if (player == null || playerHealth == null) yield break;
+        if (player == null) yield break;
+        if (playerHealth == null) 
+            GameObject.FindWithTag("Player")?.GetComponent<PlayerHealth>();
+
+        if (playerHealth == null)
+            playerHealth = player.GetComponent<PlayerHealth>();
 
         float distance = Vector3.Distance(transform.position, player.position);
         if (distance <= attackRange)

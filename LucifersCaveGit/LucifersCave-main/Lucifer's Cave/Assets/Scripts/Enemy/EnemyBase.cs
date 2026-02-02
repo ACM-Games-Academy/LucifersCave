@@ -10,6 +10,7 @@ public class EnemyBase : MonoBehaviour
 
     [Header("Animations")]
     Animator animator;
+    [SerializeField] private float speedDamp = 0.15f;
     private int randomWalkIndex;
     private bool hasStartedWalking = false;
 
@@ -17,9 +18,11 @@ public class EnemyBase : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         agent.isStopped = true;
         RandomiseAnimation();
+
+        EnsureOnNavMesh(agent);
 
         if (health != null)
         {
@@ -36,6 +39,12 @@ public class EnemyBase : MonoBehaviour
     {
         if (health != null && health.isDead) return; 
         if (player == null || agent == null || !agent.isOnNavMesh) return;
+
+        float speed = agent.velocity.magnitude;
+        animator.SetFloat("Speed", speed, speedDamp, Time.deltaTime);
+
+        bool moving = speed > 0.05f && !agent.isStopped;
+        animator.SetBool("isMoving", moving);
 
         float distanceToPlayer = Vector3.Distance(player.position, transform.position);
 
@@ -69,10 +78,22 @@ public class EnemyBase : MonoBehaviour
     private void EnemyMovement()
     {
         if (hasStartedWalking) return;
+
         animator.SetInteger("WalkInt", randomWalkIndex);
-        animator.SetBool("isMoving", true);
         hasStartedWalking = true;
-        agent.isStopped = false;
+    }
+
+    public void EnsureOnNavMesh(NavMeshAgent agent, float distance = 2f)
+    {
+        if (agent == null || agent.isOnNavMesh)
+        {
+            return;
+        }
+
+        if (NavMesh.SamplePosition(agent.transform.position, out var hit, 5f, NavMesh.AllAreas))
+        {
+            agent.Warp(hit.position);
+        }
     }
 }
 

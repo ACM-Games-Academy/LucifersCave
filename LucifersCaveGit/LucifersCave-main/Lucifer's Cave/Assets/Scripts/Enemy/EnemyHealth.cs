@@ -25,7 +25,7 @@ public class EnemyHealth : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         RandomiseAnimation();
     }
 
@@ -72,7 +72,7 @@ public class EnemyHealth : MonoBehaviour
         if (col != null) col.enabled = false;
 
         OnDeathEvent?.Invoke();
-        Destroy(transform.parent.gameObject, 5f);
+        Destroy(gameObject, 5f);
     }
 
     private void OnDestroy()

@@ -6,8 +6,10 @@ public class PlayerHealth : MonoBehaviour
     public event Action<float, float> OnHealthChanged;
 
     [Header("Health")]
-    public float currentHealth;
-    public float maxHealth;
+    private float currentHealth;
+    [SerializeField] private float maxHealth;
+
+    private bool isDead;
 
     private void Start()
     {
@@ -22,19 +24,21 @@ public class PlayerHealth : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            currentHealth = 0;
             Death();
         }
     }
 
     public void Heal(float amount)
     {
+        if (isDead) return;
+
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
     }
 
     void Death()
     {
+        isDead = true;
         Destroy(gameObject);
     }
 }
