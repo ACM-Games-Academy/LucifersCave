@@ -32,7 +32,7 @@ public class EnemyBase : MonoBehaviour
 
     public void RandomiseAnimation()
     {
-        randomWalkIndex = Random.Range(0, 2);
+        randomWalkIndex = Random.Range(0, 3);
     }
     
     void Update()
@@ -56,7 +56,6 @@ public class EnemyBase : MonoBehaviour
         }
         else
         {
-            animator.SetBool("isMoving", false);
             hasStartedWalking = false;
             agent.isStopped = true;
         }
