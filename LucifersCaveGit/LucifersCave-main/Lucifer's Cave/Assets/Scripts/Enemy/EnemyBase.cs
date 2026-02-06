@@ -40,19 +40,13 @@ public class EnemyBase : MonoBehaviour
         if (health != null && health.isDead) return; 
         if (player == null || agent == null || !agent.isOnNavMesh) return;
 
-        float speed = agent.velocity.magnitude;
-        animator.SetFloat("Speed", speed, speedDamp, Time.deltaTime);
-
-        bool moving = speed > 0.05f && !agent.isStopped;
-        animator.SetBool("isMoving", moving);
-
         float distanceToPlayer = Vector3.Distance(player.position, transform.position);
 
         if (distanceToPlayer < spottingDistance)
         {
-            EnemyMovement();
             agent.isStopped = false;
             agent.SetDestination(player.position);
+            EnemyMovement();
         }
         else
         {

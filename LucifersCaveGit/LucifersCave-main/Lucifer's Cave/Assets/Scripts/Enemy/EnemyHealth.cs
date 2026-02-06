@@ -44,7 +44,7 @@ public class EnemyHealth : MonoBehaviour
     
     public void RandomiseAnimation()
     {
-        randomDeathIndex = UnityEngine.Random.Range(0, 1);
+        randomDeathIndex = UnityEngine.Random.Range(0, 2);
     }
 
     public void Death()
@@ -62,8 +62,6 @@ public class EnemyHealth : MonoBehaviour
 
             agent.enabled = false;
         }
-
-        OnDeathEvent?.Invoke();
 
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null) rb.isKinematic = true;
