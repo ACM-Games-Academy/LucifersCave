@@ -49,7 +49,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51dd0aa6e14a4f84abbded121cc07f41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HighlightedObject
-  highlightedMesh: {fileID: 2499214223213336573}
+  highlightedMesh: {fileID: 5965510690554956968}
+  highlightDistance: 5
 --- !u!114 &7293015369417996227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,8 +65,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AmmoCache
   AmmoSurplus: 80
   weaponData: {fileID: 11400000, guid: 4ac804ed50af5d2469c398dbbd14f2e5, type: 2}
-  openingSound: {fileID: 0}
-  highlights: {fileID: 0}
+  openingSound: {fileID: 5664784699037196331}
+  highlights: {fileID: 3658583170043047776}
 --- !u!82 &5664784699037196331
 AudioSource:
   m_ObjectHideFlags: 0
@@ -77,7 +78,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 0bd05763df902854a80475577a26666a, type: 3}
+  m_Resource: {fileID: 8300000, guid: ea7f532451b80734b9d836de0add5404, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -220,12 +221,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8264749432707158910}
-  - component: {fileID: 919966915610055616}
-  - component: {fileID: 8831758475947334981}
   - component: {fileID: 2558372214314183898}
   - component: {fileID: 2499214223213336573}
   m_Layer: 0
-  m_Name: AmmoCacheBox
+  m_Name: AmmoCacheBoxHighlighted
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -247,35 +246,6 @@ Transform:
   - {fileID: 3699813821983402419}
   m_Father: {fileID: 7845855969459566958}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &919966915610055616
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7822148500366417388}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51dd0aa6e14a4f84abbded121cc07f41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HighlightedObject
-  highlightedMesh: {fileID: 0}
---- !u!114 &8831758475947334981
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7822148500366417388}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06c0a8f27df26a04b95ce1a4ecc4e1df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AmmoCache
-  AmmoSurplus: 80
-  weaponData: {fileID: 0}
-  openingSound: {fileID: 0}
-  highlights: {fileID: 0}
 --- !u!82 &2558372214314183898
 AudioSource:
   m_ObjectHideFlags: 0
@@ -287,7 +257,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 0bd05763df902854a80475577a26666a, type: 3}
+  m_Resource: {fileID: 8300000, guid: ea7f532451b80734b9d836de0add5404, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -380,7 +350,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7822148500366417388}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -398,7 +368,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: 5fad830bd3e30e54989ec47b4ffc8ab5, type: 3}
+  - {fileID: 2100000, guid: 7c0ce97ea5a0946068463f2bfa7a5c41, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -473,6 +443,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ammo_Pack_00
       objectReference: {fileID: 0}
+    - target: {fileID: 7145165998672086327, guid: 8a271fde7aad44b5a8ec8025c447c359, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8868832943902994923, guid: 8a271fde7aad44b5a8ec8025c447c359, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -486,6 +460,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a271fde7aad44b5a8ec8025c447c359, type: 3}
+--- !u!23 &5965510690554956968 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8868832943902994923, guid: 8a271fde7aad44b5a8ec8025c447c359, type: 3}
+  m_PrefabInstance: {fileID: 3016757330597150019}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8984205758968498791 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6157515007809189668, guid: 8a271fde7aad44b5a8ec8025c447c359, type: 3}

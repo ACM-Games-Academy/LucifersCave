@@ -3,11 +3,13 @@ using UnityEngine.UI;
 
 public class PlayerHealthBar : MonoBehaviour
 {
-    public PlayerHealth playerHealth;
+    private PlayerHealth playerHealth;
     public Image playerHealthBar;
 
     private void Start()
     {
+        playerHealth = GetComponent<PlayerHealth>();
+
         if (playerHealth != null)
             playerHealth.OnHealthChanged += UpdateBar;
     }

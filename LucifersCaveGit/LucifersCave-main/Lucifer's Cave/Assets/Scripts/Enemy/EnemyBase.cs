@@ -53,6 +53,15 @@ public class EnemyBase : MonoBehaviour
             hasStartedWalking = false;
             agent.isStopped = true;
         }
+
+        float navSpeed = agent.desiredVelocity.magnitude / Mathf.Max(agent.speed, 0.01f);
+
+        bool shouldMove = !agent.isStopped &&
+            !agent.pathPending && 
+            agent.hasPath && 
+            agent.remainingDistance > agent.stoppingDistance + 0.05f;
+
+        animator.SetBool("isMoving", shouldMove);
     }
 
     public void Initialize(Transform player)

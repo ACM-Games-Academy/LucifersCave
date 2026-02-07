@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GiantBase : EnemyBase
+public class GiantBase : MonoBehaviour
 {
     void Start()
     {

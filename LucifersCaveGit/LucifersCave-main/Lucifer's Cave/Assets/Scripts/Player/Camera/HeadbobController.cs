@@ -4,8 +4,8 @@ public class HeadbobController : MonoBehaviour
 {
     [Header("Headbob Settings")]
     public bool enable = true;
-    [SerializeField, Range(0f, 0.1f)] private float walkAmplitude = 0.03f;
-    [SerializeField, Range(0f, 0.1f)] private float runAmplitude = 0.06f;
+    [SerializeField, Range(0f, 0.5f)] private float walkAmplitude = 0.03f;
+    [SerializeField, Range(0f, 0.5f)] private float runAmplitude = 0.06f;
     [SerializeField, Range(0f, 30f)] private float walkFrequency = 2;
     [SerializeField, Range(0f, 30f)] private float runFrequency = 4;
     [SerializeField] private float toggleSpeed = 0.1f;

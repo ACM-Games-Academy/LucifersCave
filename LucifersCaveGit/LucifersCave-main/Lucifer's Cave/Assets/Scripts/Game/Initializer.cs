@@ -30,6 +30,7 @@ public class Initializer : MonoBehaviour
     public TextMeshProUGUI ammoCounter;
     public TextMeshProUGUI reloadingText;
     public Image crosshair;
+    public Image healthBar;
 
     private void Awake()
     {
@@ -60,6 +61,12 @@ public class Initializer : MonoBehaviour
         EnemyBase[] enemyBaseScripts = Object.FindObjectsByType<EnemyBase>(FindObjectsSortMode.None);
         Grenade[] grenadeScripts = Object.FindObjectsByType<Grenade>(FindObjectsSortMode.None);
         WallBuy[] wallBuyScripts = Object.FindObjectsByType<WallBuy>(FindObjectsSortMode.None);
+        GiantHealthBar[] giantHealthBarScripts = Object.FindObjectsByType<GiantHealthBar>(FindObjectsSortMode.None);
+
+        foreach (GiantHealthBar giantHealthBar in giantHealthBarScripts)
+        {
+            giantHealthBar.Initialize(healthBar);
+        }
 
         foreach (EnemyAttack enemyAttack in enemyAttackScripts)
         {

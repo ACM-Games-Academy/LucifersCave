@@ -29,6 +29,21 @@ public class Bullets : MonoBehaviour
             Destroy(gameObject);
         }
 
+        GiantHealth giant = collision.gameObject.GetComponent<GiantHealth>();
+
+        if (giant != null)
+        {
+            giant.TakeDamage(damage);
+
+            if (giant.currentHealth <= 0)
+            {
+                playerScore.AddPoints(playerScore.deathPoints);
+                FindFirstObjectByType<PointSpawner>().ShowPoints(playerScore.deathPoints);
+            }
+
+            Destroy(gameObject);
+        }
+
         Destroy(gameObject);
 
     }
