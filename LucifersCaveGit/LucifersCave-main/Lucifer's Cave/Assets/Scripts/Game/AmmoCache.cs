@@ -3,7 +3,7 @@ using UnityEngine;
 public class AmmoCache : MonoBehaviour, IInteractable
 {
     public int AmmoSurplus;
-    public WeaponStats weaponData;
+    public Reloading reloadingScript;
     public AudioSource openingSound;
 
     public HighlightedObject highlights;
@@ -16,18 +16,29 @@ public class AmmoCache : MonoBehaviour, IInteractable
         canPickUp = true;
     }
 
-    public void Update()
+    public void Initialize(Reloading reloadingScript)   
     {
-        weaponData = FindAnyObjectByType<WeaponStats>();
+        this.reloadingScript = reloadingScript;
     }
 
     public void Interact()
     {
+        if (!canPickUp) return;
+
         if (canPickUp)
         {
-            weaponData.reserveAmmo = Mathf.Min(weaponData.reserveAmmo + AmmoSurplus, weaponData.maxAmmo * 3);
+            if (reloadingScript == null) return;
+
+            reloadingScript.reserveAmmo = Mathf.Min(reloadingScript.reserveAmmo + AmmoSurplus, reloadingScript.maxAmmo * 3);
+            reloadingScript.UpdateAmmo();
             openingSound.Play();
             canPickUp = false;
+            Destroy(gameObject, openingSound.clip.length);
+            var col = GetComponent<Collider>();
+            if (col != null)
+            {
+                col.enabled = false;
+            }
         }
     }
 }

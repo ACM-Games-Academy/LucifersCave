@@ -14,6 +14,7 @@ public class Initializer : MonoBehaviour
     public Grenade grenadeScript;
     public WeaponManager weaponManager;
     public PointSpawner pointSpawner;
+    public Reloading reloadingScript;
 
     [Header("References")]
     public ParticleSystem muzzleFlash;
@@ -29,11 +30,13 @@ public class Initializer : MonoBehaviour
     [Header("UI Elements")]
     public TextMeshProUGUI ammoCounter;
     public TextMeshProUGUI reloadingText;
+    public TextMeshProUGUI vialCounter;
     public Image crosshair;
     public Image healthBar;
 
     private void Awake()
     {
+        reloadingScript = cameraLook.GetComponent<Reloading>();
         BindAll();
     }
 
@@ -62,6 +65,18 @@ public class Initializer : MonoBehaviour
         Grenade[] grenadeScripts = Object.FindObjectsByType<Grenade>(FindObjectsSortMode.None);
         WallBuy[] wallBuyScripts = Object.FindObjectsByType<WallBuy>(FindObjectsSortMode.None);
         GiantHealthBar[] giantHealthBarScripts = Object.FindObjectsByType<GiantHealthBar>(FindObjectsSortMode.None);
+        InteractVial[] interactVialScripts = Object.FindObjectsByType<InteractVial>(FindObjectsSortMode.None);
+        AmmoCache[] ammoCacheScripts = Object.FindObjectsByType<AmmoCache>(FindObjectsSortMode.None);
+
+        foreach (AmmoCache ammoCache in ammoCacheScripts)
+        {
+            ammoCache.Initialize(reloadingScript);
+        }
+
+        foreach (InteractVial interactVial in interactVialScripts)
+        {
+            interactVial.Initialize(vialCounter);
+        }
 
         foreach (GiantHealthBar giantHealthBar in giantHealthBarScripts)
         {

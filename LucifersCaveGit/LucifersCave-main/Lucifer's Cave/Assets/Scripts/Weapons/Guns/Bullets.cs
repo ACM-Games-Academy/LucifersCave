@@ -25,8 +25,6 @@ public class Bullets : MonoBehaviour
                 playerScore.AddPoints(playerScore.deathPoints);
                 FindFirstObjectByType<PointSpawner>().ShowPoints(playerScore.deathPoints);
             }
-
-            Destroy(gameObject);
         }
 
         GiantHealth giant = collision.gameObject.GetComponent<GiantHealth>();
@@ -40,8 +38,6 @@ public class Bullets : MonoBehaviour
                 playerScore.AddPoints(playerScore.deathPoints);
                 FindFirstObjectByType<PointSpawner>().ShowPoints(playerScore.deathPoints);
             }
-
-            Destroy(gameObject);
         }
 
         Destroy(gameObject);
