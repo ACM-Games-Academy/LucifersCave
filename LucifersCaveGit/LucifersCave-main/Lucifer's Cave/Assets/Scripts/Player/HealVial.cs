@@ -36,6 +36,8 @@ public class HealVial : MonoBehaviour
         {
             RestoreHealth();
             healingAudioSource.PlayOneShot(healSound);
+            vialCount -= 1;
+            vialCounter.text = vialCount.ToString();
         }
     }
 

@@ -7,7 +7,13 @@ public class InteractVial : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        if (int.TryParse(vialCounter.text, out int vialCount) && vialCount > 0)
+        if (vialCounter == null)
+        {
+            Debug.LogError("Vial Counter reference is not set.");
+            return;
+        }
+
+        if (int.TryParse(vialCounter.text, out int vialCount) && vialCount >= 5)
         {
             vialCounter.text = (vialCount + 1).ToString();
         }

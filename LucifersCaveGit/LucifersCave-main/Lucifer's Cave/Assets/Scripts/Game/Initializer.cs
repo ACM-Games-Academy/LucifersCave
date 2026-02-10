@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -14,7 +15,6 @@ public class Initializer : MonoBehaviour
     public Grenade grenadeScript;
     public WeaponManager weaponManager;
     public PointSpawner pointSpawner;
-    public Reloading reloadingScript;
 
     [Header("References")]
     public ParticleSystem muzzleFlash;
@@ -36,7 +36,6 @@ public class Initializer : MonoBehaviour
 
     private void Awake()
     {
-        reloadingScript = cameraLook.GetComponent<Reloading>();
         BindAll();
     }
 
@@ -60,18 +59,14 @@ public class Initializer : MonoBehaviour
 
     private void BindAll()
     {
+        BindAmmoCache();
+
         EnemyAttack[] enemyAttackScripts = Object.FindObjectsByType<EnemyAttack>(FindObjectsSortMode.None);
         EnemyBase[] enemyBaseScripts = Object.FindObjectsByType<EnemyBase>(FindObjectsSortMode.None);
         Grenade[] grenadeScripts = Object.FindObjectsByType<Grenade>(FindObjectsSortMode.None);
         WallBuy[] wallBuyScripts = Object.FindObjectsByType<WallBuy>(FindObjectsSortMode.None);
         GiantHealthBar[] giantHealthBarScripts = Object.FindObjectsByType<GiantHealthBar>(FindObjectsSortMode.None);
         InteractVial[] interactVialScripts = Object.FindObjectsByType<InteractVial>(FindObjectsSortMode.None);
-        AmmoCache[] ammoCacheScripts = Object.FindObjectsByType<AmmoCache>(FindObjectsSortMode.None);
-
-        foreach (AmmoCache ammoCache in ammoCacheScripts)
-        {
-            ammoCache.Initialize(reloadingScript);
-        }
 
         foreach (InteractVial interactVial in interactVialScripts)
         {
@@ -101,6 +96,17 @@ public class Initializer : MonoBehaviour
         foreach (WallBuy wallBuy in wallBuyScripts)
         {
             wallBuy.Initialize(weaponManager, playerScore, pointSpawner);
+        }
+    }
+
+    public void BindAmmoCache()
+    {
+        AmmoCache[] ammoCacheScripts = Object.FindObjectsByType<AmmoCache>(FindObjectsSortMode.None);
+        Reloading reloadingScripts = weaponManager.weaponParent.GetComponentInChildren<Reloading>(true);
+    
+        foreach (AmmoCache ammoCache in ammoCacheScripts)
+        {
+            ammoCache.Initialize(reloadingScripts, this);
         }
     }
 }

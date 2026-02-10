@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-interface IInteractable
+public interface IInteractable
 {
     public void Interact();
 }
@@ -9,7 +9,8 @@ interface IInteractable
 public class Interact : MonoBehaviour
 {
     public Transform InteractorSource;
-    public float InteractRange;
+    public float InteractRange = 3f;
+
     private HighlightedObject lastHighlighted;
 
     public TextMeshProUGUI interactPrompt;
@@ -22,37 +23,53 @@ public class Interact : MonoBehaviour
 
     void Update()
     {
+        Ray r = new Ray(InteractorSource.position, InteractorSource.forward);
+
         if (lastHighlighted != null)
         {
             lastHighlighted.Highlight(false);
             lastHighlighted = null;
         }
+        bool canInteract = false;
+        IInteractable interactObj = null;
 
-        Ray r = new Ray(InteractorSource.position, InteractorSource.forward);
         if (Physics.Raycast(r, out RaycastHit hitInfo, InteractRange))
         {
-            interactPrompt.enabled = true;
 
-            if (Input.GetKeyDown(interactKey))
+            if (hitInfo.collider.TryGetComponent<IInteractable>(out interactObj))
             {
-                Debug.Log("Interact Input");
+                canInteract = true;
+            }
 
-                if (hitInfo.collider.TryGetComponent(out HighlightedObject highlight))
+
+            if (hitInfo.collider.TryGetComponent(out HighlightedObject highlight))
+            {
+                if (lastHighlighted != highlight)
                 {
+                    if (lastHighlighted != null) lastHighlighted.Highlight(false);
                     highlight.Highlight(true);
                     lastHighlighted = highlight;
                 }
-
-                if (hitInfo.collider.gameObject.TryGetComponent(out IInteractable interactObj))
+            }
+            else
+            {
+                if (lastHighlighted != null)
                 {
-                    interactObj.Interact();
-                    Debug.Log("Interacted on Object");
+                    lastHighlighted.Highlight(false);
+                    lastHighlighted = null;
                 }
             }
+
+            if (canInteract && Input.GetKeyDown(interactKey))
+            {
+                interactObj.Interact();
+                Debug.Log("Interacted with " + hitInfo.collider.name);
+            }
         }
-        else
+
+        if (interactPrompt != null)
         {
-            interactPrompt.enabled = false;
+            interactPrompt.enabled = canInteract;
         }
     }
 }

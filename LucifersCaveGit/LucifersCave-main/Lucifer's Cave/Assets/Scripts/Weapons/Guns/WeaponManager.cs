@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
 {
-    [SerializeField] private Transform weaponParent;
+    public Transform weaponParent;
     [SerializeField] private WeaponStats startingWeapon;
     [SerializeField] private RecoilProfiles startingRecoil;
     private IWeaponFactory weaponFactory;

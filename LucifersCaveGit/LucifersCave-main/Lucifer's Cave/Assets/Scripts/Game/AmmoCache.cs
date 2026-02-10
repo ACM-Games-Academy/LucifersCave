@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class AmmoCache : MonoBehaviour, IInteractable
 {
+    private Initializer initializer;
     public int AmmoSurplus;
     public Reloading reloadingScript;
     public AudioSource openingSound;
@@ -16,9 +17,10 @@ public class AmmoCache : MonoBehaviour, IInteractable
         canPickUp = true;
     }
 
-    public void Initialize(Reloading reloadingScript)   
+    public void Initialize(Reloading reloadingScript, Initializer initializer)   
     {
         this.reloadingScript = reloadingScript;
+        this.initializer = initializer;
     }
 
     public void Interact()
@@ -28,7 +30,9 @@ public class AmmoCache : MonoBehaviour, IInteractable
         if (canPickUp)
         {
             if (reloadingScript == null) return;
+            Debug.Log("Ammo Cache Picked Up");
 
+            initializer.BindAmmoCache();
             reloadingScript.reserveAmmo = Mathf.Min(reloadingScript.reserveAmmo + AmmoSurplus, reloadingScript.maxAmmo * 3);
             reloadingScript.UpdateAmmo();
             openingSound.Play();

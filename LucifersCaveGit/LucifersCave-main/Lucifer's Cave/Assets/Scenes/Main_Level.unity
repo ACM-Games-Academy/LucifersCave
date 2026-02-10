@@ -10655,7 +10655,7 @@ MonoBehaviour:
   staminaDecreaseTime: 0.1
   depletedStaminaDelay: 3
   staminaDelay: 2
-  staminaRegenerationSpeed: 0.025
+  staminaRegenerationSpeed: 0.1
   staminaDepleted: 0
   isRegenerating: 0
 --- !u!95 &1444824106
@@ -10709,7 +10709,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Interact
   InteractorSource: {fileID: 330585546}
-  InteractRange: 1.5
+  InteractRange: 2.5
   interactPrompt: {fileID: 772579904}
   interactKey: 102
 --- !u!82 &1444824109
@@ -13789,6 +13789,7 @@ SceneRoots:
   - {fileID: 71442179}
   - {fileID: 778339952}
   - {fileID: 981011672}
+  - {fileID: 188050693}
   - {fileID: 101196603}
   - {fileID: 948661890}
   - {fileID: 1736256013}
@@ -13796,4 +13797,3 @@ SceneRoots:
   - {fileID: 563603115}
   - {fileID: 2120741777}
   - {fileID: 1202183465}
-  - {fileID: 188050693}
