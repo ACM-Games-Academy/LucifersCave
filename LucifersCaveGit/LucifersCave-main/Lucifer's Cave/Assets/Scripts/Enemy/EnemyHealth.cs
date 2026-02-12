@@ -14,6 +14,7 @@ public class EnemyHealth : MonoBehaviour
     private int randomDeathIndex;
 
     public bool isDead {  get; private set; }
+    public bool isHurt = false;
     public event Action OnDeathEvent;
 
 
@@ -31,6 +32,7 @@ public class EnemyHealth : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
+        isHurt = true;
         if (isDead) return;
 
         currentHealth -= amount;
@@ -39,6 +41,7 @@ public class EnemyHealth : MonoBehaviour
         {
             Death();
         }
+        isHurt = false;
     }
 
     

@@ -30,7 +30,8 @@ public class Stamina : MonoBehaviour
             return;
         }
 
-        bool isSprinting = Input.GetKey(moveScript.sprintKey) && moveScript.canSprint;
+        bool isSprinting = Input.GetKey(moveScript.sprintKey) && moveScript.canSprint
+            && moveScript.rb.linearVelocity.magnitude > 0.2f;
 
         if (isSprinting)
         {

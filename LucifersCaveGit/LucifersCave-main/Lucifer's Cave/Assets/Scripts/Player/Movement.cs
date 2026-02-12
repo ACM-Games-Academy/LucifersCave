@@ -16,8 +16,8 @@ public class Movement : MonoBehaviour
 
     [Header("Ground Check")]
     float groundDrag = 5f;
-    public float playerHeight;
     public LayerMask whatIsGround;
+    public float playerHeight;
     public bool grounded;
     public float airMultiplier;
 
@@ -44,7 +44,7 @@ public class Movement : MonoBehaviour
     Vector3 moveDirection;
     public bool canMove;
 
-    Rigidbody rb;
+    public Rigidbody rb;
 
     public MovementState state;
     public enum MovementState
@@ -57,14 +57,24 @@ public class Movement : MonoBehaviour
 
     private void StateHandler()
     {
-        if (grounded && Input.GetKey(sprintKey) && canSprint)
+        if (grounded && Input.GetKey(sprintKey) && canSprint && rb.linearVelocity.magnitude > 0.5f)
         {
             state = MovementState.Sprinting;
             isSprinting = true;
             moveSpeed = sprintSpeed;
-            crouchingSound.enabled = false;
-            walkingSound.enabled = false;
-            sprintingSound.enabled = true;
+
+            if (rb.linearVelocity.magnitude > 0.5f)
+            {
+                crouchingSound.enabled = false;
+                walkingSound.enabled = false;
+                sprintingSound.enabled = true;
+            }
+            else
+            {
+                crouchingSound.enabled = false;
+                walkingSound.enabled = false;
+                sprintingSound.enabled = false;
+            }
         }
 
         else if (Input.GetKey(crouchKey))
@@ -72,9 +82,18 @@ public class Movement : MonoBehaviour
             state = MovementState.Crouching;
             moveSpeed = crouchSpeed;
             isSprinting = false;
-            crouchingSound.enabled = true;
-            walkingSound.enabled = false;
-            sprintingSound.enabled = false;
+            if (rb.linearVelocity.magnitude > 0.5f)
+            {
+                crouchingSound.enabled = true;
+                walkingSound.enabled = false;
+                sprintingSound.enabled = false;
+            }
+            else
+            {
+                crouchingSound.enabled = false;
+                walkingSound.enabled = false;
+                sprintingSound.enabled = false;
+            }
         }
 
         else if (grounded)

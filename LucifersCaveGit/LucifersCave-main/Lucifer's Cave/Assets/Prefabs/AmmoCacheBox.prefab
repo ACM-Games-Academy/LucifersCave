@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HighlightedObject
   highlightedMesh: {fileID: 5965510690554956968}
-  highlightDistance: 5
+  highlightDistance: 7
 --- !u!114 &7293015369417996227
 MonoBehaviour:
   m_ObjectHideFlags: 0

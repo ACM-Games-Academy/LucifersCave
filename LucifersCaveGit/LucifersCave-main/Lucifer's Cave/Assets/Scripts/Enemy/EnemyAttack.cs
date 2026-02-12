@@ -18,6 +18,7 @@ public class EnemyAttack : MonoBehaviour
 
     [Header("Animation")]
     private bool onCooldown;
+    public bool isAttacking;
     public Animator animator;
 
     private EnemyHealth enemyHealth;
@@ -78,6 +79,7 @@ public class EnemyAttack : MonoBehaviour
         if (onCooldown) return;
 
         attackCoroutine = StartCoroutine(AttackFlow());
+        isAttacking = true;
     }
 
     private IEnumerator AttackFlow()
@@ -107,6 +109,7 @@ public class EnemyAttack : MonoBehaviour
 
         onCooldown = false;
         attackCoroutine = null;
+        isAttacking = false;
     }
 
     private void ResumeMovement()
