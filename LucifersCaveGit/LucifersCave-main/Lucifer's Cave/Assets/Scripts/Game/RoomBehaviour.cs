@@ -5,13 +5,6 @@ public class RoomBehaviour : MonoBehaviour
     public GameObject[] walls;
     public GameObject[] doors;
 
-    public bool[] testStatus;
-
-    void Start()
-    {
-        UpdateRoom(testStatus);
-    }
-
     public void UpdateRoom(bool[] status)
     {
         for (int i = 0; i < status.Length; i++)

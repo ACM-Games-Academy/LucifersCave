@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7443682057561845808}
   - component: {fileID: 4071081186674342511}
-  - component: {fileID: 2561923343398980910}
+  - component: {fileID: 8936276583905924051}
   - component: {fileID: 5605145357484077836}
   - component: {fileID: 8838746675248081346}
   m_Layer: 9
@@ -50,7 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GiantHealth
   currentHealth: 0
   maxHealth: 5000
---- !u!114 &2561923343398980910
+--- !u!114 &8936276583905924051
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -59,9 +59,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 148683417781095103}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4aebf98bb3e3d6848a70d7057cb6adc2, type: 3}
+  m_Script: {fileID: 11500000, guid: 56d9fd8d2aa91c0438b9645ab389e6ce, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GiantBase
+  m_EditorClassIdentifier: Assembly-CSharp::BossAudio
+  bossMusic: {fileID: 8300000, guid: 7b64801575b9f0442971607199584efb, type: 3}
+  stompSound: {fileID: 8300000, guid: 1fd31868d68903d4f9e2c4a3b7ef98f3, type: 3}
+  roarSound: {fileID: 8300000, guid: 7d156b8a5b340cd46bcf0a76557dd2dd, type: 3}
+  laserSound: {fileID: 8300000, guid: 5ae4d298ed547ba4c88587effb75d7e1, type: 3}
+  swipeSound: {fileID: 0}
+  earthQuakeSound: {fileID: 8300000, guid: 5ae4d298ed547ba4c88587effb75d7e1, type: 3}
+  minionSpawningSound: {fileID: 0}
+  deathSound: {fileID: 0}
 --- !u!114 &5605145357484077836
 MonoBehaviour:
   m_ObjectHideFlags: 0

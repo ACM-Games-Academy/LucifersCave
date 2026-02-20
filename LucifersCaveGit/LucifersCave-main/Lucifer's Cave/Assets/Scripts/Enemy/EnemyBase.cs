@@ -98,4 +98,3 @@ public class EnemyBase : MonoBehaviour
         }
     }
 }
-
