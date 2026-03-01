@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyHealth : MonoBehaviour
+public class EnemyHealth : MonoBehaviour, IDamageable
 {
     public int currentHealth;
     public int maxHealth;
@@ -16,6 +16,8 @@ public class EnemyHealth : MonoBehaviour
     public bool isDead {  get; private set; }
     public bool isHurt = false;
     public event Action OnDeathEvent;
+
+    public int CurrentHealth => currentHealth;
 
 
     private void Awake()

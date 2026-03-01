@@ -63,10 +63,16 @@ public class Initializer : MonoBehaviour
 
         EnemyAttack[] enemyAttackScripts = Object.FindObjectsByType<EnemyAttack>(FindObjectsSortMode.None);
         EnemyBase[] enemyBaseScripts = Object.FindObjectsByType<EnemyBase>(FindObjectsSortMode.None);
+        GiantBase[] giantBases = Object.FindObjectsByType<GiantBase>(FindObjectsSortMode.None);
         Grenade[] grenadeScripts = Object.FindObjectsByType<Grenade>(FindObjectsSortMode.None);
         WallBuy[] wallBuyScripts = Object.FindObjectsByType<WallBuy>(FindObjectsSortMode.None);
         GiantHealthBar[] giantHealthBarScripts = Object.FindObjectsByType<GiantHealthBar>(FindObjectsSortMode.None);
         InteractVial[] interactVialScripts = Object.FindObjectsByType<InteractVial>(FindObjectsSortMode.None);
+
+        foreach (GiantBase giantBase in giantBases)
+        {
+            giantBase.Initialize(player);
+        }
 
         foreach (InteractVial interactVial in interactVialScripts)
         {

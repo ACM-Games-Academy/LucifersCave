@@ -85,10 +85,9 @@ public class Aiming : MonoBehaviour
         weaponSway.ResetSwayPosition();
         weaponSway.enabled = false;
 
-        weaponStats.spreadIntensity = defaultSpread / aimMultiplier;
+        weaponStats.spreadIntensity = defaultSpread * aimMultiplier;
         lookFunc.sensitivityAmount = defaultSensitivity / sensDecrease;
         movementFunc.canSprint = false;
-        wasAiming = true;
         targetFOV = FOV_increase;
         gunFOV = gunFOV_increase;
         crosshair.enabled = false;
@@ -100,7 +99,6 @@ public class Aiming : MonoBehaviour
         weaponStats.spreadIntensity = defaultSpread;
         lookFunc.sensitivityAmount = defaultSensitivity;
         movementFunc.canSprint = true;
-        wasAiming = false;
         targetFOV = FOV_decrease;
         gunFOV = FOV_decrease;
 

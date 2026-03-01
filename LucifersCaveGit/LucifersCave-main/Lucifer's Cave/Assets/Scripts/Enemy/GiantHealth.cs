@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class GiantHealth : MonoBehaviour
+public class GiantHealth : MonoBehaviour, IDamageable
 {
     public int currentHealth;
     public int maxHealth;
@@ -13,6 +13,8 @@ public class GiantHealth : MonoBehaviour
     public bool isDead { get; private set; }
     public event Action OnGiantDeathEvent;
     public event Action<float, float> OnHealthChanged;
+
+    public int CurrentHealth => currentHealth;  
 
     private void Awake()
     {

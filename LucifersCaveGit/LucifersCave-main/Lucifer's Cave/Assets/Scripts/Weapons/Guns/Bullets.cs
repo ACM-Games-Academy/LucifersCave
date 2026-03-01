@@ -3,7 +3,8 @@ using UnityEngine;
 public class Bullets : MonoBehaviour
 {
     public int damage;
-    public PlayerScore playerScore;
+    private PlayerScore playerScore;
+    public LayerMask criticalLayer;
 
     public void Initialize(PlayerScore playerScore)
     {
@@ -12,28 +13,21 @@ public class Bullets : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        EnemyHealth zombie = collision.gameObject.GetComponent<EnemyHealth>();
+        IDamageable idamageable = collision.gameObject.GetComponent<IDamageable>();
 
-        if (zombie != null)
+        if (idamageable != null)
         {
-            zombie.TakeDamage(damage);
+            idamageable.TakeDamage(damage);
             playerScore.AddPoints(playerScore.bodyShotPoints);
             FindFirstObjectByType<PointSpawner>().ShowPoints(playerScore.bodyShotPoints);
 
-            if (zombie.currentHealth <= 0)
+            if (collision.gameObject.layer == criticalLayer)
             {
-                playerScore.AddPoints(playerScore.deathPoints);
-                FindFirstObjectByType<PointSpawner>().ShowPoints(playerScore.deathPoints);
+                int criticalDamage = damage * 2;
+                idamageable.TakeDamage(criticalDamage);
             }
-        }
 
-        GiantHealth giant = collision.gameObject.GetComponent<GiantHealth>();
-
-        if (giant != null)
-        {
-            giant.TakeDamage(damage);
-
-            if (giant.currentHealth <= 0)
+            if (idamageable.CurrentHealth <= 0)
             {
                 playerScore.AddPoints(playerScore.deathPoints);
                 FindFirstObjectByType<PointSpawner>().ShowPoints(playerScore.deathPoints);
@@ -41,6 +35,5 @@ public class Bullets : MonoBehaviour
         }
 
         Destroy(gameObject);
-
     }
 }

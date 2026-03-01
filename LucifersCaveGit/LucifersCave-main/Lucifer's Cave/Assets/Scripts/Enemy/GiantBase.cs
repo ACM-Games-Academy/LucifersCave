@@ -1,32 +1,57 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class GiantBase : MonoBehaviour
+public abstract class GiantBase
 {
-    NavMeshAgent agent;
-    [SerializeField] private Transform player;
-    public float spottingDistance;
-    public EnemyHealth health;
-
-    [Header("Animations")]
-    Animator animator;
-    [SerializeField] private float speedDamp = 0.15f;
-    private int randomWalkIndex;
+    [Header("General References")]
+    public NavMeshAgent agent;
+    private Transform player;
+    private GiantHealth health;
     private bool hasStartedWalking = false;
 
+    [Header("Layers")]
+    public LayerMask whatIsGround, whatIsPlayer;
+
+    [Header("Patroling")]
+    public Vector3 walkPoint;
+    bool walkPointSet;
+    public float walkPointRange;
+
+    [Header("Attacking")]
+    public float timeBetweenAttacks;
+    public float damage;
+    bool alreadyAttacked;
+
+    [Header("States")]
+    public float sightRange;
+    public float attackRange;
+    public bool playerInSight;
+    public bool playerInAttack;
+
+    [Header("Animation")]
+    private Animator animator;
+    private int randomWalkIndex;
+
+    public void Initialize(Transform playerTransform)
+    {
+        player = playerTransform;
+    }
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
+        health = GetComponent<GiantHealth>();
         agent.isStopped = true;
         RandomiseAnimation();
+        EnemyMovement();
 
         EnsureOnNavMesh(agent);
 
         if (health != null)
         {
-            health.OnDeathEvent += HandleDeath;
+            health.OnGiantDeathEvent += HandleDeath;
         }
     }
 
@@ -37,43 +62,71 @@ public class GiantBase : MonoBehaviour
 
     void Update()
     {
-        if (health != null && health.isDead) return;
-        if (player == null || agent == null || !agent.isOnNavMesh) return;
+        playerInSight = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
+        playerInAttack = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
-        float distanceToPlayer = Vector3.Distance(player.position, transform.position);
-
-        if (distanceToPlayer < spottingDistance)
+        if (!playerInSight && !playerInAttack)
         {
-            agent.isStopped = false;
-            agent.SetDestination(player.position);
-            EnemyMovement();
+            Patroling();
         }
-        else
+        if (playerInSight && !playerInAttack)
         {
-            hasStartedWalking = false;
-            agent.isStopped = true;
+            ChasePlayer();
         }
-
-        float navSpeed = agent.desiredVelocity.magnitude / Mathf.Max(agent.speed, 0.01f);
-
-        bool shouldMove = !agent.isStopped &&
-            !agent.pathPending &&
-            agent.hasPath &&
-            agent.remainingDistance > agent.stoppingDistance + 0.05f;
-
-        animator.SetBool("isRunning", shouldMove);
+        if (playerInSight && playerInAttack)
+        {
+            AttackPlayer();
+        }
     }
 
-    public void Initialize(Transform player)
+    private void Patroling()
     {
-        this.player = player;
+        if (!walkPointSet)
+        {
+            SearchWalkPoint();
+        }
+
+        if (walkPointSet)
+        {
+            agent.SetDestination(walkPoint);
+        }
+
+        Vector3 distanceToWalkPoint = transform.position - walkPoint;
+
+        if (distanceToWalkPoint.magnitude < 1f)
+        {
+            walkPointSet = false;
+        }
     }
 
-    private void HandleDeath()
+    private void SearchWalkPoint()
     {
-        if (agent != null && agent.isOnNavMesh)
+        float randomZ = Random.Range(-walkPointRange, walkPointRange);
+        float randomX = Random.Range(-walkPointRange, walkPointRange);
+
+        walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
+
+        if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
         {
-            agent.isStopped = true;
+            walkPointSet = true;
+        }
+    }
+
+    private void ChasePlayer()
+    {
+        agent.SetDestination(player.position);
+    }
+
+    private void AttackPlayer()
+    {
+        agent.SetDestination(transform.position);
+
+        transform.LookAt(player);
+
+        if (!alreadyAttacked)
+        {
+            alreadyAttacked = true;
+            Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
     }
 
@@ -83,6 +136,27 @@ public class GiantBase : MonoBehaviour
 
         animator.SetInteger("WalkInt", randomWalkIndex);
         hasStartedWalking = true;
+    }
+
+    private void ResetAttack()
+    {
+        alreadyAttacked = false;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, sightRange);
+    }
+
+    private void HandleDeath()
+    {
+        if (agent != null && agent.isOnNavMesh)
+        {
+            agent.isStopped = true;
+        }
     }
 
     public void EnsureOnNavMesh(NavMeshAgent agent, float distance = 2f)

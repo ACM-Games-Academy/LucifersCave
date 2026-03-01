@@ -49,7 +49,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bullets
   damage: 17
-  playerScore: {fileID: 0}
+  criticalLayer:
+    serializedVersion: 2
+    m_Bits: 8192
 --- !u!54 &1310799655089817839
 Rigidbody:
   m_ObjectHideFlags: 0
