@@ -66,10 +66,10 @@ MonoBehaviour:
   stompSound: {fileID: 8300000, guid: 1fd31868d68903d4f9e2c4a3b7ef98f3, type: 3}
   roarSound: {fileID: 8300000, guid: 7d156b8a5b340cd46bcf0a76557dd2dd, type: 3}
   laserSound: {fileID: 8300000, guid: 5ae4d298ed547ba4c88587effb75d7e1, type: 3}
-  swipeSound: {fileID: 0}
+  swipeSound: {fileID: 8300000, guid: cc6699269b4c1d44ea1e860518b9bb73, type: 3}
   earthQuakeSound: {fileID: 8300000, guid: 5ae4d298ed547ba4c88587effb75d7e1, type: 3}
-  minionSpawningSound: {fileID: 0}
-  deathSound: {fileID: 0}
+  minionSpawningSound: {fileID: 8300000, guid: 26fbf6bb6963666478f6992bc53b9145, type: 3}
+  deathSound: {fileID: 8300000, guid: 958408b32ccf3714ea02821877b0870c, type: 3}
 --- !u!114 &5605145357484077836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82,6 +82,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74d87c5a474fa024f80db5045ca3c947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GiantHealthBar
+  displayDistance: 20
 --- !u!54 &8838746675248081346
 Rigidbody:
   m_ObjectHideFlags: 0

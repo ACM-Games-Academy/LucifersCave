@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyHealth : MonoBehaviour, IDamageable
+public class EnemyHealth : HealthBase, IDamageable
 {
     public int currentHealth;
     public int maxHealth;
@@ -17,7 +17,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     public bool isHurt = false;
     public event Action OnDeathEvent;
 
-    public int CurrentHealth => currentHealth;
+    public override int CurrentHealth => currentHealth;
 
 
     private void Awake()
@@ -32,7 +32,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         RandomiseAnimation();
     }
 
-    public void TakeDamage(int amount)
+    public override void TakeDamage(int amount)
     {
         isHurt = true;
         if (isDead) return;
@@ -52,7 +52,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         randomDeathIndex = UnityEngine.Random.Range(0, 2);
     }
 
-    public void Death()
+    public override void Death()
     {
         if (isDead) return;
         isDead = true;

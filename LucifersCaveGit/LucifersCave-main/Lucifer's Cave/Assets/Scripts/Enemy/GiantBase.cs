@@ -37,7 +37,7 @@ public abstract class GiantBase
     {
         player = playerTransform;
     }
-
+    /*
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -171,4 +171,5 @@ public abstract class GiantBase
             agent.Warp(hit.position);
         }
     }
+    */
 }
