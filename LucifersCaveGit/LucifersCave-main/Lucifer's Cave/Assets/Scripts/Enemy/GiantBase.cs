@@ -7,7 +7,7 @@ public abstract class GiantBase
     [Header("General References")]
     public NavMeshAgent agent;
     private Transform player;
-    private GiantHealth health;
+    //private GiantHealth health;
     private bool hasStartedWalking = false;
 
     [Header("Layers")]

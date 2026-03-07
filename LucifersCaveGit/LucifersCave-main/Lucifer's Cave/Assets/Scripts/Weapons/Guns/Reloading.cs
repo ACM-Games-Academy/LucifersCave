@@ -2,19 +2,17 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public class Reloading : MonoBehaviour
+public class Reloading : MonoBehaviour, IReloadable
 {
     [Header("Stats")]
     [SerializeField] private TextMeshProUGUI ammoCounter;
     [SerializeField] private TextMeshProUGUI reloadingText;
     public int currentAmmo, reserveAmmo, maxAmmo;
-    public bool isReloading;
 
     [Header("Input")]
     public KeyCode reloadKey = KeyCode.R;
 
     [Header("References")]
-    private ShootScript shootScript;
     public WeaponStats weaponStats;
     public WeaponSway weaponSway;
 
@@ -29,11 +27,10 @@ public class Reloading : MonoBehaviour
         UpdateAmmo();
 
         weaponSway = GetComponentInParent<WeaponSway>();
-        shootScript = GetComponent<ShootScript>();
         animator = GetComponentInParent<Animator>();
 
         reloadingText.enabled = false;
-        isReloading = false;
+        GunBase.isReloading = false;
     }
 
     public void ApplyWeaponReloadData(WeaponStats weaponStats)
@@ -53,7 +50,7 @@ public class Reloading : MonoBehaviour
     {
         HandleInput();
 
-        if (isReloading)
+        if (GunBase.isReloading)
         {
             animator.SetBool("isAimingAnim", false);
         }
@@ -61,20 +58,20 @@ public class Reloading : MonoBehaviour
 
     public void HandleInput()
     {
-        if (Input.GetKeyDown(reloadKey) && currentAmmo < maxAmmo && reserveAmmo > 0 && !shootScript.isAiming)
+        if (Input.GetKeyDown(reloadKey) && currentAmmo < maxAmmo && reserveAmmo > 0 
+            && !GunBase.isReloading && !GunBase.isAiming)
             StartCoroutine(Reload());
     }
 
     public IEnumerator Reload()
     {
-        if (shootScript.isReloading || currentAmmo == weaponStats.maxAmmo)
+        if (GunBase.isReloading || currentAmmo == weaponStats.maxAmmo)
             yield break;
 
-        isReloading = true;
+        GunBase.isReloading = true;
 
         reloadingText.enabled = true;
-        shootScript.isReloading = true;
-        shootScript.readyToShoot = false;
+        GunBase.isReloading = true;
         weaponSway.enabled = false;
 
         animator.SetTrigger("ReloadDown");
@@ -90,14 +87,13 @@ public class Reloading : MonoBehaviour
         currentAmmo += ammoToReload;
         reserveAmmo -= ammoToReload;
 
-        shootScript.isReloading = false;
-        shootScript.readyToShoot = true;
+        GunBase.isReloading = false;
 
         weaponStats.currentAmmo = currentAmmo;
         reloadingText.enabled = false;
 
         UpdateAmmo();
-        isReloading = false;
+        GunBase.isReloading = false;
     }
 
     public void UpdateAmmo()

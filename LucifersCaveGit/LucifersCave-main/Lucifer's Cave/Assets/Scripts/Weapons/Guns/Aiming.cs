@@ -17,11 +17,9 @@ public class Aiming : MonoBehaviour
 
     [Header("References")]
     public WeaponStats weaponStats;
-    public ShootScript shootingFunc;
     public Movement movementFunc;
     public CameraLook lookFunc;
     public WeaponSway weaponSway;
-    public Reloading reloadingScript;
 
     [Header("ADS Targeting")]
     private float defaultSpread;
@@ -43,17 +41,18 @@ public class Aiming : MonoBehaviour
 
     void LateUpdate()
     {
-        if (!isInitialized || shootingFunc == null || reloadingScript == null)
+        if (!isInitialized)
         {
             return;
         }
 
-        if (shootingFunc.isAiming && !reloadingScript.isReloading)
+        if (GunBase.isAiming && !GunBase.isReloading)
         {
             if (!wasAiming)
             {
                 EnterADS();
                 wasAiming = true;
+                GunBase.isAiming = true;
             }
             
             animator.SetBool("isAimingAnim", true);
@@ -64,6 +63,7 @@ public class Aiming : MonoBehaviour
             {
                 ExitADS();
                 wasAiming = false;
+                GunBase.isAiming = false;
             }
 
             animator.SetBool("isAimingAnim", false);
@@ -121,8 +121,6 @@ public class Aiming : MonoBehaviour
 
         weaponSway = GetComponentInParent<WeaponSway>();
         animator = GetComponentInParent<Animator>();
-        shootingFunc = GetComponent<ShootScript>();
-        reloadingScript = GetComponent<Reloading>();
 
         defaultSpread = weaponStats.spreadIntensity;
         defaultSensitivity = lookFunc.sensitivityAmount;

@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyHealth : HealthBase, IDamageable
+public class EnemyHealth : MonoBehaviour, HealthBase, IDamageable
 {
     public int currentHealth;
     public int maxHealth;
@@ -17,25 +17,27 @@ public class EnemyHealth : HealthBase, IDamageable
     public bool isHurt = false;
     public event Action OnDeathEvent;
 
-    public override int CurrentHealth => currentHealth;
+    public int CurrentHealth => currentHealth;
+    public int MaxHealth => maxHealth;
 
+    [Header("References")]
+    private Collider col;
+    private Rigidbody rb;
 
     private void Awake()
     {
+        agent = GetComponent<NavMeshAgent>();
+        animator = GetComponentInChildren<Animator>();
+
+        col = GetComponent<Collider>();
+        rb = GetComponent<Rigidbody>();
         currentHealth = maxHealth;
     }
 
-    void Start()
+    public void TakeDamage(int amount)
     {
-        agent = GetComponent<NavMeshAgent>();
-        animator = GetComponentInChildren<Animator>();
-        RandomiseAnimation();
-    }
-
-    public override void TakeDamage(int amount)
-    {
-        isHurt = true;
         if (isDead) return;
+        isHurt = true;
 
         currentHealth -= amount;
 
@@ -52,11 +54,12 @@ public class EnemyHealth : HealthBase, IDamageable
         randomDeathIndex = UnityEngine.Random.Range(0, 2);
     }
 
-    public override void Death()
+    public void Death()
     {
         if (isDead) return;
         isDead = true;
 
+        RandomiseAnimation();
         animator.SetInteger("DeathInt", randomDeathIndex);
         animator.SetTrigger("isDead");
 
@@ -68,10 +71,8 @@ public class EnemyHealth : HealthBase, IDamageable
             agent.enabled = false;
         }
 
-        Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null) rb.isKinematic = true;
 
-        Collider col = GetComponent<Collider>();
         if (col != null) col.enabled = false;
 
         OnDeathEvent?.Invoke();

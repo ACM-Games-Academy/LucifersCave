@@ -18,7 +18,7 @@ public class WeaponFactory : IWeaponFactory
         GameObject weapon = Object.Instantiate(weaponStats.weaponPrefab, parent, false);
         weapon.transform.localPosition += weaponPosition;
         weapon.transform.localRotation = Quaternion.identity;
-        weapon.GetComponent<ShootScript>().ApplyWeaponData(weaponStats);
+        weapon.GetComponent<GunBase>().ApplyWeaponData(weaponStats);
         weapon.GetComponent<WeaponRecoil>().ApplyRecoilData(weaponRecoil);
         weapon.GetComponentInParent<Melee>().SetKnife(weapon.transform.Find("attackPoint"));
         return weapon;

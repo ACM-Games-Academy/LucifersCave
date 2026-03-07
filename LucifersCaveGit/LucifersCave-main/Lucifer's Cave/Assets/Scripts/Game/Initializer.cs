@@ -14,6 +14,7 @@ public class Initializer : MonoBehaviour
     public PlayerScore playerScore;
     public Grenade grenadeScript;
     public WeaponManager weaponManager;
+    public WeaponSway weaponSway;
     public PointSpawner pointSpawner;
 
     [Header("References")]

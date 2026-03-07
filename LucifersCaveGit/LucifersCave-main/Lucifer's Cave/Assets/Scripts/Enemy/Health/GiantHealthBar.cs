@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class GiantHealthBar : MonoBehaviour
 {
-    private GiantHealth GiantHealth;
+    private EnemyHealth GiantHealth;
     private Image giantHealthBar;
 
     [Header("Distance checks")]
@@ -13,10 +13,10 @@ public class GiantHealthBar : MonoBehaviour
 
     private void Start()
     {
-        GiantHealth = GetComponent<GiantHealth>();
+        GiantHealth = GetComponent<EnemyHealth>();
 
         if (GiantHealth != null)
-            GiantHealth.OnHealthChanged += UpdateBar;
+            UpdateBar(GiantHealth.CurrentHealth, GiantHealth.MaxHealth);
     }
 
     private void Update()
@@ -28,12 +28,6 @@ public class GiantHealthBar : MonoBehaviour
             EnableHealthBar();
         else
             DisableHealthBar();
-    }
-
-    private void OnDestroy()
-    {
-        if (GiantHealth != null)
-            GiantHealth.OnHealthChanged -= UpdateBar;
     }
 
     private void UpdateBar(float current, float max)

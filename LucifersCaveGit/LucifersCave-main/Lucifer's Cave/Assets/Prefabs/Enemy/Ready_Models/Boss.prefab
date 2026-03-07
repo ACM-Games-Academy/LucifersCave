@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7443682057561845808}
-  - component: {fileID: 4071081186674342511}
+  - component: {fileID: 1160311122378846639}
   - component: {fileID: 8936276583905924051}
   - component: {fileID: 5605145357484077836}
   - component: {fileID: 8838746675248081346}
@@ -36,7 +36,7 @@ Transform:
   - {fileID: 1167077451637670077}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4071081186674342511
+--- !u!114 &1160311122378846639
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,11 +45,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 148683417781095103}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 226c10e9aaee93b498d60c803d8dbeca, type: 3}
+  m_Script: {fileID: 11500000, guid: 659b39288ca412b48bd8e796156d12fe, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GiantHealth
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   currentHealth: 0
-  maxHealth: 5000
+  maxHealth: 2000
+  knifePoints: 500
+  isHurt: 0
 --- !u!114 &8936276583905924051
 MonoBehaviour:
   m_ObjectHideFlags: 0

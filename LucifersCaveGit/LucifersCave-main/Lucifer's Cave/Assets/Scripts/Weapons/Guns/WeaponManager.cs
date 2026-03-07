@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
@@ -49,15 +50,16 @@ public class WeaponManager : MonoBehaviour
             weaponRecoil.Initialize(initializer.recoilProfiles, initializer.playerCameraTransform);
         }
 
-        var shootScript = currentWeaponObject.GetComponent<ShootScript>();
+        var shootScript = currentWeaponObject.GetComponent<GunBase>();
         if (shootScript != null)
         {
             shootScript.Initialize(
-                initializer.movement,
-                initializer.playerScore,
-                initializer.muzzleFlash,
-                initializer.playerCamera,
-                weaponRecoil
+                weaponContext: new WeaponContext
+                {
+                    movement = initializer.movement,
+                    weaponSway = initializer.weaponSway,
+                    playerCamera = initializer.playerCamera
+                }
             );
         }
 
@@ -79,22 +81,6 @@ public class WeaponManager : MonoBehaviour
                 initializer.crosshair
             );
         }
-        /*
-        var melee = initializer.rightHandTransform.GetComponent<Melee>();
-        if (melee != null)
-        {
-            Transform attack = currentWeaponObject.transform.Find("attackPoint");
-            if (attack != null)
-            {
-                melee.attackPoint = attack.gameObject;
-                Debug.Log($"attackPoint assigned to Melee: {attack.name}");
-            }
-            else
-            {
-                Debug.LogWarning($"No 'attackPoint' found under {currentWeaponObject.name}");
-            }
-        }
-        */
     }
 }
 

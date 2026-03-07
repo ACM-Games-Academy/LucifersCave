@@ -7555,7 +7555,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DungeonGenerator
   size: {x: 2, y: 2}
-  startPosition: 0
+  startPosition: 5
   roomPrefab: {fileID: 1392035771171539842, guid: c91138c46b25f894e84eaadd763e2d54, type: 3}
   offset: {x: 24, y: 24}
 --- !u!1 &602695650
