@@ -24,30 +24,29 @@ public class WeaponManager : MonoBehaviour
         if (startingWeapon != null)
         {
             currentWeapon = startingWeapon;
+            currentRecoil = startingRecoil;
+
             EquipWeapon(currentWeapon, currentRecoil, Vector3.zero);
         }
     }
 
     public void EquipWeapon(WeaponStats newWeapon, RecoilProfiles weaponRecoilStats, Vector3 weaponPosition)
     {
-        if (newWeapon == null)
-        {
-            return;
-        }
-        if (currentWeaponObject != null)
-        {
-            Destroy(currentWeaponObject);
-        }
+        if (newWeapon == null) return;
 
-        currentWeaponObject = weaponFactory.CreateWeapon(newWeapon, startingRecoil, weaponParent, spawnOffset);
+        if (currentWeaponObject != null)
+            Destroy(currentWeaponObject);
+
+        currentWeaponObject = weaponFactory.CreateWeapon(newWeapon, weaponRecoilStats, weaponParent, spawnOffset);
         currentWeapon = newWeapon;
+        currentRecoil = weaponRecoilStats;
         currentWeaponObject.layer = LayerMask.NameToLayer("Hands/Weapon");
 
 
         var weaponRecoil = currentWeaponObject.GetComponent<WeaponRecoil>();
-        if (weaponRecoil != null)
+        if (weaponRecoil != null && currentWeaponObject != null)
         {
-            weaponRecoil.Initialize(initializer.recoilProfiles, initializer.playerCameraTransform);
+            weaponRecoil.Initialize(weaponRecoilStats, initializer.playerCameraTransform);
         }
 
         var shootScript = currentWeaponObject.GetComponent<GunBase>();

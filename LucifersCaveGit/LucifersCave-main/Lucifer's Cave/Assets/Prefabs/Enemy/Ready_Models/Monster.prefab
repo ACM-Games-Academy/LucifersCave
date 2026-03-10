@@ -9,9 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5916921214416362983}
-  - component: {fileID: 1400452787732097989}
+  - component: {fileID: 3609067263971351862}
   - component: {fileID: 9121931549308234288}
-  - component: {fileID: 4826199060257658462}
   - component: {fileID: 3200436545321602377}
   - component: {fileID: 9142825331276774105}
   - component: {fileID: 554755377863741259}
@@ -40,7 +39,7 @@ Transform:
   - {fileID: 3667612975360659639}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1400452787732097989
+--- !u!114 &3609067263971351862
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -49,13 +48,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 8935311748847187635}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4aebf98bb3e3d6848a70d7057cb6adc2, type: 3}
+  m_Script: {fileID: 11500000, guid: 85054bf0f7c3a934291385ee72b314ca, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GiantBase
+  m_EditorClassIdentifier: Assembly-CSharp::Abomination
+  agent: {fileID: 0}
   player: {fileID: 0}
-  spottingDistance: 6
   health: {fileID: 0}
-  speedDamp: 0.15
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 8
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 64
+  walkPoint: {x: 0, y: 0, z: 0}
+  walkPointRange: 3
+  damage: 50
+  alreadyAttacked: 0
+  sightRange: 4
+  attackRange: 1.5
+  playerInSight: 0
+  playerInAttack: 0
+  animator: {fileID: 7207402371532557005}
+  randomWalkIndex: 0
+  timeBetweenAttacks: 2
 --- !u!114 &9121931549308234288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,29 +87,6 @@ MonoBehaviour:
   maxHealth: 200
   knifePoints: 0
   isHurt: 0
---- !u!114 &4826199060257658462
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8935311748847187635}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3122cb35a571c44bafccd0f1db244a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agent: {fileID: 0}
-  player: {fileID: 0}
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 64
-  timeBetweenAttacks: 1.5
-  attackRange: 2
-  attackDamage: 75
-  attackDelay: 1
-  isAttacking: 0
-  animator: {fileID: 0}
 --- !u!195 &3200436545321602377
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -105,7 +97,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 2.6
+  m_Speed: 1.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -142,7 +134,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!64 &554755377863741259
 MeshCollider:
@@ -682,5 +674,10 @@ PrefabInstance:
 --- !u!4 &3667612975360659639 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bc922fcbd818d874480f01b80e2cb27a, type: 3}
+  m_PrefabInstance: {fileID: 3850370890659346268}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &7207402371532557005 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: bc922fcbd818d874480f01b80e2cb27a, type: 3}
   m_PrefabInstance: {fileID: 3850370890659346268}
   m_PrefabAsset: {fileID: 0}

@@ -34,6 +34,13 @@ public class Bullets : MonoBehaviour
             }
         }
 
+        Grenade grenadeScript = collision.gameObject.GetComponent<Grenade>();
+
+        if (grenadeScript != null)
+        {
+            grenadeScript.Explode();
+        }
+
         Destroy(gameObject);
     }
 }

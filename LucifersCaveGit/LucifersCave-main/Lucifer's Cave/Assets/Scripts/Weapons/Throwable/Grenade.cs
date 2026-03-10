@@ -93,20 +93,6 @@ public class Grenade : MonoBehaviour
                 }
             }
 
-            GiantHealth giant = nearby.GetComponent<GiantHealth>();
-
-            if (giant != null)
-            {
-                giant.TakeDamage(damage);
-
-                if (giant.currentHealth <= 0)
-                {
-                    int pointsEarned = playerScore.deathPoints * 10;
-                    playerScore.AddPoints(pointsEarned);
-                    FindFirstObjectByType<PointSpawner>().ShowPoints(pointsEarned);
-                }
-            }
-
             Rigidbody body = nearby.GetComponent<Rigidbody>();
             if (body != null)
                 body.AddExplosionForce(explosionForce, transform.position, blastRadius);

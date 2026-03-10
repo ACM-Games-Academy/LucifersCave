@@ -1,13 +1,12 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public abstract class GiantBase
+public abstract class GiantBase : MonoBehaviour
 {
     [Header("General References")]
-    public NavMeshAgent agent;
-    private Transform player;
-    //private GiantHealth health;
+    [HideInInspector] public NavMeshAgent agent;
+    [HideInInspector] public Transform player;
+    [HideInInspector] public EnemyHealth health;
     private bool hasStartedWalking = false;
 
     [Header("Layers")]
@@ -19,9 +18,8 @@ public abstract class GiantBase
     public float walkPointRange;
 
     [Header("Attacking")]
-    public float timeBetweenAttacks;
     public float damage;
-    bool alreadyAttacked;
+    public bool alreadyAttacked;
 
     [Header("States")]
     public float sightRange;
@@ -30,56 +28,17 @@ public abstract class GiantBase
     public bool playerInAttack;
 
     [Header("Animation")]
-    private Animator animator;
-    private int randomWalkIndex;
+    [HideInInspector] public Animator animator;
+    [HideInInspector] public int randomWalkIndex;
 
     public void Initialize(Transform playerTransform)
     {
         player = playerTransform;
     }
-    /*
-    void Start()
-    {
-        agent = GetComponent<NavMeshAgent>();
-        animator = GetComponentInChildren<Animator>();
-        health = GetComponent<GiantHealth>();
-        agent.isStopped = true;
-        RandomiseAnimation();
-        EnemyMovement();
 
-        EnsureOnNavMesh(agent);
+    public abstract void RandomiseAnimation();
 
-        if (health != null)
-        {
-            health.OnGiantDeathEvent += HandleDeath;
-        }
-    }
-
-    public void RandomiseAnimation()
-    {
-        randomWalkIndex = Random.Range(0, 3);
-    }
-
-    void Update()
-    {
-        playerInSight = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
-        playerInAttack = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
-
-        if (!playerInSight && !playerInAttack)
-        {
-            Patroling();
-        }
-        if (playerInSight && !playerInAttack)
-        {
-            ChasePlayer();
-        }
-        if (playerInSight && playerInAttack)
-        {
-            AttackPlayer();
-        }
-    }
-
-    private void Patroling()
+    public void Patroling()
     {
         if (!walkPointSet)
         {
@@ -112,25 +71,14 @@ public abstract class GiantBase
         }
     }
 
-    private void ChasePlayer()
+    public void ChasePlayer()
     {
         agent.SetDestination(player.position);
     }
 
-    private void AttackPlayer()
-    {
-        agent.SetDestination(transform.position);
+    public abstract void AttackPlayer();
 
-        transform.LookAt(player);
-
-        if (!alreadyAttacked)
-        {
-            alreadyAttacked = true;
-            Invoke(nameof(ResetAttack), timeBetweenAttacks);
-        }
-    }
-
-    private void EnemyMovement()
+    public void EnemyMovement()
     {
         if (hasStartedWalking) return;
 
@@ -138,7 +86,7 @@ public abstract class GiantBase
         hasStartedWalking = true;
     }
 
-    private void ResetAttack()
+    public void ResetAttack()
     {
         alreadyAttacked = false;
     }
@@ -151,7 +99,7 @@ public abstract class GiantBase
         Gizmos.DrawWireSphere(transform.position, sightRange);
     }
 
-    private void HandleDeath()
+    public void HandleDeath()
     {
         if (agent != null && agent.isOnNavMesh)
         {
@@ -171,5 +119,4 @@ public abstract class GiantBase
             agent.Warp(hit.position);
         }
     }
-    */
 }

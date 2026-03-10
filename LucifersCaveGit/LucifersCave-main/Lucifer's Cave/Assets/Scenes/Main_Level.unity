@@ -8108,11 +8108,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Initializer
   weaponStats: {fileID: 11400000, guid: 4ac804ed50af5d2469c398dbbd14f2e5, type: 2}
   recoilProfiles: {fileID: 11400000, guid: a9183965d8e7d3c44a67858d35267131, type: 2}
+  weaponRecoil: {fileID: 0}
   movement: {fileID: 1444824103}
   cameraLook: {fileID: 330585548}
   playerScore: {fileID: 1444824107}
   grenadeScript: {fileID: 6441377450366370199, guid: 21dee39e8518c7044bf197ce0d114c2c, type: 3}
   weaponManager: {fileID: 1444824112}
+  weaponSway: {fileID: 2095532665}
   pointSpawner: {fileID: 127128850}
   muzzleFlash: {fileID: 198234346748616026, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
   playerCamera: {fileID: 330585545}

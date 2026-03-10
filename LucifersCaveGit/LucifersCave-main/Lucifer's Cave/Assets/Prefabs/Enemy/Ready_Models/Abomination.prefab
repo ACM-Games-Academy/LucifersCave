@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 452425864089812860}
-  - component: {fileID: 3234499478834668872}
-  - component: {fileID: 5212026881058184336}
+  - component: {fileID: 259272894991837481}
+  - component: {fileID: 3281117191693389438}
   - component: {fileID: 555764633653257840}
   - component: {fileID: 6903701860228592888}
   - component: {fileID: 7607598570430755496}
@@ -39,7 +39,7 @@ Transform:
   - {fileID: 6614474500176841452}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3234499478834668872
+--- !u!114 &259272894991837481
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -48,12 +48,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8494250285558358416}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4aebf98bb3e3d6848a70d7057cb6adc2, type: 3}
+  m_Script: {fileID: 11500000, guid: 85054bf0f7c3a934291385ee72b314ca, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GiantBase
+  m_EditorClassIdentifier: Assembly-CSharp::Abomination
   agent: {fileID: 0}
   player: {fileID: 0}
-  health: {fileID: 5212026881058184336}
+  health: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
@@ -61,14 +61,17 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   walkPoint: {x: 0, y: 0, z: 0}
-  walkPointRange: 5
-  timeBetweenAttacks: 1.2
-  damage: 75
-  sightRange: 6
+  walkPointRange: 4
+  damage: 30
+  alreadyAttacked: 0
+  sightRange: 7
   attackRange: 1.5
   playerInSight: 0
   playerInAttack: 0
---- !u!114 &5212026881058184336
+  animator: {fileID: 0}
+  randomWalkIndex: 0
+  timeBetweenAttacks: 1.25
+--- !u!114 &3281117191693389438
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -77,11 +80,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 8494250285558358416}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 226c10e9aaee93b498d60c803d8dbeca, type: 3}
+  m_Script: {fileID: 11500000, guid: 659b39288ca412b48bd8e796156d12fe, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GiantHealth
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   currentHealth: 0
-  maxHealth: 200
+  maxHealth: 150
+  knifePoints: 0
+  isHurt: 0
 --- !u!195 &555764633653257840
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -92,7 +97,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 2.6
+  m_Speed: 2
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -129,7 +134,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!64 &7607598570430755496
 MeshCollider:

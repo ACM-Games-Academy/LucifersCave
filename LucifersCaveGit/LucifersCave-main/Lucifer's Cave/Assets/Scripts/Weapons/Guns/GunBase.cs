@@ -39,6 +39,11 @@ public abstract class GunBase : MonoBehaviour, IGun
         this.weaponSway = weaponContext.weaponSway;
         this.playerCamera = weaponContext.playerCamera;
     }
+
+    public void ApplyWeaponData(WeaponStats weaponStats)
+    {
+        this.weaponStats = weaponStats;
+    }
 }
 
 public class WeaponContext
