@@ -18,20 +18,15 @@ public class WeaponRecoil : MonoBehaviour
 
     private Vector3 currentCamRotation;
     private Vector3 targetCamRotation;
+    private Quaternion initialCamRotation;
+
+    private bool isInitialized = false; 
 
     public void Initialize(RecoilProfiles recoilProfiles, Transform plyrCam)
     {
         this.weaponRecoil = recoilProfiles;
         this.plyrCam = plyrCam;
-    }
 
-    public void ApplyRecoilData(RecoilProfiles weaponRecoil)
-    {
-        this.weaponRecoil = weaponRecoil;
-    }
-
-    void Start()
-    {
         if (plyrCam == null)
         {
             Debug.LogError("Player camera (plyrCam) is not assigned. Please make sure it is assigned.");
@@ -40,11 +35,20 @@ public class WeaponRecoil : MonoBehaviour
         }
 
         initialGunPosition = transform.localPosition;
+        initialCamRotation = plyrCam.localRotation;
+
+        isInitialized = true;
+    }
+
+    public void ApplyRecoilData(RecoilProfiles weaponRecoil)
+    {
+        this.weaponRecoil = weaponRecoil;
     }
 
     void Update()
     {
-        HandleRecoilAnimation();
+        if (isInitialized)
+            HandleRecoilAnimation();
     }
 
     public void Recoil(bool isAiming)
@@ -69,7 +73,7 @@ public class WeaponRecoil : MonoBehaviour
 
         targetCamRotation = Vector3.Lerp(targetCamRotation, Vector3.zero, Time.deltaTime * weaponRecoil.returnSpeed);
         currentCamRotation = Vector3.Slerp(currentCamRotation, targetCamRotation, Time.deltaTime * weaponRecoil.snapAmount);
-        plyrCam.localRotation *= Quaternion.Euler(currentCamRotation);
+        plyrCam.localRotation = initialCamRotation * Quaternion.Euler(currentCamRotation);
     }
 }
 

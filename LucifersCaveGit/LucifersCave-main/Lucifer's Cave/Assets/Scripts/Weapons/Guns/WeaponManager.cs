@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
@@ -79,6 +78,17 @@ public class WeaponManager : MonoBehaviour
                 newWeapon,
                 initializer.crosshair
             );
+        }
+
+        if (initializer == null)
+        {
+            Debug.LogError("Initializer missing!");
+            return;
+        }
+
+        if (initializer.playerCameraTransform == null)
+        {
+            Debug.LogError("playerCameraTransform not assigned in Initializer!");
         }
     }
 }

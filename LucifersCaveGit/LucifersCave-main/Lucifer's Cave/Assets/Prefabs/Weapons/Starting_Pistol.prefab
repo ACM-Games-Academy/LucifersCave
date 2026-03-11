@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6901471088310724156}
   - component: {fileID: 1023545140521134826}
   - component: {fileID: 4613094197811623730}
-  - component: {fileID: 1510100693865868246}
+  - component: {fileID: 5556303048543901550}
   - component: {fileID: 219532880829224969}
   m_Layer: 7
   m_Name: Starting_Pistol
@@ -58,7 +58,6 @@ MonoBehaviour:
   currentAmmo: 0
   reserveAmmo: 0
   maxAmmo: 0
-  isReloading: 0
   reloadKey: 114
   weaponStats: {fileID: 11400000, guid: 4ac804ed50af5d2469c398dbbd14f2e5, type: 2}
   weaponSway: {fileID: 0}
@@ -100,15 +99,13 @@ MonoBehaviour:
   FOV_decrease: 60
   FOV_speed: 4
   weaponStats: {fileID: 0}
-  shootingFunc: {fileID: 0}
   movementFunc: {fileID: 0}
   lookFunc: {fileID: 0}
   weaponSway: {fileID: 0}
-  reloadingScript: {fileID: 0}
   crosshair: {fileID: 0}
   animator: {fileID: 0}
   isAnimating: 0
---- !u!114 &1510100693865868246
+--- !u!114 &5556303048543901550
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -117,26 +114,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 596754205622061497}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b6759c2f16ce744182f285541ef3226, type: 3}
+  m_Script: {fileID: 11500000, guid: c28f5a14c455c0d4b9e9d147bfc6f11b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  weaponData: {fileID: 11400000, guid: 4ac804ed50af5d2469c398dbbd14f2e5, type: 2}
+  m_EditorClassIdentifier: Assembly-CSharp::Pistol
+  weaponStats: {fileID: 11400000, guid: 4ac804ed50af5d2469c398dbbd14f2e5, type: 2}
+  recoilProfiles: {fileID: 11400000, guid: a9183965d8e7d3c44a67858d35267131, type: 2}
+  movement: {fileID: 0}
+  weaponSway: {fileID: 0}
+  reloading: {fileID: 6901471088310724156}
   bulletSpawnPoint: {fileID: 1037158079886734577}
   muzzleFlash: {fileID: 4256224652935622800}
-  plyrCamera: {fileID: 0}
-  aimingKey: 324
-  shootingKey: 323
+  playerCamera: {fileID: 0}
   isShooting: 0
   readyToShoot: 1
   allowReset: 1
-  isReloading: 0
-  isAiming: 0
-  Recoil: {fileID: 0}
-  weaponSway: {fileID: 0}
-  movementScript: {fileID: 0}
-  reloading: {fileID: 0}
-  playerScore: {fileID: 0}
-  animator: {fileID: 0}
 --- !u!82 &219532880829224969
 AudioSource:
   m_ObjectHideFlags: 0

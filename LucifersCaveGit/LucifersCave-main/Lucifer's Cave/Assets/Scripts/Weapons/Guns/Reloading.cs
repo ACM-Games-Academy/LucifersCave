@@ -29,7 +29,6 @@ public class Reloading : MonoBehaviour, IReloadable
         weaponSway = GetComponentInParent<WeaponSway>();
         animator = GetComponentInParent<Animator>();
 
-        reloadingText.enabled = false;
         GunBase.isReloading = false;
     }
 
@@ -44,6 +43,7 @@ public class Reloading : MonoBehaviour, IReloadable
     {
         this.ammoCounter = ammoCounter;
         this.reloadingText = reloadingText;
+        reloadingText.enabled = false;
     }
 
     void Update()
