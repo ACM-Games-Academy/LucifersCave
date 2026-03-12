@@ -22,7 +22,7 @@ public class Pistol : GunBase
             {
                 Shoot();
             }
-        }
+        } 
     }
 
     public override void Shoot()

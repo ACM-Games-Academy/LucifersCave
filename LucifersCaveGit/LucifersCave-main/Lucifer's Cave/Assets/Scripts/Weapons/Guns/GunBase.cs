@@ -20,8 +20,8 @@ public abstract class GunBase : MonoBehaviour, IGun
     public bool isShooting, readyToShoot = true;
     public bool allowReset = true;
 
-    public static bool isAiming;
-    public static bool isReloading;
+    public bool isAiming;
+    public bool isReloading;
 
     public AudioSource audioSource;
 

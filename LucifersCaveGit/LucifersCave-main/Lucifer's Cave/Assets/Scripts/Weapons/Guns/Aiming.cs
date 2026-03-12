@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class Aiming : MonoBehaviour
 {
     [Header("Settings")]
-    public float sensDecrease = 2f;
+    public float adsSensitivityMultiplier = 2f;
     public float aimMultiplier = 2f;
     public Camera mainCam;
     public Camera gunCam;
@@ -20,6 +20,7 @@ public class Aiming : MonoBehaviour
     public Movement movementFunc;
     public CameraLook lookFunc;
     public WeaponSway weaponSway;
+    public GunBase gunBase;
 
     [Header("ADS Targeting")]
     private float defaultSpread;
@@ -33,12 +34,6 @@ public class Aiming : MonoBehaviour
 
     private bool isInitialized = false;
 
-    void Start()
-    {
-        targetFOV = FOV_decrease;
-        gunFOV = FOV_decrease;
-    }
-
     void LateUpdate()
     {
         if (!isInitialized)
@@ -46,13 +41,13 @@ public class Aiming : MonoBehaviour
             return;
         }
 
-        if (GunBase.isAiming && !GunBase.isReloading)
+        if (gunBase.isAiming && !gunBase.isReloading)
         {
             if (!wasAiming)
             {
                 EnterADS();
                 wasAiming = true;
-                GunBase.isAiming = true;
+                gunBase.isAiming = true;
             }
             
             animator.SetBool("isAimingAnim", true);
@@ -63,7 +58,7 @@ public class Aiming : MonoBehaviour
             {
                 ExitADS();
                 wasAiming = false;
-                GunBase.isAiming = false;
+                gunBase.isAiming = false;
             }
 
             animator.SetBool("isAimingAnim", false);
@@ -86,7 +81,7 @@ public class Aiming : MonoBehaviour
         weaponSway.enabled = false;
 
         weaponStats.spreadIntensity = defaultSpread * aimMultiplier;
-        lookFunc.sensitivityAmount = defaultSensitivity / sensDecrease;
+        lookFunc.sensitivityAmount = defaultSensitivity / adsSensitivityMultiplier;
         movementFunc.canSprint = false;
         targetFOV = FOV_increase;
         gunFOV = gunFOV_increase;
@@ -122,8 +117,12 @@ public class Aiming : MonoBehaviour
         weaponSway = GetComponentInParent<WeaponSway>();
         animator = GetComponentInParent<Animator>();
 
+        targetFOV = FOV_decrease;
+        gunFOV = FOV_decrease;
+
         defaultSpread = weaponStats.spreadIntensity;
         defaultSensitivity = lookFunc.sensitivityAmount;
+        gunBase = GetComponent<GunBase>();
 
         isInitialized = true;
     }

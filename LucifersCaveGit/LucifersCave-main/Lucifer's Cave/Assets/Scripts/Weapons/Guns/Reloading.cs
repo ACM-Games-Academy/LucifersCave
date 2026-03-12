@@ -15,6 +15,7 @@ public class Reloading : MonoBehaviour, IReloadable
     [Header("References")]
     public WeaponStats weaponStats;
     public WeaponSway weaponSway;
+    private GunBase gunBase;
 
     public Animator animator;
 
@@ -29,7 +30,7 @@ public class Reloading : MonoBehaviour, IReloadable
         weaponSway = GetComponentInParent<WeaponSway>();
         animator = GetComponentInParent<Animator>();
 
-        GunBase.isReloading = false;
+        gunBase.isReloading = false;
     }
 
     public void ApplyWeaponReloadData(WeaponStats weaponStats)
@@ -44,13 +45,15 @@ public class Reloading : MonoBehaviour, IReloadable
         this.ammoCounter = ammoCounter;
         this.reloadingText = reloadingText;
         reloadingText.enabled = false;
+
+        gunBase = GetComponent<GunBase>();
     }
 
     void Update()
     {
         HandleInput();
 
-        if (GunBase.isReloading)
+        if (gunBase.isReloading)
         {
             animator.SetBool("isAimingAnim", false);
         }
@@ -59,19 +62,19 @@ public class Reloading : MonoBehaviour, IReloadable
     public void HandleInput()
     {
         if (Input.GetKeyDown(reloadKey) && currentAmmo < maxAmmo && reserveAmmo > 0 
-            && !GunBase.isReloading && !GunBase.isAiming)
+            && !gunBase.isReloading && !gunBase.isAiming)
             StartCoroutine(Reload());
     }
 
     public IEnumerator Reload()
     {
-        if (GunBase.isReloading || currentAmmo == weaponStats.maxAmmo)
+        if (gunBase.isReloading || currentAmmo == weaponStats.maxAmmo)
             yield break;
 
-        GunBase.isReloading = true;
+        gunBase.isReloading = true;
 
         reloadingText.enabled = true;
-        GunBase.isReloading = true;
+        gunBase.isReloading = true;
         weaponSway.enabled = false;
 
         animator.SetTrigger("ReloadDown");
@@ -87,13 +90,13 @@ public class Reloading : MonoBehaviour, IReloadable
         currentAmmo += ammoToReload;
         reserveAmmo -= ammoToReload;
 
-        GunBase.isReloading = false;
+        gunBase.isReloading = false;
 
         weaponStats.currentAmmo = currentAmmo;
         reloadingText.enabled = false;
 
         UpdateAmmo();
-        GunBase.isReloading = false;
+        gunBase.isReloading = false;
     }
 
     public void UpdateAmmo()
