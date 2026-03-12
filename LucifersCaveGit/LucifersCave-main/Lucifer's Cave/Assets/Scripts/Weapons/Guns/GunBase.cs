@@ -23,6 +23,8 @@ public abstract class GunBase : MonoBehaviour, IGun
     public static bool isAiming;
     public static bool isReloading;
 
+    public AudioSource audioSource;
+
     public abstract void Shoot();
 
     public abstract Vector3 CalculateSpread();

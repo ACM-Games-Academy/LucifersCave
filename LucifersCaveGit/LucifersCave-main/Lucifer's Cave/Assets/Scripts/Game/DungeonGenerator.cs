@@ -34,11 +34,16 @@ public class DungeonGenerator : MonoBehaviour
         {
             for (int j = 0; j < size.y; j++)
             {
-                var roomInstance = Instantiate(roomPrefab, new Vector3(i * offset.x, 0, -j * offset.y), 
-                    Quaternion.identity, transform).GetComponent<RoomBehaviour>();
-                roomInstance.UpdateRoom(board[Mathf.FloorToInt(i + j * size.x)].walls);
+                Cell currentCell = board[Mathf.FloorToInt(i + j * size.x)];
 
-                roomInstance.name += " " + i + "-" + j;
+                if (currentCell.visited)
+                {
+                    var roomInstance = Instantiate(roomPrefab, new Vector3(i * offset.x, 0, -j * offset.y),
+                    Quaternion.identity, transform).GetComponent<RoomBehaviour>();
+                    roomInstance.UpdateRoom(currentCell.walls);
+
+                    roomInstance.name += " " + i + "-" + j;
+                }
             }
         }
     }
@@ -62,6 +67,11 @@ public class DungeonGenerator : MonoBehaviour
         {
             keepingTrack++;
             board[currentCell].visited = true;
+
+            if (currentCell == board.Count - 1)
+            {
+                break;
+            }
 
             List<int> neighbours = CheckNeighbours(currentCell);
 

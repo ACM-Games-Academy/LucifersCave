@@ -35,6 +35,10 @@ public class WeaponRecoil : MonoBehaviour
         }
 
         initialGunPosition = transform.localPosition;
+
+        currentGunPosition = initialGunPosition;
+        targetGunPosition = initialGunPosition;
+
         initialCamRotation = plyrCam.localRotation;
 
         isInitialized = true;
@@ -55,10 +59,12 @@ public class WeaponRecoil : MonoBehaviour
     {
         float aimMultiplier = isAiming ? adsRecoilMultiplier : hipfireRecoilMultiplier;
 
-        targetGunRotation += new Vector3(weaponRecoil.recoilX * aimMultiplier, Random.Range(-weaponRecoil.recoilY, weaponRecoil.recoilY) * aimMultiplier, 0);
+        targetGunRotation += new Vector3(weaponRecoil.recoilX * aimMultiplier, Random.Range(-weaponRecoil.recoilY, 
+            weaponRecoil.recoilY) * aimMultiplier, 0);
         targetGunPosition -= new Vector3(0, 0, weaponRecoil.kickBack * aimMultiplier);
 
-        targetCamRotation += new Vector3(weaponRecoil.recoilX * aimMultiplier, Random.Range(-weaponRecoil.recoilY, weaponRecoil.recoilY) * aimMultiplier, 0);
+        targetCamRotation += new Vector3(weaponRecoil.recoilX * aimMultiplier, Random.Range(-weaponRecoil.recoilY, 
+            weaponRecoil.recoilY) * aimMultiplier, 0);
     }
 
     public void HandleRecoilAnimation()
@@ -73,7 +79,7 @@ public class WeaponRecoil : MonoBehaviour
 
         targetCamRotation = Vector3.Lerp(targetCamRotation, Vector3.zero, Time.deltaTime * weaponRecoil.returnSpeed);
         currentCamRotation = Vector3.Slerp(currentCamRotation, targetCamRotation, Time.deltaTime * weaponRecoil.snapAmount);
-        plyrCam.localRotation = initialCamRotation * Quaternion.Euler(currentCamRotation);
+        plyrCam.localRotation *= Quaternion.Euler(currentCamRotation);
     }
 }
 

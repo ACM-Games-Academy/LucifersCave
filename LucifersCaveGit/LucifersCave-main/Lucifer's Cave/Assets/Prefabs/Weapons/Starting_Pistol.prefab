@@ -128,6 +128,7 @@ MonoBehaviour:
   isShooting: 0
   readyToShoot: 1
   allowReset: 1
+  audioSource: {fileID: 219532880829224969}
 --- !u!82 &219532880829224969
 AudioSource:
   m_ObjectHideFlags: 0

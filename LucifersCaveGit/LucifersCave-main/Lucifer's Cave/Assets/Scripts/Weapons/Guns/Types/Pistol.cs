@@ -5,15 +5,13 @@ public class Pistol : GunBase
 {
     public void Start()
     {
-        reloading.UpdateAmmo();
-        weaponSway = GetComponentInParent<WeaponSway>();
         reloading = GetComponent<Reloading>();
+        reloading.UpdateAmmo();
     }
 
     private void Update()
     {
         HandleInput();
-        reloading.UpdateAmmo();
     }
 
     private void HandleInput()
@@ -32,6 +30,8 @@ public class Pistol : GunBase
         readyToShoot = false;
         muzzleFlash.Play();
         reloading.currentAmmo--;
+        reloading.UpdateAmmo();
+        audioSource.Play();
 
         Vector3 shootingDirection = CalculateSpread().normalized;
 
@@ -50,7 +50,7 @@ public class Pistol : GunBase
 
     public override Vector3 CalculateSpread()
     {
-        Ray ray = playerCamera.ScreenPointToRay(new Vector3(0.5f, 0.5f, 0));
+        Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
 
         Vector3 targetPoint;

@@ -14,7 +14,7 @@ public abstract class GiantBase : MonoBehaviour
 
     [Header("Patroling")]
     public Vector3 walkPoint;
-    bool walkPointSet;
+    public bool walkPointSet;
     public float walkPointRange;
 
     [Header("Attacking")]
@@ -38,27 +38,9 @@ public abstract class GiantBase : MonoBehaviour
 
     public abstract void RandomiseAnimation();
 
-    public void Patroling()
-    {
-        if (!walkPointSet)
-        {
-            SearchWalkPoint();
-        }
+    public abstract void Patroling();
 
-        if (walkPointSet)
-        {
-            agent.SetDestination(walkPoint);
-        }
-
-        Vector3 distanceToWalkPoint = transform.position - walkPoint;
-
-        if (distanceToWalkPoint.magnitude < 1f)
-        {
-            walkPointSet = false;
-        }
-    }
-
-    private void SearchWalkPoint()
+    public void SearchWalkPoint()
     {
         float randomZ = Random.Range(-walkPointRange, walkPointRange);
         float randomX = Random.Range(-walkPointRange, walkPointRange);
@@ -71,10 +53,7 @@ public abstract class GiantBase : MonoBehaviour
         }
     }
 
-    public void ChasePlayer()
-    {
-        agent.SetDestination(player.position);
-    }
+    public abstract void ChasePlayer();
 
     public abstract void AttackPlayer();
 

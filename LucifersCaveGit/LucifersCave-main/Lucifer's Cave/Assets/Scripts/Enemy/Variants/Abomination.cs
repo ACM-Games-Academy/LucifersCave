@@ -50,12 +50,35 @@ public class Abomination : GiantBase
     {
         agent.SetDestination(transform.position);
 
-        transform.LookAt(player);
-
         if (!alreadyAttacked)
         {
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
+        }
+    }
+
+    public override void ChasePlayer()
+    {
+        agent.SetDestination(player.position);
+    }
+
+    public override void Patroling()
+    {
+        if (!walkPointSet)
+        {
+            SearchWalkPoint();
+        }
+
+        if (walkPointSet)
+        {
+            agent.SetDestination(walkPoint);
+        }
+
+        Vector3 distanceToWalkPoint = transform.position - walkPoint;
+
+        if (distanceToWalkPoint.magnitude < 1f)
+        {
+            walkPointSet = false;
         }
     }
 }
