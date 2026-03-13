@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Aiming : MonoBehaviour
+public class Aiming : MonoBehaviour, IAimable
 {
     [Header("Settings")]
     public float adsSensitivityMultiplier = 2f;
@@ -47,7 +47,6 @@ public class Aiming : MonoBehaviour
             {
                 EnterADS();
                 wasAiming = true;
-                gunBase.isAiming = true;
             }
             
             animator.SetBool("isAimingAnim", true);
@@ -58,7 +57,6 @@ public class Aiming : MonoBehaviour
             {
                 ExitADS();
                 wasAiming = false;
-                gunBase.isAiming = false;
             }
 
             animator.SetBool("isAimingAnim", false);
@@ -75,7 +73,7 @@ public class Aiming : MonoBehaviour
             FOV_speed * Time.deltaTime);
     }
 
-    private void EnterADS()
+    public void EnterADS()
     {
         weaponSway.ResetSwayPosition();
         weaponSway.enabled = false;
@@ -88,7 +86,7 @@ public class Aiming : MonoBehaviour
         crosshair.enabled = false;
     }
 
-    private void ExitADS()
+    public void ExitADS()
     {
         weaponSway.enabled = true;
         weaponStats.spreadIntensity = defaultSpread;

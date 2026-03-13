@@ -4,8 +4,8 @@ public class AmmoCache : MonoBehaviour, IInteractable
 {
     private Initializer initializer;
     public int AmmoSurplus;
-    public Reloading reloadingScript;
     public AudioSource openingSound;
+    private WeaponManager weaponManager;
 
     public HighlightedObject highlights;
     bool canPickUp;
@@ -14,35 +14,35 @@ public class AmmoCache : MonoBehaviour, IInteractable
     {
         openingSound = GetComponent<AudioSource>();
         highlights = GetComponent<HighlightedObject>();
+        initializer = FindFirstObjectByType<Initializer>();
+        weaponManager = initializer.weaponManager;
         canPickUp = true;
-    }
-
-    public void Initialize(Reloading reloadingScript, Initializer initializer)   
-    {
-        this.reloadingScript = reloadingScript;
-        this.initializer = initializer;
     }
 
     public void Interact()
     {
         if (!canPickUp) return;
+        if (initializer == null || initializer.weaponManager == null) return;
 
-        if (canPickUp)
+        Reloading reloadingScript = initializer.weaponManager.currentReloading;
+
+        if (reloadingScript == null) return;
+
+        reloadingScript.reserveAmmo = Mathf.Min(reloadingScript.reserveAmmo + AmmoSurplus,
+            reloadingScript.maxAmmo * 3);
+
+        weaponManager.gunBase.AddAmmo(AmmoSurplus);
+        reloadingScript.UpdateAmmo();
+        
+        openingSound.Play();
+        canPickUp = false;
+        var col = GetComponent<Collider>();
+        if (col != null)
         {
-            if (reloadingScript == null) return;
-            Debug.Log("Ammo Cache Picked Up");
-
-            initializer.BindAmmoCache();
-            reloadingScript.reserveAmmo = Mathf.Min(reloadingScript.reserveAmmo + AmmoSurplus, reloadingScript.maxAmmo * 3);
-            reloadingScript.UpdateAmmo();
-            openingSound.Play();
-            canPickUp = false;
-            Destroy(gameObject, openingSound.clip.length);
-            var col = GetComponent<Collider>();
-            if (col != null)
-            {
-                col.enabled = false;
-            }
+            col.enabled = false;
         }
+
+        openingSound.transform.parent = null;
+        Destroy(gameObject, openingSound.clip.length);
     }
 }

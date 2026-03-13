@@ -2,11 +2,11 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public class Reloading : MonoBehaviour, IReloadable
+public class Reloading : MonoBehaviour
 {
     [Header("Stats")]
     [SerializeField] private TextMeshProUGUI ammoCounter;
-    [SerializeField] private TextMeshProUGUI reloadingText;
+    public TextMeshProUGUI reloadingText;
     public int currentAmmo, reserveAmmo, maxAmmo;
 
     [Header("Input")]
@@ -63,40 +63,7 @@ public class Reloading : MonoBehaviour, IReloadable
     {
         if (Input.GetKeyDown(reloadKey) && currentAmmo < maxAmmo && reserveAmmo > 0 
             && !gunBase.isReloading && !gunBase.isAiming)
-            StartCoroutine(Reload());
-    }
-
-    public IEnumerator Reload()
-    {
-        if (gunBase.isReloading || currentAmmo == weaponStats.maxAmmo)
-            yield break;
-
-        gunBase.isReloading = true;
-
-        reloadingText.enabled = true;
-        gunBase.isReloading = true;
-        weaponSway.enabled = false;
-
-        animator.SetTrigger("ReloadDown");
-        StartCoroutine(PlayAfterAnimation("ReloadAnim", "ReloadUpAnim"));
-
-        float reloadDuration = currentAmmo > 0 ? weaponStats.reloadTime : weaponStats.reloadTimeEmpty;
-        yield return new WaitForSeconds(reloadDuration);
-
-
-        weaponSway.enabled = true;
-
-        int ammoToReload = Mathf.Min(weaponStats.maxAmmo - currentAmmo, reserveAmmo);
-        currentAmmo += ammoToReload;
-        reserveAmmo -= ammoToReload;
-
-        gunBase.isReloading = false;
-
-        weaponStats.currentAmmo = currentAmmo;
-        reloadingText.enabled = false;
-
-        UpdateAmmo();
-        gunBase.isReloading = false;
+            StartCoroutine(gunBase.Reload());
     }
 
     public void UpdateAmmo()
@@ -107,7 +74,7 @@ public class Reloading : MonoBehaviour, IReloadable
         }
     }
 
-    private IEnumerator PlayAfterAnimation(string firstAnimName, string NextAnimName)
+    public IEnumerator PlayAfterAnimation(string firstAnimName, string NextAnimName)
     {
         AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
 

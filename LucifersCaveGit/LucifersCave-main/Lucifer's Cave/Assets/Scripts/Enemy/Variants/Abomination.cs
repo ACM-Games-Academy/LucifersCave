@@ -10,11 +10,10 @@ public class Abomination : GiantBase
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
         health = GetComponent<EnemyHealth>();
-        agent.isStopped = true;
-        RandomiseAnimation();
-        EnemyMovement();
-
         EnsureOnNavMesh(agent);
+        EnemyMovement();
+        Patroling();
+
 
         if (health != null)
         {
@@ -31,24 +30,23 @@ public class Abomination : GiantBase
         {
             Patroling();
         }
-        if (playerInSight && !playerInAttack)
+        else if (playerInSight && !playerInAttack)
         {
             ChasePlayer();
         }
-        if (playerInSight && playerInAttack)
+        else if (playerInSight && playerInAttack)
         {
             AttackPlayer();
+        } 
+        else
+        {
+            return;
         }
-    }
-
-    public override void RandomiseAnimation()
-    {
-        randomWalkIndex = Random.Range(0, 3);
     }
 
     public override void AttackPlayer()
     {
-        agent.SetDestination(transform.position);
+        agent.isStopped = true;
 
         if (!alreadyAttacked)
         {
@@ -59,6 +57,7 @@ public class Abomination : GiantBase
 
     public override void ChasePlayer()
     {
+        agent.isStopped = false;
         agent.SetDestination(player.position);
     }
 
@@ -79,6 +78,14 @@ public class Abomination : GiantBase
         if (distanceToWalkPoint.magnitude < 1f)
         {
             walkPointSet = false;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (health != null)
+        {
+            health.OnDeathEvent -= HandleDeath;
         }
     }
 }

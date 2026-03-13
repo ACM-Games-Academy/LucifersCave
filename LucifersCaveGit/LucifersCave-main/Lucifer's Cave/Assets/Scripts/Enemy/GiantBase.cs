@@ -36,8 +36,6 @@ public abstract class GiantBase : MonoBehaviour
         player = playerTransform;
     }
 
-    public abstract void RandomiseAnimation();
-
     public abstract void Patroling();
 
     public void SearchWalkPoint()
@@ -61,7 +59,7 @@ public abstract class GiantBase : MonoBehaviour
     {
         if (hasStartedWalking) return;
 
-        animator.SetInteger("WalkInt", randomWalkIndex);
+        animator.SetBool("isRunning", true);
         hasStartedWalking = true;
     }
 

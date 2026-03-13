@@ -22,7 +22,16 @@ public class Pistol : GunBase
             {
                 Shoot();
             }
-        } 
+        }
+
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            isAiming = true;
+        }
+        else if (Input.GetKeyUp(KeyCode.Mouse1))
+        {
+            isAiming = false;
+        }
     }
 
     public override void Shoot()
@@ -34,12 +43,16 @@ public class Pistol : GunBase
         audioSource.Play();
 
         Vector3 shootingDirection = CalculateSpread().normalized;
+        PlayerScore playerScore = FindFirstObjectByType<PlayerScore>();
 
         GameObject bullet = Instantiate(weaponStats.bulletPrefab, 
-            bulletSpawnPoint.position, Quaternion.identity);
+            bulletSpawnPoint.position, Quaternion.LookRotation(shootingDirection));
         bullet.GetComponent<Rigidbody>().AddForce(shootingDirection * 
             weaponStats.bulletVelocity, ForceMode.VelocityChange);
         bullet.transform.forward = shootingDirection;
+
+        Bullets bullets = bullet.GetComponent<Bullets>();
+        bullets.Initialize(playerScore);
 
         if (allowReset)
         {

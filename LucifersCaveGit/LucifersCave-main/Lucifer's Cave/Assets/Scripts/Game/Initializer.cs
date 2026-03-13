@@ -60,8 +60,6 @@ public class Initializer : MonoBehaviour
 
     private void BindAll()
     {
-        BindAmmoCache();
-
         EnemyAttack[] enemyAttackScripts = Object.FindObjectsByType<EnemyAttack>(FindObjectsSortMode.None);
         EnemyBase[] enemyBaseScripts = Object.FindObjectsByType<EnemyBase>(FindObjectsSortMode.None);
         GiantBase[] giantBases = Object.FindObjectsByType<GiantBase>(FindObjectsSortMode.None);
@@ -69,7 +67,7 @@ public class Initializer : MonoBehaviour
         WallBuy[] wallBuyScripts = Object.FindObjectsByType<WallBuy>(FindObjectsSortMode.None);
         GiantHealthBar[] giantHealthBarScripts = Object.FindObjectsByType<GiantHealthBar>(FindObjectsSortMode.None);
         InteractVial[] interactVialScripts = Object.FindObjectsByType<InteractVial>(FindObjectsSortMode.None);
-        
+
         foreach (GiantBase giantBase in giantBases)
         {
             giantBase.Initialize(player);
@@ -103,17 +101,6 @@ public class Initializer : MonoBehaviour
         foreach (WallBuy wallBuy in wallBuyScripts)
         {
             wallBuy.Initialize(weaponManager, playerScore, pointSpawner);
-        }
-    }
-
-    public void BindAmmoCache()
-    {
-        AmmoCache[] ammoCacheScripts = Object.FindObjectsByType<AmmoCache>(FindObjectsSortMode.None);
-        Reloading reloadingScripts = weaponManager.weaponParent.GetComponentInChildren<Reloading>(true);
-    
-        foreach (AmmoCache ammoCache in ammoCacheScripts)
-        {
-            ammoCache.Initialize(reloadingScripts, this);
         }
     }
 }

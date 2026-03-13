@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2018143890963838245}
   - component: {fileID: 8120118601243861659}
   - component: {fileID: 4648109012231281641}
-  - component: {fileID: 7672915254390834692}
   - component: {fileID: 6918245314975725470}
   m_Layer: 7
   m_Name: AK47
@@ -52,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b48521b5a43491439dd9ddf1b3a15bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Aiming
-  sensDecrease: 2
+  adsSensitivityMultiplier: 2
   aimMultiplier: 0.4
   mainCam: {fileID: 0}
   gunCam: {fileID: 0}
@@ -61,11 +60,10 @@ MonoBehaviour:
   FOV_decrease: 60
   FOV_speed: 4
   weaponStats: {fileID: 0}
-  shootingFunc: {fileID: 0}
   movementFunc: {fileID: 0}
   lookFunc: {fileID: 0}
   weaponSway: {fileID: 0}
-  reloadingScript: {fileID: 0}
+  gunBase: {fileID: 0}
   crosshair: {fileID: 0}
   animator: {fileID: 0}
   isAnimating: 0
@@ -86,7 +84,6 @@ MonoBehaviour:
   currentAmmo: 0
   reserveAmmo: 0
   maxAmmo: 0
-  isReloading: 0
   reloadKey: 114
   weaponStats: {fileID: 11400000, guid: 26bd213ac1e625345ab4d127dff3657b, type: 2}
   weaponSway: {fileID: 0}
@@ -107,35 +104,6 @@ MonoBehaviour:
   hipfireRecoilMultiplier: 2.5
   adsRecoilMultiplier: 0.5
   plyrCam: {fileID: 0}
---- !u!114 &7672915254390834692
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 393862255952525591}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b6759c2f16ce744182f285541ef3226, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weaponData: {fileID: 11400000, guid: 26bd213ac1e625345ab4d127dff3657b, type: 2}
-  bulletSpawnPoint: {fileID: 8630971723789841711}
-  muzzleFlash: {fileID: 0}
-  plyrCamera: {fileID: 0}
-  aimingKey: 324
-  shootingKey: 323
-  isShooting: 0
-  readyToShoot: 1
-  allowReset: 1
-  isReloading: 0
-  isAiming: 0
-  Recoil: {fileID: 4648109012231281641}
-  weaponSway: {fileID: 0}
-  movementScript: {fileID: 0}
-  reloading: {fileID: 8120118601243861659}
-  playerScore: {fileID: 0}
-  animator: {fileID: 0}
 --- !u!82 &6918245314975725470
 AudioSource:
   m_ObjectHideFlags: 0

@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public abstract class GunBase : MonoBehaviour, IGun
+public abstract class GunBase : MonoBehaviour, IGun, IReloadable
 {
     [SerializeField] protected WeaponStats weaponStats;
     [SerializeField] protected RecoilProfiles recoilProfiles;
@@ -21,9 +21,12 @@ public abstract class GunBase : MonoBehaviour, IGun
     public bool allowReset = true;
 
     public bool isAiming;
-    public bool isReloading;
 
     public AudioSource audioSource;
+
+    [Header("Reloading")]
+    public int currentAmmo, reserveAmmo, maxAmmo;
+    public bool isReloading;
 
     public abstract void Shoot();
 
@@ -45,6 +48,47 @@ public abstract class GunBase : MonoBehaviour, IGun
     public void ApplyWeaponData(WeaponStats weaponStats)
     {
         this.weaponStats = weaponStats;
+    }
+
+    public void AddAmmo(int amount)
+    {
+        reserveAmmo += amount;
+        if (reserveAmmo > maxAmmo)
+        {
+            reserveAmmo = maxAmmo;
+        }
+    }
+
+    public IEnumerator Reload()
+    {
+        if (isReloading || currentAmmo == weaponStats.maxAmmo)
+            yield break;
+
+        isReloading = true;
+
+        reloading.reloadingText.enabled = true;
+        isReloading = true;
+        weaponSway.enabled = false;
+
+        reloading.animator.SetTrigger("ReloadDown");
+        StartCoroutine(reloading.PlayAfterAnimation("ReloadAnim", "ReloadUpAnim"));
+
+        float reloadDuration = currentAmmo > 0 ? weaponStats.reloadTime : weaponStats.reloadTimeEmpty;
+        yield return new WaitForSeconds(reloadDuration);
+
+        weaponSway.enabled = true;
+
+        int ammoToReload = Mathf.Min(weaponStats.maxAmmo - currentAmmo, reserveAmmo);
+        currentAmmo += ammoToReload;
+        reserveAmmo -= ammoToReload;
+
+        isReloading = false;
+
+        weaponStats.currentAmmo = currentAmmo;
+        reloading.reloadingText.enabled = false;
+
+        reloading.UpdateAmmo();
+        isReloading = false;
     }
 }
 
@@ -69,6 +113,6 @@ public interface IReloadable
 
 public interface IAimable
 {
-    void Aim();
-    void StopAiming();
+    void EnterADS();
+    void ExitADS();
 }

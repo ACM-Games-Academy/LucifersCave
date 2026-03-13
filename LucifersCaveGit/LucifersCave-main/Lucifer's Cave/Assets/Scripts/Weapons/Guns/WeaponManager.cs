@@ -5,11 +5,14 @@ public class WeaponManager : MonoBehaviour
     public Transform weaponParent;
     [SerializeField] private WeaponStats startingWeapon;
     [SerializeField] private RecoilProfiles startingRecoil;
+    public GunBase gunBase;
     private IWeaponFactory weaponFactory;
     private GameObject currentWeaponObject;
     public Initializer initializer;
+
     public WeaponStats currentWeapon { get; private set; }
     public RecoilProfiles currentRecoil { get; private set; }
+    public Reloading currentReloading { get; private set; }
 
     public Vector3 spawnOffset;
 
@@ -37,6 +40,10 @@ public class WeaponManager : MonoBehaviour
             Destroy(currentWeaponObject);
 
         currentWeaponObject = weaponFactory.CreateWeapon(newWeapon, weaponRecoilStats, weaponParent, spawnOffset);
+
+        gunBase = currentWeaponObject.GetComponent<GunBase>();
+
+        currentReloading = currentWeaponObject.GetComponent<Reloading>();
         currentWeapon = newWeapon;
         currentRecoil = weaponRecoilStats;
         currentWeaponObject.layer = LayerMask.NameToLayer("Hands/Weapon");

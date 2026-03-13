@@ -21,7 +21,7 @@ public class Bullets : MonoBehaviour
             playerScore.AddPoints(playerScore.bodyShotPoints);
             FindFirstObjectByType<PointSpawner>().ShowPoints(playerScore.bodyShotPoints);
 
-            if (collision.gameObject.layer == criticalLayer)
+            if ((criticalLayer.value & (1 << collision.gameObject.layer)) != 0)
             {
                 int criticalDamage = damage * 2;
                 idamageable.TakeDamage(criticalDamage);
@@ -32,11 +32,11 @@ public class Bullets : MonoBehaviour
                 playerScore.AddPoints(playerScore.deathPoints);
                 FindFirstObjectByType<PointSpawner>().ShowPoints(playerScore.deathPoints);
             }
+
+            Destroy(gameObject);
         }
 
-        Grenade grenadeScript = collision.gameObject.GetComponent<Grenade>();
-
-        if (grenadeScript != null)
+        if (collision.gameObject.TryGetComponent(out Grenade grenadeScript)) 
         {
             grenadeScript.Explode();
         }

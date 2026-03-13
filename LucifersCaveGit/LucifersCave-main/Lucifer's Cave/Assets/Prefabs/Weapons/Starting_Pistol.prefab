@@ -55,9 +55,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Reloading
   ammoCounter: {fileID: 0}
   reloadingText: {fileID: 0}
-  currentAmmo: 0
-  reserveAmmo: 0
-  maxAmmo: 0
+  currentAmmo: 8
+  reserveAmmo: 16
+  maxAmmo: 86
   reloadKey: 114
   weaponStats: {fileID: 11400000, guid: 4ac804ed50af5d2469c398dbbd14f2e5, type: 2}
   weaponSway: {fileID: 0}
@@ -90,7 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b48521b5a43491439dd9ddf1b3a15bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Aiming
-  sensDecrease: 2
+  adsSensitivityMultiplier: 2
   aimMultiplier: 0.4
   mainCam: {fileID: 0}
   gunCam: {fileID: 0}
@@ -102,6 +102,7 @@ MonoBehaviour:
   movementFunc: {fileID: 0}
   lookFunc: {fileID: 0}
   weaponSway: {fileID: 0}
+  gunBase: {fileID: 0}
   crosshair: {fileID: 0}
   animator: {fileID: 0}
   isAnimating: 0
@@ -128,7 +129,12 @@ MonoBehaviour:
   isShooting: 0
   readyToShoot: 1
   allowReset: 1
+  isAiming: 0
   audioSource: {fileID: 219532880829224969}
+  currentAmmo: 0
+  reserveAmmo: 0
+  maxAmmo: 0
+  isReloading: 0
 --- !u!82 &219532880829224969
 AudioSource:
   m_ObjectHideFlags: 0
