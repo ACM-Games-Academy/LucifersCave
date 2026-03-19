@@ -43,7 +43,6 @@ public abstract class GiantBase : MonoBehaviour
 
     public void SearchWalkPoint()
     {
-        WalkPointTimer();
         float randomZ = Random.Range(-walkPointRange, walkPointRange);
         float randomX = Random.Range(-walkPointRange, walkPointRange);
 
@@ -63,22 +62,7 @@ public abstract class GiantBase : MonoBehaviour
             if (!Physics.Raycast(transform.position, direction, distance, whatIsObstacle))
             {
                 walkPointSet = true;
-                WaitAtWayPoint();
             }
-        }
-    }
-
-    private void WalkPointTimer()
-    {
-        if (walkPointSet)
-        {
-            walkPointTimer += Time.deltaTime;
-        }
-        if (walkPointTimer > 5f)
-        {
-            walkPointSet = false;
-            resetTimer();
-            SearchWalkPoint();
         }
     }
 
@@ -98,9 +82,10 @@ public abstract class GiantBase : MonoBehaviour
         animator.SetBool("isRunning", true);
         hasStartedWalking = true;
 
-        if (agent.GetComponent<Rigidbody>().linearVelocity.magnitude < 0.1f)
+        if (agent.velocity.magnitude < 0.1f)
         {
             animator.SetBool("isRunning", false);
+            hasStartedWalking = false;
         }
     }
 
@@ -109,14 +94,14 @@ public abstract class GiantBase : MonoBehaviour
         alreadyAttacked = false;
     }
 
-    IEnumerator WaitAtWayPoint()
+    public IEnumerator WaitAtWayPoint()
     {
         agent.isStopped = true;
         animator.SetBool("isRunning", false);
+
         yield return new WaitForSeconds(2f);
+
         agent.isStopped = false;
-        SearchWalkPoint();
-        animator.SetBool("isRunning", true);
     }
 
     private void OnDrawGizmosSelected()

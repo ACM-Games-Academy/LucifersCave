@@ -13,8 +13,6 @@ public class Abomination : GiantBase
         animator = GetComponentInChildren<Animator>();
         health = GetComponent<EnemyHealth>();
         EnsureOnNavMesh(agent);
-        EnemyMovement();
-        Patroling();
 
         if (health != null)
         {
@@ -65,6 +63,7 @@ public class Abomination : GiantBase
 
         if (health.isDead) yield break;
         if (player == null) yield break;
+        if (Vector3.Distance(transform.position, player.position) > attackRange) yield break;
 
         if (player != null)
         {
@@ -82,12 +81,15 @@ public class Abomination : GiantBase
 
     public override void ChasePlayer()
     {
+        walkPointSet = false;
+        CancelAttack();
         agent.isStopped = false;
         agent.SetDestination(player.position);
     }
 
     public override void Patroling()
     {
+        CancelAttack();
         if (!walkPointSet)
         {
             SearchWalkPoint();
@@ -103,6 +105,7 @@ public class Abomination : GiantBase
         if (distanceToWalkPoint.magnitude < 1f)
         {
             walkPointSet = false;
+            StartCoroutine(WaitAtWayPoint());
         }
     }
 
@@ -112,5 +115,16 @@ public class Abomination : GiantBase
         {
             health.OnDeathEvent -= HandleDeath;
         }
+    }
+
+    void CancelAttack()
+    {
+        if (attackCoroutine != null)
+        {
+            StopCoroutine(attackCoroutine);
+            attackCoroutine = null;
+        }
+
+        alreadyAttacked = false;
     }
 }
