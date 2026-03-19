@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,16 +11,18 @@ public abstract class GiantBase : MonoBehaviour
     private bool hasStartedWalking = false;
 
     [Header("Layers")]
-    public LayerMask whatIsGround, whatIsPlayer;
+    public LayerMask whatIsGround, whatIsPlayer, whatIsObstacle;
 
     [Header("Patroling")]
     public Vector3 walkPoint;
     public bool walkPointSet;
     public float walkPointRange;
+    private float walkPointTimer;
 
     [Header("Attacking")]
     public float damage;
     public bool alreadyAttacked;
+    public float attackDelay;
 
     [Header("States")]
     public float sightRange;
@@ -40,15 +43,48 @@ public abstract class GiantBase : MonoBehaviour
 
     public void SearchWalkPoint()
     {
+        WalkPointTimer();
         float randomZ = Random.Range(-walkPointRange, walkPointRange);
         float randomX = Random.Range(-walkPointRange, walkPointRange);
 
-        walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
+        walkPoint = new Vector3(transform.position.x + randomX, 
+            transform.position.y, 
+            transform.position.z + randomZ);
 
-        if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
+        Vector3 rayStart = walkPoint + Vector3.up * 5;
+
+        if (Physics.Raycast(rayStart, Vector3.down, out RaycastHit floorHit, 10, whatIsGround))
         {
-            walkPointSet = true;
+            walkPoint = floorHit.point;
+
+            Vector3 direction = (walkPoint - transform.position).normalized;
+            float distance = Vector3.Distance(transform.position, walkPoint);
+
+            if (!Physics.Raycast(transform.position, direction, distance, whatIsObstacle))
+            {
+                walkPointSet = true;
+                WaitAtWayPoint();
+            }
         }
+    }
+
+    private void WalkPointTimer()
+    {
+        if (walkPointSet)
+        {
+            walkPointTimer += Time.deltaTime;
+        }
+        if (walkPointTimer > 5f)
+        {
+            walkPointSet = false;
+            resetTimer();
+            SearchWalkPoint();
+        }
+    }
+
+    public void resetTimer()
+    {
+        walkPointTimer = 0;
     }
 
     public abstract void ChasePlayer();
@@ -61,11 +97,26 @@ public abstract class GiantBase : MonoBehaviour
 
         animator.SetBool("isRunning", true);
         hasStartedWalking = true;
+
+        if (agent.GetComponent<Rigidbody>().linearVelocity.magnitude < 0.1f)
+        {
+            animator.SetBool("isRunning", false);
+        }
     }
 
     public void ResetAttack()
     {
         alreadyAttacked = false;
+    }
+
+    IEnumerator WaitAtWayPoint()
+    {
+        agent.isStopped = true;
+        animator.SetBool("isRunning", false);
+        yield return new WaitForSeconds(2f);
+        agent.isStopped = false;
+        SearchWalkPoint();
+        animator.SetBool("isRunning", true);
     }
 
     private void OnDrawGizmosSelected()

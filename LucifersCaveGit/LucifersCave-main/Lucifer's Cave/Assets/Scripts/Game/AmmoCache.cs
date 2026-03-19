@@ -24,16 +24,12 @@ public class AmmoCache : MonoBehaviour, IInteractable
         if (!canPickUp) return;
         if (initializer == null || initializer.weaponManager == null) return;
 
-        Reloading reloadingScript = initializer.weaponManager.currentReloading;
-
-        if (reloadingScript == null) return;
-
-        reloadingScript.reserveAmmo = Mathf.Min(reloadingScript.reserveAmmo + AmmoSurplus,
-            reloadingScript.maxAmmo * 3);
+        GunBase gunBase = weaponManager.gunBase;
+        Reloading reloadingScript = weaponManager.gunBase.GetComponent<Reloading>();
 
         weaponManager.gunBase.AddAmmo(AmmoSurplus);
         reloadingScript.UpdateAmmo();
-        
+
         openingSound.Play();
         canPickUp = false;
         var col = GetComponent<Collider>();

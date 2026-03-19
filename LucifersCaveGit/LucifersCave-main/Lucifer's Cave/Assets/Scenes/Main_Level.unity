@@ -6352,7 +6352,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 32639
+    m_Bits: 65407
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -7237,6 +7237,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 14
       objectReference: {fileID: 0}
+    - target: {fileID: 1160311122378846639, guid: 5045c00a214925447af3a4be6d33b23e, type: 3}
+      propertyPath: maxHealth
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 1243536732003447316, guid: 5045c00a214925447af3a4be6d33b23e, type: 3}
       propertyPath: m_Layer
       value: 14
@@ -8108,7 +8112,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Initializer
   weaponStats: {fileID: 11400000, guid: 4ac804ed50af5d2469c398dbbd14f2e5, type: 2}
   recoilProfiles: {fileID: 11400000, guid: a9183965d8e7d3c44a67858d35267131, type: 2}
-  weaponRecoil: {fileID: 0}
   movement: {fileID: 1444824103}
   cameraLook: {fileID: 330585548}
   playerScore: {fileID: 1444824107}
@@ -10328,10 +10331,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 2560, y: 1440}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -10356,7 +10359,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -10439,7 +10442,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PauseMenu
   pauseMenuCanvas: {fileID: 1124970509}
-  isPaused: 0
   pauseKey: 116
 --- !u!1 &1405826294
 GameObject:
@@ -11160,6 +11162,7 @@ MonoBehaviour:
   weaponParent: {fileID: 813186567}
   startingWeapon: {fileID: 11400000, guid: 4ac804ed50af5d2469c398dbbd14f2e5, type: 2}
   startingRecoil: {fileID: 11400000, guid: a9183965d8e7d3c44a67858d35267131, type: 2}
+  gunBase: {fileID: 0}
   initializer: {fileID: 788786149}
   spawnOffset: {x: 0.1, y: 0, z: 0}
 --- !u!114 &1444824113

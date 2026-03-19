@@ -22,8 +22,8 @@ MonoBehaviour:
   shootingMode: 0
   bulletsPerBurst: 0
   currentAmmo: 8
-  maxAmmo: 8
-  reserveAmmo: 24
+  maxAmmoInMag: 8
+  ammoInReserve: 32
   reloadTime: 1
   reloadTimeEmpty: 2
   animatorController: {fileID: 0}

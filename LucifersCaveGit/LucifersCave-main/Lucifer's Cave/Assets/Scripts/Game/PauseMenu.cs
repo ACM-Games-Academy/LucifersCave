@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenuCanvas;
-    public bool isPaused = false;
+    public static bool isPaused = false;
     public KeyCode pauseKey = KeyCode.T;
 
     void Update()

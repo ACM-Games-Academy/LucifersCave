@@ -62,6 +62,8 @@ public class EnemyAttack : MonoBehaviour
 
     void Update()
     {
+        if (PauseMenu.isPaused) return;
+
         if (enemyHealth != null && enemyHealth.isDead) return; 
         if (player == null) return;
 

@@ -22,8 +22,8 @@ public class WeaponStats : ScriptableObject
 
     [Header("Reloading")]
     public int currentAmmo;
-    public int maxAmmo;
-    public int reserveAmmo;
+    public int maxAmmoInMag;
+    public int ammoInReserve;
     public float reloadTime;
     public float reloadTimeEmpty;
 

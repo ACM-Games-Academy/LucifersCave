@@ -3,12 +3,6 @@ using UnityEngine;
 
 public class Pistol : GunBase
 {
-    public void Start()
-    {
-        reloading = GetComponent<Reloading>();
-        reloading.UpdateAmmo();
-    }
-
     private void Update()
     {
         HandleInput();
@@ -18,7 +12,7 @@ public class Pistol : GunBase
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            if (readyToShoot && reloading.currentAmmo > 0)
+            if (readyToShoot && currentAmmo > 0)
             {
                 Shoot();
             }
@@ -32,13 +26,15 @@ public class Pistol : GunBase
         {
             isAiming = false;
         }
+
+        if (PauseMenu.isPaused) return;
     }
 
     public override void Shoot()
     {
         readyToShoot = false;
         muzzleFlash.Play();
-        reloading.currentAmmo--;
+        currentAmmo--;
         reloading.UpdateAmmo();
         audioSource.Play();
 

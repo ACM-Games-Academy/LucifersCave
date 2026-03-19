@@ -7,13 +7,11 @@ public class Reloading : MonoBehaviour
     [Header("Stats")]
     [SerializeField] private TextMeshProUGUI ammoCounter;
     public TextMeshProUGUI reloadingText;
-    public int currentAmmo, reserveAmmo, maxAmmo;
 
     [Header("Input")]
     public KeyCode reloadKey = KeyCode.R;
 
     [Header("References")]
-    public WeaponStats weaponStats;
     public WeaponSway weaponSway;
     private GunBase gunBase;
 
@@ -21,23 +19,12 @@ public class Reloading : MonoBehaviour
 
     void Start()
     {
-        currentAmmo = weaponStats.currentAmmo;
-        reserveAmmo = weaponStats.reserveAmmo;
-        maxAmmo = weaponStats.maxAmmo;
-
-        UpdateAmmo();
-
         weaponSway = GetComponentInParent<WeaponSway>();
         animator = GetComponentInParent<Animator>();
 
-        gunBase.isReloading = false;
-    }
+        gunBase = GetComponentInParent<GunBase>();
 
-    public void ApplyWeaponReloadData(WeaponStats weaponStats)
-    {
-        this.currentAmmo = weaponStats.currentAmmo;
-        this.reserveAmmo = weaponStats.reserveAmmo;
-        this.maxAmmo = weaponStats.maxAmmo;
+        UpdateAmmo();
     }
 
     public void Initialize(TextMeshProUGUI ammoCounter, TextMeshProUGUI reloadingText)
@@ -45,13 +32,20 @@ public class Reloading : MonoBehaviour
         this.ammoCounter = ammoCounter;
         this.reloadingText = reloadingText;
         reloadingText.enabled = false;
-
-        gunBase = GetComponent<GunBase>();
     }
 
     void Update()
     {
         HandleInput();
+    }
+
+    public void HandleInput()
+    {
+        if (gunBase == null) return;
+
+        if (Input.GetKeyDown(reloadKey) && gunBase.currentAmmo < gunBase.maxAmmo && gunBase.reserveAmmo > 0 
+            && !gunBase.isReloading && !gunBase.isAiming)
+            StartCoroutine(gunBase.Reload());
 
         if (gunBase.isReloading)
         {
@@ -59,18 +53,11 @@ public class Reloading : MonoBehaviour
         }
     }
 
-    public void HandleInput()
-    {
-        if (Input.GetKeyDown(reloadKey) && currentAmmo < maxAmmo && reserveAmmo > 0 
-            && !gunBase.isReloading && !gunBase.isAiming)
-            StartCoroutine(gunBase.Reload());
-    }
-
     public void UpdateAmmo()
     {
         if (ammoCounter != null)
         {
-            ammoCounter.text = currentAmmo + " / " + reserveAmmo;
+            ammoCounter.text = gunBase.currentAmmo + " / " + gunBase.reserveAmmo;
         }
     }
 

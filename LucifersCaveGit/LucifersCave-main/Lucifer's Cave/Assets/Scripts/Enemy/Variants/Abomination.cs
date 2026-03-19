@@ -1,9 +1,11 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class Abomination : GiantBase
 {
     public float timeBetweenAttacks;
+    private Coroutine attackCoroutine;
 
     void Start()
     {
@@ -14,7 +16,6 @@ public class Abomination : GiantBase
         EnemyMovement();
         Patroling();
 
-
         if (health != null)
         {
             health.OnDeathEvent += HandleDeath;
@@ -23,6 +24,8 @@ public class Abomination : GiantBase
 
     void Update()
     {
+        if (PauseMenu.isPaused) return;
+
         playerInSight = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttack = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
@@ -50,9 +53,31 @@ public class Abomination : GiantBase
 
         if (!alreadyAttacked)
         {
+            attackCoroutine = StartCoroutine(AttackFlow());
             alreadyAttacked = true;
-            Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
+    }
+
+    IEnumerator AttackFlow()
+    { 
+
+        yield return new WaitForSeconds(attackDelay);
+
+        if (health.isDead) yield break;
+        if (player == null) yield break;
+
+        if (player != null)
+        {
+            PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(damage);
+            }
+        }
+
+        yield return new WaitForSeconds(timeBetweenAttacks);
+
+        alreadyAttacked = false;
     }
 
     public override void ChasePlayer()

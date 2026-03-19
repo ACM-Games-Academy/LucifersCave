@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(Reloading))]
 public abstract class GunBase : MonoBehaviour, IGun, IReloadable
 {
     [SerializeField] protected WeaponStats weaponStats;
@@ -16,6 +17,10 @@ public abstract class GunBase : MonoBehaviour, IGun, IReloadable
     public ParticleSystem muzzleFlash;
     public Camera playerCamera;
 
+    public int currentAmmo;
+    public int reserveAmmo;
+    public int maxAmmo;
+
     private int currentBurst;
     public bool isShooting, readyToShoot = true;
     public bool allowReset = true;
@@ -25,8 +30,17 @@ public abstract class GunBase : MonoBehaviour, IGun, IReloadable
     public AudioSource audioSource;
 
     [Header("Reloading")]
-    public int currentAmmo, reserveAmmo, maxAmmo;
     public bool isReloading;
+
+    public void Start()
+    {
+        currentAmmo = weaponStats.maxAmmoInMag;
+        reserveAmmo = weaponStats.ammoInReserve;
+        maxAmmo = weaponStats.maxAmmoInMag;
+
+        reloading = GetComponent<Reloading>();
+        reloading.UpdateAmmo();
+    }
 
     public abstract void Shoot();
 
@@ -53,42 +67,41 @@ public abstract class GunBase : MonoBehaviour, IGun, IReloadable
     public void AddAmmo(int amount)
     {
         reserveAmmo += amount;
-        if (reserveAmmo > maxAmmo)
-        {
-            reserveAmmo = maxAmmo;
-        }
+
+        reloading.UpdateAmmo();
     }
 
     public IEnumerator Reload()
     {
-        if (isReloading || currentAmmo == weaponStats.maxAmmo)
+        Reloading reloadComponent = GetComponent<Reloading>();
+
+        if (isReloading || currentAmmo == maxAmmo || reserveAmmo <= 0)
             yield break;
 
         isReloading = true;
 
-        reloading.reloadingText.enabled = true;
-        isReloading = true;
-        weaponSway.enabled = false;
+        reloadComponent.reloadingText.enabled = true;
 
-        reloading.animator.SetTrigger("ReloadDown");
-        StartCoroutine(reloading.PlayAfterAnimation("ReloadAnim", "ReloadUpAnim"));
+        if (weaponSway != null)
+            weaponSway.enabled = false;
+
+        reloadComponent.animator.SetTrigger("ReloadDown");
+        StartCoroutine(reloadComponent.PlayAfterAnimation("ReloadAnim", "ReloadUpAnim"));
 
         float reloadDuration = currentAmmo > 0 ? weaponStats.reloadTime : weaponStats.reloadTimeEmpty;
         yield return new WaitForSeconds(reloadDuration);
 
         weaponSway.enabled = true;
 
-        int ammoToReload = Mathf.Min(weaponStats.maxAmmo - currentAmmo, reserveAmmo);
+        int ammoToReload = Mathf.Min(maxAmmo - currentAmmo, reserveAmmo);
         currentAmmo += ammoToReload;
         reserveAmmo -= ammoToReload;
 
         isReloading = false;
 
-        weaponStats.currentAmmo = currentAmmo;
-        reloading.reloadingText.enabled = false;
+        reloadComponent.reloadingText.enabled = false;
 
-        reloading.UpdateAmmo();
-        isReloading = false;
+        reloadComponent.UpdateAmmo();
     }
 }
 
