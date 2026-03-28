@@ -23,7 +23,7 @@ MonoBehaviour:
   bulletsPerBurst: 3
   currentAmmo: 30
   maxAmmoInMag: 30
-  ammoInReserve: 156
+  ammoInReserve: 60
   reloadTime: 2
-  reloadTimeEmpty: 2
+  reloadTimeEmpty: 2.5
   animatorController: {fileID: 0}

@@ -63,7 +63,7 @@ public class EnemyHealth : MonoBehaviour, HealthBase, IDamageable
         animator.SetInteger("DeathInt", randomDeathIndex);
         animator.SetTrigger("isDead");
 
-        if (agent != null && agent.isOnNavMesh)
+        if (agent != null)
         {
             if (agent.isOnNavMesh)
                 agent.isStopped = true;

@@ -24,6 +24,12 @@ public class Abomination : GiantBase
     {
         if (PauseMenu.isPaused) return;
 
+        if (health != null && health.isDead)
+        {
+            agent.isStopped = true;
+            return;
+        }
+
         playerInSight = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttack = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
@@ -38,7 +44,7 @@ public class Abomination : GiantBase
         else if (playerInSight && playerInAttack)
         {
             AttackPlayer();
-        } 
+        }
         else
         {
             return;
@@ -49,16 +55,17 @@ public class Abomination : GiantBase
     {
         agent.isStopped = true;
 
-        if (!alreadyAttacked)
+        if (!alreadyAttacked && attackCoroutine == null)
         {
             attackCoroutine = StartCoroutine(AttackFlow());
-            alreadyAttacked = true;
+            attackCoroutine = null;
         }
+
+        agent.isStopped = false;
     }
 
     IEnumerator AttackFlow()
     { 
-
         yield return new WaitForSeconds(attackDelay);
 
         if (health.isDead) yield break;

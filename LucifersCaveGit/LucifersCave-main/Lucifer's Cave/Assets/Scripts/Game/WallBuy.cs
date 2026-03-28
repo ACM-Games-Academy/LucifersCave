@@ -7,6 +7,7 @@ public class WallBuy : MonoBehaviour, IInteractable
     private PlayerScore points;
     private PointSpawner pointSpawner;
     public Vector3 spawnedWeaponOffset = new Vector3(0, 0, 0);
+    private bool isPurchased = false;
 
     private WeaponManager inventory;
     public int cost;
@@ -20,8 +21,11 @@ public class WallBuy : MonoBehaviour, IInteractable
 
     public void Interact()
     {
+        if (isPurchased) return;
+
         if (points.points >= cost)
         {
+            isPurchased = true;
             points.Purchasing(cost);
             pointSpawner.DeducePoints(cost);
             inventory.EquipWeapon(weaponStats, weaponRecoil, spawnedWeaponOffset);

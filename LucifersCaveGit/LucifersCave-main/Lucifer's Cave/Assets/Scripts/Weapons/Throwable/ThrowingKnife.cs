@@ -31,9 +31,9 @@ public class ThrowingKnife : MonoBehaviour
         else
             targetHit = true;
 
-        rb.isKinematic = true;
         rb.angularVelocity = Vector3.zero;
         rb.linearVelocity = Vector3.zero;
+        rb.isKinematic = true;
 
         if (!collision.gameObject.CompareTag("Enemy"))
         {

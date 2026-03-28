@@ -40,12 +40,13 @@ public abstract class GunBase : MonoBehaviour, IGun, IReloadable
 
         reloading = GetComponent<Reloading>();
         reloading.UpdateAmmo();
+        muzzleFlash = GetComponentInChildren<ParticleSystem>();
     }
 
     public abstract void Shoot();
 
     public abstract Vector3 CalculateSpread();
-
+    
     public void ResetShot()
     {
         readyToShoot = true;

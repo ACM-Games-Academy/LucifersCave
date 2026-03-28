@@ -34,6 +34,9 @@ public abstract class GiantBase : MonoBehaviour
     [HideInInspector] public Animator animator;
     [HideInInspector] public int randomWalkIndex;
 
+    [Header("Audio")]
+    public AudioSource walkingAudio;
+
     public void Initialize(Transform playerTransform)
     {
         player = playerTransform;
@@ -81,11 +84,13 @@ public abstract class GiantBase : MonoBehaviour
 
         animator.SetBool("isRunning", true);
         hasStartedWalking = true;
+        walkingAudio.Play();
 
         if (agent.velocity.magnitude < 0.1f)
         {
             animator.SetBool("isRunning", false);
             hasStartedWalking = false;
+            walkingAudio.Stop();
         }
     }
 
