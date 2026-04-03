@@ -6,6 +6,7 @@ public class Abomination : GiantBase
 {
     public float timeBetweenAttacks;
     private Coroutine attackCoroutine;
+    private int randomAttackIndex;
 
     void Start()
     {
@@ -64,8 +65,17 @@ public class Abomination : GiantBase
         agent.isStopped = false;
     }
 
+    public void RandomiseAnimation()
+    {
+        randomAttackIndex = Random.Range(0, 2);
+    }
+
     IEnumerator AttackFlow()
-    { 
+    {
+        RandomiseAnimation();
+        animator.SetTrigger("AttackTrigg");
+        animator.SetInteger("AttackInt", randomAttackIndex);
+
         yield return new WaitForSeconds(attackDelay);
 
         if (health.isDead) yield break;

@@ -20,7 +20,7 @@ public class PlayerHealthBar : MonoBehaviour
             playerHealth.OnHealthChanged -= UpdateBar;
     }
 
-    private void UpdateBar(float current, float max)
+    public void UpdateBar(float current, float max)
     {
         playerHealthBar.fillAmount = current / max;
     }

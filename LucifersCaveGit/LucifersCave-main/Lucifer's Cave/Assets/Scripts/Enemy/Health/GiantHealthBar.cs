@@ -30,7 +30,7 @@ public class GiantHealthBar : MonoBehaviour
             DisableHealthBar();
     }
 
-    private void UpdateBar(float current, float max)
+    public void UpdateBar(float current, float max)
     {
         giantHealthBar.fillAmount = current / max;
     }

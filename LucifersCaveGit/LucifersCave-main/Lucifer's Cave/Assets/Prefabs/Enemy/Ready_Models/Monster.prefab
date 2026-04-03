@@ -69,7 +69,7 @@ MonoBehaviour:
   walkPointRange: 3
   damage: 50
   alreadyAttacked: 0
-  attackDelay: 0
+  attackDelay: 0.5
   sightRange: 4
   attackRange: 1.5
   playerInSight: 0

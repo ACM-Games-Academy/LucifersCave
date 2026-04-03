@@ -39,6 +39,11 @@ public class EnemyHealth : MonoBehaviour, HealthBase, IDamageable
         if (isDead) return;
         isHurt = true;
 
+        if (GetComponent<GiantHealthBar>() != null)
+        {
+            GetComponent<GiantHealthBar>().UpdateBar(currentHealth, maxHealth);
+        }
+
         currentHealth -= amount;
 
         if (currentHealth <= 0)
@@ -51,7 +56,7 @@ public class EnemyHealth : MonoBehaviour, HealthBase, IDamageable
     
     public void RandomiseAnimation()
     {
-        randomDeathIndex = UnityEngine.Random.Range(0, 2);
+        randomDeathIndex = UnityEngine.Random.Range(0, 3);
     }
 
     public void Death()

@@ -76,12 +76,12 @@ public class Grenade : MonoBehaviour
         Collider[] colliders = Physics.OverlapSphere(transform.position, blastRadius);
         foreach (Collider nearby in colliders)
         {
-            EnemyHealth enemy = nearby.GetComponent<EnemyHealth>();
-            if (enemy != null)
+            IDamageable damageable = nearby.GetComponent<IDamageable>();
+            if (damageable != null)
             {
-                enemy.TakeDamage(damage);
+                damageable.TakeDamage(damage);
 
-                if (enemy.currentHealth > 0)
+                if (damageable.CurrentHealth > 0)
                 {
                     playerScore.AddPoints(playerScore.bodyShotPoints);
                     FindFirstObjectByType<PointSpawner>().ShowPoints(playerScore.bodyShotPoints);

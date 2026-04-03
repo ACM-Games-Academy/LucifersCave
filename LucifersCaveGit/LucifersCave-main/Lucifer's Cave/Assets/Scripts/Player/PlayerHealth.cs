@@ -8,6 +8,7 @@ public class PlayerHealth : MonoBehaviour
     [Header("Health")]
     private float currentHealth;
     [SerializeField] private float maxHealth;
+    private PlayerHealthBar healthBar;
 
     private bool isDead;
 
@@ -15,12 +16,14 @@ public class PlayerHealth : MonoBehaviour
     {
         currentHealth = maxHealth;
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
+        healthBar = GetComponent<PlayerHealthBar>();
     }
 
     public void TakeDamage(float amount)
     {
         currentHealth = Mathf.Clamp(currentHealth - amount, 0, maxHealth);
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
+        healthBar.UpdateBar(currentHealth, maxHealth);
 
         if (currentHealth <= 0)
         {
