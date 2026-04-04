@@ -30,6 +30,7 @@ public class Abomination : GiantBase
             agent.isStopped = true;
             return;
         }
+        EnemyMovement();
 
         playerInSight = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttack = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);

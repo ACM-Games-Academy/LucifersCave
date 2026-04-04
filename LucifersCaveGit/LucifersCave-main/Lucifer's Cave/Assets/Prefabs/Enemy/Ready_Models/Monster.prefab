@@ -76,7 +76,7 @@ MonoBehaviour:
   playerInAttack: 0
   animator: {fileID: 7207402371532557005}
   randomWalkIndex: 0
-  walkingAudio: {fileID: 0}
+  walkingAudio: {fileID: 8788972430156956122}
   timeBetweenAttacks: 2
 --- !u!114 &9121931549308234288
 MonoBehaviour:

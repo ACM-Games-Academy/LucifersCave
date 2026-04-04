@@ -7559,7 +7559,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DungeonGenerator
   size: {x: 2, y: 2}
-  startPosition: 5
+  startPosition: 0
   roomPrefab: {fileID: 1392035771171539842, guid: c91138c46b25f894e84eaadd763e2d54, type: 3}
   offset: {x: 24, y: 24}
 --- !u!1 &602695650
@@ -14013,9 +14013,9 @@ SceneRoots:
   - {fileID: 71442179}
   - {fileID: 778339952}
   - {fileID: 1736256013}
+  - {fileID: 76797370}
   - {fileID: 981011672}
   - {fileID: 188050693}
   - {fileID: 2100237252}
   - {fileID: 563603115}
-  - {fileID: 76797370}
   - {fileID: 2007818587}

@@ -80,17 +80,29 @@ public abstract class GiantBase : MonoBehaviour
 
     public void EnemyMovement()
     {
-        if (hasStartedWalking) return;
+        bool isMoving = agent.velocity.sqrMagnitude > 0.05f;
 
-        animator.SetBool("isRunning", true);
-        hasStartedWalking = true;
-        walkingAudio.Play();
-
-        if (agent.velocity.magnitude < 0.1f)
+        if (isMoving)
         {
-            animator.SetBool("isRunning", false);
-            hasStartedWalking = false;
-            walkingAudio.Stop();
+            if (!hasStartedWalking)
+            {
+                animator.SetBool("isRunning", true);
+                hasStartedWalking = true;
+                
+                if (!walkingAudio.isPlaying)
+                    walkingAudio.Play();
+            }
+        }
+        else
+        {
+            if (hasStartedWalking || health.isDead)
+            {
+                animator.SetBool("isRunning", false);
+                hasStartedWalking = false;
+
+                if (walkingAudio.isPlaying)
+                    walkingAudio.Stop();
+            }
         }
     }
 
