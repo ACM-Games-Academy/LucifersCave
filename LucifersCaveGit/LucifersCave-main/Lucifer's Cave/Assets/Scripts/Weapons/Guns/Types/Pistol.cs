@@ -37,6 +37,7 @@ public class Pistol : GunBase
         currentAmmo--;
         reloading.UpdateAmmo();
         audioSource.Play();
+        weaponRecoil.Recoil(isAiming);
 
         Vector3 shootingDirection = CalculateSpread().normalized;
         PlayerScore playerScore = FindFirstObjectByType<PlayerScore>();

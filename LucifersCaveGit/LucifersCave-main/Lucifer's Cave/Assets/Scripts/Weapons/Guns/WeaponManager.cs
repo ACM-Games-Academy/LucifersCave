@@ -36,29 +36,44 @@ public class WeaponManager : MonoBehaviour
     {
         if (newWeapon == null) return;
 
+        if (initializer == null)
+        {
+            Debug.LogError("Initializer missing!");
+            return;
+        }
+
+        if (initializer.playerCameraTransform == null)
+        {
+            Debug.LogError("playerCameraTransform not assigned in Initializer!");
+        }
+
         if (currentWeaponObject != null)
             Destroy(currentWeaponObject);
 
         currentWeaponObject = weaponFactory.CreateWeapon(newWeapon, weaponRecoilStats, weaponParent, spawnOffset);
 
         gunBase = currentWeaponObject.GetComponent<GunBase>();
-
+        currentWeaponObject.transform.localPosition = weaponPosition;
         currentReloading = currentWeaponObject.GetComponent<Reloading>();
         currentWeapon = newWeapon;
         currentRecoil = weaponRecoilStats;
         currentWeaponObject.layer = LayerMask.NameToLayer("Hands/Weapon");
 
-
-        var weaponRecoil = currentWeaponObject.GetComponent<WeaponRecoil>();
-        if (weaponRecoil != null && currentWeaponObject != null)
+        if (currentWeaponObject == null)
         {
-            weaponRecoil.Initialize(weaponRecoilStats, initializer.playerCameraTransform);
+            Debug.LogError("WeaponFactory failed to create weapon!");
+            return;
         }
 
-        var shootScript = currentWeaponObject.GetComponent<GunBase>();
-        if (shootScript != null)
+        var weaponRecoil = currentWeaponObject.GetComponent<WeaponRecoil>();
+        if (weaponRecoil != null)
         {
-            shootScript.Initialize(
+            weaponRecoil.Initialize(weaponRecoilStats, initializer.fpsCamera.transform);
+        }
+
+        if (gunBase != null)
+        {
+            gunBase.Initialize(
                 weaponContext: new WeaponContext
                 {
                     movement = initializer.movement,
@@ -86,17 +101,5 @@ public class WeaponManager : MonoBehaviour
                 initializer.crosshair
             );
         }
-
-        if (initializer == null)
-        {
-            Debug.LogError("Initializer missing!");
-            return;
-        }
-
-        if (initializer.playerCameraTransform == null)
-        {
-            Debug.LogError("playerCameraTransform not assigned in Initializer!");
-        }
     }
 }
-

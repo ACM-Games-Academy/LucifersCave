@@ -12,6 +12,7 @@ public abstract class GunBase : MonoBehaviour, IGun, IReloadable
     public Movement movement;
     public WeaponSway weaponSway;
     public Reloading reloading;
+    public WeaponRecoil weaponRecoil;
 
     public Transform bulletSpawnPoint;
     public ParticleSystem muzzleFlash;
@@ -39,6 +40,7 @@ public abstract class GunBase : MonoBehaviour, IGun, IReloadable
         maxAmmo = weaponStats.maxAmmoInMag;
 
         reloading = GetComponent<Reloading>();
+        weaponRecoil = GetComponent<WeaponRecoil>();
         reloading.UpdateAmmo();
         muzzleFlash = GetComponentInChildren<ParticleSystem>();
     }

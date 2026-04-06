@@ -79,7 +79,12 @@ public class WeaponRecoil : MonoBehaviour
 
         targetCamRotation = Vector3.Lerp(targetCamRotation, Vector3.zero, Time.deltaTime * weaponRecoil.returnSpeed);
         currentCamRotation = Vector3.Slerp(currentCamRotation, targetCamRotation, Time.deltaTime * weaponRecoil.snapAmount);
-        plyrCam.localRotation *= Quaternion.Euler(currentCamRotation);
+        plyrCam.localRotation = initialCamRotation * Quaternion.Euler(currentCamRotation);
+    }
+
+    public Vector3 GetCurrentGunRotation()
+    {
+        return currentCamRotation;
     }
 }
 

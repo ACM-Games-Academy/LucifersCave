@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Networking;
 
 public class AutomaticRifle : GunBase
 {
@@ -37,6 +38,7 @@ public class AutomaticRifle : GunBase
         currentAmmo--;
         reloading.UpdateAmmo();
         audioSource.Play();
+        weaponRecoil.Recoil(isAiming);
 
         Vector3 shootingDirection = CalculateSpread().normalized;
         PlayerScore playerScore = FindFirstObjectByType<PlayerScore>();

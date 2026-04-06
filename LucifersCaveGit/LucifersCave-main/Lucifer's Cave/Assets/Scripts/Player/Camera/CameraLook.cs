@@ -13,6 +13,8 @@ public class CameraLook : MonoBehaviour
 
     public Transform orientation;
 
+    [SerializeField] private WeaponRecoil weaponRecoil;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -32,8 +34,13 @@ public class CameraLook : MonoBehaviour
         currentRotation.x = Mathf.Lerp(currentRotation.x, xRotation, smoothAmount * Time.deltaTime);
         currentRotation.y = Mathf.Lerp(currentRotation.y, yRotation, smoothAmount * Time.deltaTime);
 
-        transform.rotation = Quaternion.Euler(currentRotation.x, currentRotation.y, 0);
+        Vector3 recoilRotation = weaponRecoil != null ? weaponRecoil.GetCurrentGunRotation() : Vector3.zero;
+
+        transform.rotation = Quaternion.Euler(
+            currentRotation.x + recoilRotation.x, 
+            currentRotation.y + recoilRotation.y, 
+            0);
+
         orientation.rotation = Quaternion.Euler(0, currentRotation.y, 0);
     }
 }
-
