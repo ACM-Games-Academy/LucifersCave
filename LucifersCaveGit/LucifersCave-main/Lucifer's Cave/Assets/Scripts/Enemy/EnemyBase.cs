@@ -39,6 +39,7 @@ public class EnemyBase : MonoBehaviour
     {
         if (health != null && health.isDead) return; 
         if (player == null || agent == null || !agent.isOnNavMesh) return;
+        if (PlayerHealth.isDead) return;
 
         float distanceToPlayer = Vector3.Distance(player.position, transform.position);
 

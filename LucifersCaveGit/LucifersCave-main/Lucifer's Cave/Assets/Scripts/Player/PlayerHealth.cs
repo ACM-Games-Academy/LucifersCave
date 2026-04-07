@@ -10,7 +10,12 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private float maxHealth;
     private PlayerHealthBar healthBar;
 
-    private bool isDead;
+    public DeathScreen deathScreen;
+    [SerializeField] private float fadeDurationToDeathScreen;
+
+    public static bool isDead;
+
+    public AudioSource deathSound;
 
     private void Start()
     {
@@ -25,7 +30,7 @@ public class PlayerHealth : MonoBehaviour
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
         healthBar.UpdateBar(currentHealth, maxHealth);
 
-        if (currentHealth <= 0)
+        if (currentHealth <= 0 && !isDead)
         {
             Death();
         }
@@ -42,6 +47,15 @@ public class PlayerHealth : MonoBehaviour
     void Death()
     {
         isDead = true;
-        Destroy(gameObject);
+        deathScreen.StartCoroutine(deathScreen.ShowDeathScreen(fadeDurationToDeathScreen));
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null )
+        {
+            rb.isKinematic = true;
+            rb.linearVelocity = Vector3.zero;
+        }
+        CameraLook.canLook = false;
+        Movement.canMove = false;
+        deathSound.Play();
     }
 }

@@ -42,11 +42,12 @@ public class Movement : MonoBehaviour
     float verticalInput;
 
     Vector3 moveDirection;
-    public bool canMove;
+    public static bool canMove;
 
     public Rigidbody rb;
 
     public MovementState state;
+
     public enum MovementState
     {
         Walking,

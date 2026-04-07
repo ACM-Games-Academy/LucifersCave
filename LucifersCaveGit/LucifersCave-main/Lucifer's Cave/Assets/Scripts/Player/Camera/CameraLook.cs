@@ -15,6 +15,8 @@ public class CameraLook : MonoBehaviour
 
     [SerializeField] private WeaponRecoil weaponRecoil;
 
+    public static bool canLook = true;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -23,24 +25,27 @@ public class CameraLook : MonoBehaviour
 
     void Update()
     {
-        // Raw input
-        float mouseX = Input.GetAxisRaw("Mouse X") * sensitivityAmount * Time.deltaTime;
-        float mouseY = Input.GetAxisRaw("Mouse Y") * sensitivityAmount * Time.deltaTime;
+        if (canLook)
+        {
+            // Raw input
+            float mouseX = Input.GetAxisRaw("Mouse X") * sensitivityAmount * Time.deltaTime;
+            float mouseY = Input.GetAxisRaw("Mouse Y") * sensitivityAmount * Time.deltaTime;
 
-        yRotation += mouseX;
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+            yRotation += mouseX;
+            xRotation -= mouseY;
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        currentRotation.x = Mathf.Lerp(currentRotation.x, xRotation, smoothAmount * Time.deltaTime);
-        currentRotation.y = Mathf.Lerp(currentRotation.y, yRotation, smoothAmount * Time.deltaTime);
+            currentRotation.x = Mathf.Lerp(currentRotation.x, xRotation, smoothAmount * Time.deltaTime);
+            currentRotation.y = Mathf.Lerp(currentRotation.y, yRotation, smoothAmount * Time.deltaTime);
 
-        Vector3 recoilRotation = weaponRecoil != null ? weaponRecoil.GetCurrentGunRotation() : Vector3.zero;
+            Vector3 recoilRotation = weaponRecoil != null ? weaponRecoil.GetCurrentGunRotation() : Vector3.zero;
 
-        transform.rotation = Quaternion.Euler(
-            currentRotation.x + recoilRotation.x, 
-            currentRotation.y + recoilRotation.y, 
-            0);
+            transform.rotation = Quaternion.Euler(
+                currentRotation.x + recoilRotation.x,
+                currentRotation.y + recoilRotation.y,
+                0);
 
-        orientation.rotation = Quaternion.Euler(0, currentRotation.y, 0);
+            orientation.rotation = Quaternion.Euler(0, currentRotation.y, 0);
+        }
     }
 }

@@ -119,6 +119,7 @@ MonoBehaviour:
   movement: {fileID: 0}
   weaponSway: {fileID: 0}
   reloading: {fileID: 6901471088310724156}
+  weaponRecoil: {fileID: 0}
   bulletSpawnPoint: {fileID: 1037158079886734577}
   muzzleFlash: {fileID: 4256224652935622800}
   playerCamera: {fileID: 0}
@@ -140,7 +141,7 @@ AudioSource:
   m_GameObject: {fileID: 596754205622061497}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 7cdf438a67e24304288ecdafd5a7269d, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 5ff823f546b52574a931e1d9b44290a6, type: 3}
   m_PlayOnAwake: 0

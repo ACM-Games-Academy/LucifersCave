@@ -39,6 +39,7 @@ public class AutomaticRifle : GunBase
         reloading.UpdateAmmo();
         audioSource.Play();
         weaponRecoil.Recoil(isAiming);
+        StartCoroutine(cameraShake.CameraShakeProcess(shakeDuration, shakeAmount));
 
         Vector3 shootingDirection = CalculateSpread().normalized;
         PlayerScore playerScore = FindFirstObjectByType<PlayerScore>();

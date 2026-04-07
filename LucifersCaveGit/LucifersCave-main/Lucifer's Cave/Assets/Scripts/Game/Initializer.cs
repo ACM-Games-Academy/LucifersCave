@@ -60,6 +60,8 @@ public class Initializer : MonoBehaviour
 
     private void BindAll()
     {
+        if (PlayerHealth.isDead) return;
+
         EnemyAttack[] enemyAttackScripts = Object.FindObjectsByType<EnemyAttack>(FindObjectsSortMode.None);
         EnemyBase[] enemyBaseScripts = Object.FindObjectsByType<EnemyBase>(FindObjectsSortMode.None);
         GiantBase[] giantBases = Object.FindObjectsByType<GiantBase>(FindObjectsSortMode.None);

@@ -14,6 +14,11 @@ public abstract class GunBase : MonoBehaviour, IGun, IReloadable
     public Reloading reloading;
     public WeaponRecoil weaponRecoil;
 
+    [Header("Camera Shake")]
+    public CameraShake cameraShake;
+    public float shakeAmount = 0.03f;
+    public float shakeDuration = 0.4f;
+
     public Transform bulletSpawnPoint;
     public ParticleSystem muzzleFlash;
     public Camera playerCamera;
@@ -43,6 +48,8 @@ public abstract class GunBase : MonoBehaviour, IGun, IReloadable
         weaponRecoil = GetComponent<WeaponRecoil>();
         reloading.UpdateAmmo();
         muzzleFlash = GetComponentInChildren<ParticleSystem>();
+
+        cameraShake = FindAnyObjectByType<CameraShake>();
     }
 
     public abstract void Shoot();

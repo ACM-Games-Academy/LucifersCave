@@ -42,6 +42,11 @@ public abstract class GiantBase : MonoBehaviour
         player = playerTransform;
     }
 
+    private void Update()
+    {
+        if (PlayerHealth.isDead) return;
+    }
+
     public abstract void Patroling();
 
     public void SearchWalkPoint()

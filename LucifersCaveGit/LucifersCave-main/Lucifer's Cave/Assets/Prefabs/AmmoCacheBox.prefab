@@ -66,7 +66,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AmmoCache
   AmmoSurplus: 80
-  reloadingScript: {fileID: 0}
   openingSound: {fileID: 5664784699037196331}
   highlights: {fileID: 3658583170043047776}
 --- !u!82 &5664784699037196331
@@ -78,7 +77,7 @@ AudioSource:
   m_GameObject: {fileID: 7688810311031266252}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 7cdf438a67e24304288ecdafd5a7269d, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: ea7f532451b80734b9d836de0add5404, type: 3}
   m_PlayOnAwake: 0
