@@ -12,6 +12,7 @@ public class PlayerHealth : MonoBehaviour
 
     public DeathScreen deathScreen;
     [SerializeField] private float fadeDurationToDeathScreen;
+    [SerializeField] private float timeTarget;
 
     public static bool isDead;
 
@@ -47,13 +48,23 @@ public class PlayerHealth : MonoBehaviour
     void Death()
     {
         isDead = true;
+
         deathScreen.StartCoroutine(deathScreen.ShowDeathScreen(fadeDurationToDeathScreen));
+        deathScreen.StartCoroutine(deathScreen.SlowDownTime(timeTarget));
+
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null )
         {
             rb.isKinematic = true;
             rb.linearVelocity = Vector3.zero;
         }
+
+        Collider collider = GetComponent<Collider>();
+        if (collider != null )
+        {
+            collider.enabled = false;
+        }
+
         CameraLook.canLook = false;
         Movement.canMove = false;
         deathSound.Play();

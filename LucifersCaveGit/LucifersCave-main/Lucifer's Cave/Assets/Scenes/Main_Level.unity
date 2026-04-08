@@ -10616,6 +10616,7 @@ GameObject:
   - component: {fileID: 1353697198}
   - component: {fileID: 1353697197}
   - component: {fileID: 1353697196}
+  - component: {fileID: 1353697199}
   m_Layer: 0
   m_Name: player_HUD
   m_TagString: Untagged
@@ -10709,6 +10710,28 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!95 &1353697199
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1353697194}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1357440067
 GameObject:
   m_ObjectHideFlags: 0
@@ -11127,9 +11150,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   maxHealth: 150
-  deathScreen: {fileID: 0}
+  deathScreen: {fileID: 601824770}
   fadeDurationToDeathScreen: 2
-  deathSound: {fileID: 0}
+  timeTarget: 0.3
+  deathSound: {fileID: 1444824115}
 --- !u!114 &1444824105
 MonoBehaviour:
   m_ObjectHideFlags: 0

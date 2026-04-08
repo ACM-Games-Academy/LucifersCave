@@ -3,24 +3,24 @@ using UnityEngine;
 
 public class CameraShake : MonoBehaviour
 {
-    private Vector3 initialPos;
-
-    private void Awake()
-    {
-        initialPos = transform.position;
-    }
-
     public IEnumerator CameraShakeProcess(float shakeDuration, float shakeAmount)
     {
+        Vector3 initialPos = transform.localPosition;
         float runningTime = 0f;
 
         while (runningTime < shakeDuration)
         {
             runningTime += Time.deltaTime;
-            transform.position = initialPos + Random.insideUnitSphere * shakeAmount;
+
+            float strength = Mathf.Lerp(shakeAmount, 0f, runningTime / shakeDuration);
+
+            Vector3 offset = Random.insideUnitSphere * strength;
+            offset.z = 0;
+
+            transform.localPosition = initialPos + offset;
             yield return null;
         }
 
-        yield break;
+        transform.localPosition = initialPos;
     }
 }

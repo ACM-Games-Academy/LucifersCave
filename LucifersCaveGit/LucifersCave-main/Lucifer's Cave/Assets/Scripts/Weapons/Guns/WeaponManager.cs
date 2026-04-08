@@ -28,7 +28,7 @@ public class WeaponManager : MonoBehaviour
             currentWeapon = startingWeapon;
             currentRecoil = startingRecoil;
 
-            EquipWeapon(currentWeapon, currentRecoil, Vector3.zero);
+            EquipWeapon(currentWeapon, currentRecoil, spawnOffset);
         }
     }
 

@@ -21,16 +21,31 @@ public class DeathScreen : MonoBehaviour
         }
 
         deathScreen.SetActive(true);
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSecondsRealtime(delay);
         float currentTime = 0f;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
 
         while (currentTime < fadeDuration)
         {
-            float alpha = Mathf.Lerp(1f, 0f, currentTime / fadeDuration);
+            float alpha = Mathf.Lerp(0f, 1f, currentTime / fadeDuration);
             deathTitle.color = new Color(deathTitle.color.r, deathTitle.color.g, deathTitle.color.b, alpha);
-            currentTime += Time.deltaTime;
+            currentTime += Time.unscaledDeltaTime;
             yield return null;
         }
-        yield break;
+
+        deathTitle.color = new Color(deathTitle.color.r, deathTitle.color.g, deathTitle.color.b, 1f);
+    }
+
+    public IEnumerator SlowDownTime(float timeTarget)
+    {
+        float currentTime = 0f;
+        while (currentTime < fadeDuration)
+        {
+            Time.timeScale = Mathf.Lerp(1f, timeTarget, currentTime / fadeDuration);
+            currentTime += Time.unscaledDeltaTime;
+            yield return null;
+        }
+        Time.timeScale = timeTarget;
     }
 }
