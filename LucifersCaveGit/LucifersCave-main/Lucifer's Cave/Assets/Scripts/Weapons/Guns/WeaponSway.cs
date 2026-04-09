@@ -26,6 +26,8 @@ public class WeaponSway : MonoBehaviour
 
     void Update()
     {
+        if (PlayerHealth.isDead) return;
+
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 

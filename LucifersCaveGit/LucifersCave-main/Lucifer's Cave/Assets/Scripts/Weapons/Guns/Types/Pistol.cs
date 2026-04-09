@@ -10,6 +10,8 @@ public class Pistol : GunBase
 
     private void HandleInput()
     {
+        if (PlayerHealth.isDead) return;
+
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             if (readyToShoot && currentAmmo > 0)
