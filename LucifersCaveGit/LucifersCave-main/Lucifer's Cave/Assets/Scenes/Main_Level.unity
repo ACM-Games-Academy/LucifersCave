@@ -12343,10 +12343,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DungeonGenerator
   doorLift: {fileID: 1209614569}
-  size: {x: 0, y: 0}
+  size: {x: 10, y: 10}
   startPosition: 0
   roomPrefab: {fileID: 1392035771171539842, guid: c91138c46b25f894e84eaadd763e2d54, type: 3}
-  offset: {x: 5, y: 0}
+  offset: {x: 24.5, y: 0}
 --- !u!1 &602695650
 GameObject:
   m_ObjectHideFlags: 0

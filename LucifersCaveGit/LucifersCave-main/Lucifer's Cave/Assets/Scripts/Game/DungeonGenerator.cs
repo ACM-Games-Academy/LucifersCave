@@ -12,7 +12,7 @@ public class DungeonGenerator : MonoBehaviour
 
     public DoorLift doorLift;
 
-    public Vector2 size;
+    public Vector2Int size;
     public int startPosition = 0;
     public GameObject roomPrefab;
     public Vector2 offset;
@@ -76,14 +76,6 @@ public class DungeonGenerator : MonoBehaviour
 
         while (visitedCells < board.Count)
         {
-            board[currentCell].visited = true;
-            visitedCells++;
-
-            if (currentCell == board.Count - 1)
-            {
-                break;
-            }
-
             List<int> neighbours = CheckNeighbours(currentCell);
 
             if (neighbours.Count == 0)
@@ -102,6 +94,11 @@ public class DungeonGenerator : MonoBehaviour
                 cellStack.Push(currentCell);
 
                 int newCell = neighbours[Random.Range(0, neighbours.Count)];
+
+                if (!board[newCell].visited)
+                {
+                    visitedCells++;
+                }
 
                 if (newCell > currentCell)
                 {
@@ -133,6 +130,8 @@ public class DungeonGenerator : MonoBehaviour
                         board[currentCell].walls[1] = true;
                     }
                 }
+
+                board[currentCell].visited = true;
             }
         }
 
@@ -144,24 +143,24 @@ public class DungeonGenerator : MonoBehaviour
         List<int> neighbours = new List<int>();
 
         // Check top neighbour
-        if (cell - size.x >= 0 && !board[Mathf.FloorToInt(cell - size.x)].visited)
+        if (cell - size.x >= 0 && !board[cell - size.x].visited)
         {
-            neighbours.Add(Mathf.FloorToInt(cell - size.x));
+            neighbours.Add(cell - size.x);
         }
         // Check down neighbour
-        if (cell + size.x < board.Count && !board[Mathf.FloorToInt(cell + size.x)].visited)
+        if (cell + size.x < board.Count && !board[cell + size.x].visited)
         {
-            neighbours.Add(Mathf.FloorToInt(cell + size.x));
+            neighbours.Add(cell + size.x);
         }
         // Check right neighbour
-        if ((cell + 1) % size.x != 0 && !board[Mathf.FloorToInt(cell + 1)].visited)
+        if ((cell + 1) % size.x != 0 && !board[cell + 1].visited)
         {
-            neighbours.Add(Mathf.FloorToInt(cell + 1));
+            neighbours.Add(cell + 1);
         }
         // Check left neighbour
-        if (cell % size.x != 0 && !board[Mathf.FloorToInt(cell - 1)].visited)
+        if (cell % size.x != 0 && !board[cell - 1].visited)
         {
-            neighbours.Add(Mathf.FloorToInt(cell - 1));
+            neighbours.Add(cell - 1);
         }
 
         return neighbours;
