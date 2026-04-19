@@ -1,26 +1,37 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
-using Cinemachine;
 
 public class DungeonGenerator : MonoBehaviour
 {
+    [System.Serializable]
     public class Cell
     {
         public bool visited = false;
         public bool[] walls = new bool[4]; 
     }
 
+    public DoorLift doorLift;
+
     public Vector2 size;
     public int startPosition = 0;
     public GameObject roomPrefab;
     public Vector2 offset;
 
+    private bool hasStarted = false;
     List<Cell> board;
 
     void Start()
     {
         MazeGenerator();
+        hasStarted = true;
+        if (hasStarted && doorLift != null)
+            StartCoroutine(doorLift.DescendDoor());
+        else
+        {
+            Debug.LogWarning("DoorLift reference is missing. Please assign it in the inspector.");
+        }
+
+        Debug.Log("DoorLift reference: " + (doorLift != null ? doorLift.name : "null"));
     }
 
     void Update()
@@ -58,15 +69,15 @@ public class DungeonGenerator : MonoBehaviour
         }
 
         int currentCell = startPosition;
+        int visitedCells = 1;
+        board[currentCell].visited = true;
 
         Stack<int> cellStack = new Stack<int>();
 
-        int keepingTrack = 0;
-
-        while (keepingTrack < 1000)
+        while (visitedCells < board.Count)
         {
-            keepingTrack++;
             board[currentCell].visited = true;
+            visitedCells++;
 
             if (currentCell == board.Count - 1)
             {
@@ -119,7 +130,7 @@ public class DungeonGenerator : MonoBehaviour
                     {
                         board[currentCell].walls[0] = true;
                         currentCell = newCell;
-                        board[currentCell].walls[0] = true;
+                        board[currentCell].walls[1] = true;
                     }
                 }
             }

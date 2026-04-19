@@ -3,6 +3,20 @@ using UnityEngine;
 
 public class CameraShake : MonoBehaviour
 {
+    public static CameraShake instance;
+
+    public void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     public IEnumerator CameraShakeProcess(float shakeDuration, float shakeAmount)
     {
         Vector3 initialPos = transform.localPosition;
