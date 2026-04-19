@@ -7,7 +7,8 @@ public class DeathScreen : MonoBehaviour
     [SerializeField] private GameObject deathScreen;
     [SerializeField] GameObject[] HUD_Objects;
     [SerializeField] private TextMeshProUGUI deathTitle;
-    float fadeDuration = 1f;
+    [SerializeField] private TextMeshProUGUI mainMenuButton;
+    public float fadeDuration = 1f;
 
     private void Start()
     {
@@ -16,6 +17,8 @@ public class DeathScreen : MonoBehaviour
 
     public IEnumerator ShowDeathScreen(float delay)
     {
+        if (deathScreen == null) yield break;
+
         foreach (var obj in HUD_Objects) {
             obj.SetActive(false);
         }
@@ -30,15 +33,20 @@ public class DeathScreen : MonoBehaviour
         {
             float alpha = Mathf.Lerp(0f, 1f, currentTime / fadeDuration);
             deathTitle.color = new Color(deathTitle.color.r, deathTitle.color.g, deathTitle.color.b, alpha);
+            mainMenuButton.color = new Color(mainMenuButton.color.r, mainMenuButton.color.g, 
+                mainMenuButton.color.b, alpha);
             currentTime += Time.unscaledDeltaTime;
             yield return null;
         }
 
         deathTitle.color = new Color(deathTitle.color.r, deathTitle.color.g, deathTitle.color.b, 1f);
+        mainMenuButton.color = new Color(mainMenuButton.color.r, mainMenuButton.color.g, mainMenuButton.color.b, 1f);
     }
 
     public IEnumerator SlowDownTime(float timeTarget)
     {
+        if (deathScreen == null) yield break;
+
         float currentTime = 0f;
         while (currentTime < fadeDuration)
         {

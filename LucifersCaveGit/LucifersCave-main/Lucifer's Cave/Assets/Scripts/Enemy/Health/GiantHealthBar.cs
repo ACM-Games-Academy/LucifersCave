@@ -21,7 +21,7 @@ public class GiantHealthBar : MonoBehaviour
 
     private void Update()
     {
-        if (player == null || giantHealthBar == null)
+        if (player == null || giantHealthBar == null || PlayerHealth.isDead)
             return;
         float distance = Vector3.Distance(transform.position, player.position);
         if (distance <= displayDistance)
