@@ -15,8 +15,10 @@ public class Initializer : MonoBehaviour
     public WeaponManager weaponManager;
     public WeaponSway weaponSway;
     public PointSpawner pointSpawner;
+    public CollectBook collectBookScript;
 
     [Header("References")]
+    public GameObject enemyBoss;
     public ParticleSystem muzzleFlash;
     public Camera playerCamera;
     public Camera fpsCamera;
@@ -26,6 +28,7 @@ public class Initializer : MonoBehaviour
     public Transform player;
     public Transform playerCameraTransform;
     public Transform rightHandTransform;
+    public Transform bossSpawnPosition;
 
     [Header("UI Elements")]
     public GameObject healthBarCanvas;
@@ -55,6 +58,7 @@ public class Initializer : MonoBehaviour
         if (!bound)
         {
             BindAll();
+            player = GameObject.FindGameObjectWithTag("Player").transform;
         }
     }
 
@@ -104,5 +108,17 @@ public class Initializer : MonoBehaviour
         {
             wallBuy.Initialize(weaponManager, playerScore, pointSpawner);
         }
+
+        GameObject bossObj = GameObject.FindGameObjectWithTag("BossSpawn");
+
+        if (bossObj != null)
+        {
+            bossSpawnPosition = bossObj.transform;
+        }
+        else
+        {
+            Debug.LogError("BossSpawn tag not found in scene!");
+        }
+        collectBookScript.Initialize(healthBarCanvas, enemyBoss, bossSpawnPosition);
     }
 }

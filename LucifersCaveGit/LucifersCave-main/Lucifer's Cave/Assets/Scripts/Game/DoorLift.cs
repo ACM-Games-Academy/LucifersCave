@@ -11,8 +11,8 @@ public class DoorLift : MonoBehaviour
     public AudioSource doorDescendingAudio;
 
     [Header("Camera Shake Settings")]
-    public float shakeDuration = 0.85f;
-    public float shakeAmount = 0.3f;
+    public float shakeDuration = 8f;
+    public float shakeAmount = 0.35f;
 
     [Header("Particle Effects")]
     public ParticleSystem dustParticles;
@@ -20,6 +20,7 @@ public class DoorLift : MonoBehaviour
     public IEnumerator DescendDoor()
     {
         Debug.Log("Door descending initiated.");
+        doorDescendingAudio.Play();
 
         Vector3 targetPosition = transform.localPosition + Vector3.down * descendHeight;
         float elapsedTime = 0f;

@@ -1,5 +1,6 @@
-using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 public class DungeonGenerator : MonoBehaviour
 {
@@ -7,7 +8,7 @@ public class DungeonGenerator : MonoBehaviour
     public class Cell
     {
         public bool visited = false;
-        public bool[] walls = new bool[4]; 
+        public bool[] walls = new bool[4];
     }
 
     public DoorLift doorLift;
@@ -15,7 +16,10 @@ public class DungeonGenerator : MonoBehaviour
     public Vector2Int size;
     public int startPosition = 0;
     public GameObject roomPrefab;
+    public GameObject bossRoomPrefab;
     public Vector2 offset;
+
+    public Vector3 spawnOrigin;
 
     private bool hasStarted = false;
     List<Cell> board;
@@ -34,9 +38,36 @@ public class DungeonGenerator : MonoBehaviour
         Debug.Log("DoorLift reference: " + (doorLift != null ? doorLift.name : "null"));
     }
 
-    void Update()
+    int FindFurthestCellFromStart()
     {
-        
+        Queue<int> queue = new Queue<int>();
+        int[] dist = new int[board.Count];
+        bool[] visited = new bool[board.Count];
+
+        queue.Enqueue(startPosition);
+        visited[startPosition] = true;
+
+        int furthest = startPosition;
+
+        while (queue.Count > 0)
+        {
+            int current = queue.Dequeue();
+
+            foreach (int next in GetConnectedNeighbors(current))
+            {
+                if (!visited[next])
+                {
+                    visited[next] = true;
+                    dist[next] = dist[current] + 1;
+                    queue.Enqueue(next);
+
+                    if (dist[next] > dist[furthest])
+                        furthest = next;
+                }
+            }
+        }
+
+        return furthest;
     }
 
     void GenerateDungeon()
@@ -49,7 +80,7 @@ public class DungeonGenerator : MonoBehaviour
 
                 if (currentCell.visited)
                 {
-                    var roomInstance = Instantiate(roomPrefab, new Vector3(i * offset.x, 0, -j * offset.y),
+                    var roomInstance = Instantiate(roomPrefab, new Vector3(spawnOrigin.x + i * offset.x, spawnOrigin.y, spawnOrigin.z - j * offset.y),
                     Quaternion.identity, transform).GetComponent<RoomBehaviour>();
                     roomInstance.UpdateRoom(currentCell.walls);
 
@@ -57,6 +88,19 @@ public class DungeonGenerator : MonoBehaviour
                 }
             }
         }
+
+        int bossIndex = FindFurthestCellFromStart();
+
+        int x = bossIndex % size.x;
+        int y = bossIndex / size.x;
+
+        Vector3 bossPosition = new Vector3(
+            spawnOrigin.x + x * offset.x,
+            spawnOrigin.y,
+            spawnOrigin.z + y * offset.y
+        );
+
+        Instantiate(bossRoomPrefab, bossPosition, Quaternion.identity, transform);
     }
 
     void MazeGenerator()
@@ -80,58 +124,69 @@ public class DungeonGenerator : MonoBehaviour
 
             if (neighbours.Count == 0)
             {
-                if (cellStack.Count == 0)
+                if (cellStack.Count > 0)
+                {
+                    currentCell = cellStack.Pop();
+                    continue;
+                }
+                else
                 {
                     break;
                 }
-                else
-                {
-                    currentCell = cellStack.Pop();
-                }
             }
-            else
+
+            cellStack.Push(currentCell);
+
+            Shuffle(neighbours);
+            int newCell = neighbours[0];
+
+            if (!board[newCell].visited)
             {
-                cellStack.Push(currentCell);
+                board[newCell].visited = true;
+                visitedCells++;
+            }
 
-                int newCell = neighbours[Random.Range(0, neighbours.Count)];
+            int dx = newCell % size.x - currentCell % size.x;
+            int dy = newCell / size.x - currentCell / size.x;
 
-                if (!board[newCell].visited)
-                {
-                    visitedCells++;
-                }
+            if (dx == 1)
+            {
+                board[currentCell].walls[1] = false;
+                board[newCell].walls[3] = false;
+            }
+            else if (dx == -1)
+            {
+                board[currentCell].walls[3] = false;
+                board[newCell].walls[1] = false;
+            }
+            else if (dy == 1)
+            {
+                board[currentCell].walls[2] = false;
+                board[newCell].walls[0] = false;
+            }
+            else if (dy == -1)
+            {
+                board[currentCell].walls[0] = false;
+                board[newCell].walls[2] = false;
+            }
 
-                if (newCell > currentCell)
-                {
-                    if (newCell - 1 == currentCell)
-                    {
-                        board[currentCell].walls[2] = true;
-                        currentCell = newCell;
-                        board[currentCell].walls[3] = true;
-                    }
-                    else
-                    {
-                        board[currentCell].walls[1] = true;
-                        currentCell = newCell;
-                        board[currentCell].walls[0] = true;
-                    }
-                }
-                else
-                {
-                    if (newCell + 1 == currentCell)
-                    {
-                        board[currentCell].walls[3] = true;
-                        currentCell = newCell;
-                        board[currentCell].walls[2] = true;
-                    }
-                    else
-                    {
-                        board[currentCell].walls[0] = true;
-                        currentCell = newCell;
-                        board[currentCell].walls[1] = true;
-                    }
-                }
+            currentCell = newCell;
+        }
 
-                board[currentCell].visited = true;
+        // 0 = top, 1 = right, 2 = bottom, 3 = left
+
+        board[startPosition].visited = true;
+
+        bool hasExit = board[startPosition].walls.All(wall => wall);
+
+        if (!hasExit)
+        {
+            int below = startPosition + size.x;
+
+            if (below < board.Count)
+            {
+                board[startPosition].walls[2] = true;
+                board[below].walls[0] = true;
             }
         }
 
@@ -142,27 +197,107 @@ public class DungeonGenerator : MonoBehaviour
     {
         List<int> neighbours = new List<int>();
 
-        // Check top neighbour
-        if (cell - size.x >= 0 && !board[cell - size.x].visited)
+        int x = cell % size.x;
+        int y = cell / size.x;
+
+        // top
+        if (y > 0)
         {
-            neighbours.Add(cell - size.x);
+            int top = cell - size.x;
+            if (!board[top].visited)
+                neighbours.Add(top);
         }
-        // Check down neighbour
-        if (cell + size.x < board.Count && !board[cell + size.x].visited)
+
+        // bottom
+        if (y < size.y - 1)
         {
-            neighbours.Add(cell + size.x);
+            int bottom = cell + size.x;
+            if (!board[bottom].visited)
+                neighbours.Add(bottom);
         }
-        // Check right neighbour
-        if ((cell + 1) % size.x != 0 && !board[cell + 1].visited)
+
+        // right
+        if (x < size.x - 1)
         {
-            neighbours.Add(cell + 1);
+            int right = cell + 1;
+            if (!board[right].visited)
+                neighbours.Add(right);
         }
-        // Check left neighbour
-        if (cell % size.x != 0 && !board[cell - 1].visited)
+
+        // left
+        if (x > 0)
         {
-            neighbours.Add(cell - 1);
+            int left = cell - 1;
+            if (!board[left].visited)
+                neighbours.Add(left);
         }
 
         return neighbours;
+    }
+
+    void Shuffle(List<int> list)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            int rand = Random.Range(i, list.Count);
+            (list[i], list[rand]) = (list[rand], list[i]);
+        }
+    }
+
+    List<int> GetConnectedNeighbors(int cell)
+    {
+        List<int> result = new List<int>();
+
+        int x = cell % size.x;
+        int y = cell / size.x;
+
+        // top
+        if (!board[cell].walls[0] && cell - size.x >= 0)
+            result.Add(cell - size.x);
+
+        // right
+        if (!board[cell].walls[1] && (cell + 1) % size.x != 0)
+            result.Add(cell + 1);
+
+        // bottom
+        if (!board[cell].walls[2] && cell + size.x < board.Count)
+            result.Add(cell + size.x);
+
+        // left
+        if (!board[cell].walls[3] && cell % size.x != 0)
+            result.Add(cell - 1);
+
+        return result;
+    }
+
+    void RemoveWall(int currentCell, int newCell)
+    {
+        int dx = newCell % size.x - currentCell % size.x;
+        int dy = newCell / size.x - currentCell / size.x;
+
+        // moving right
+        if (dx == 1)
+        {
+            board[currentCell].walls[1] = false;
+            board[newCell].walls[3] = false;     
+        }
+        // moving left
+        else if (dx == -1)
+        {
+            board[currentCell].walls[3] = false;
+            board[newCell].walls[1] = false;
+        }
+        // moving up
+        else if (dy == -1)
+        {
+            board[currentCell].walls[0] = false;
+            board[newCell].walls[2] = false;
+        }
+        // moving down
+        else if (dy == 1)
+        {
+            board[currentCell].walls[2] = false;
+            board[newCell].walls[0] = false;
+        }
     }
 }

@@ -19,6 +19,9 @@ public class Abomination : GiantBase
         {
             health.OnDeathEvent += HandleDeath;
         }
+
+        if (player == null)
+            player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     void Update()

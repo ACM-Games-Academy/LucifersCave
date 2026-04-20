@@ -12,6 +12,7 @@ public class DeathScreen : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = 1f;
         deathScreen.SetActive(false);
     }
 

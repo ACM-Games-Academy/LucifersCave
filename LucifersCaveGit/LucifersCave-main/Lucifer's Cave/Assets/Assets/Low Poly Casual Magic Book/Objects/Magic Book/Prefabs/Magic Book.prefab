@@ -5175,6 +5175,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e01ef5ed25239f04c871284ca7c91b2c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4254623299918623742}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e01ef5ed25239f04c871284ca7c91b2c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3493089524127729238}
   m_SourcePrefab: {fileID: 100100000, guid: e01ef5ed25239f04c871284ca7c91b2c, type: 3}
 --- !u!4 &2592359518822711262 stripped
 Transform:
@@ -5229,3 +5232,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.2, y: 0.3, z: 0.3}
   m_Center: {x: 0, y: 0.05, z: -0.05}
+--- !u!114 &3493089524127729238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2932469614169810276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ef8e9ce471cba74e801a4f378b4d94d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CollectBook
+  finalPhaseGame: 0
+  bossFightHUD: {fileID: 0}
+  enemyBoss: {fileID: 0}
+  bossSpawnPosition: {fileID: 0}

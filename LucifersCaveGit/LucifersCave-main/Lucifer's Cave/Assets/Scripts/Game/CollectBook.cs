@@ -3,25 +3,19 @@ using UnityEngine;
 public class CollectBook : MonoBehaviour, IInteractable
 {
     public bool finalPhaseGame;
-    public GameObject finalBook;
     public GameObject bossFightHUD;
     public GameObject enemyBoss;
 
     public Transform bossSpawnPosition;
     bool hasInteracted;
 
-    void Start()
-    {
-        finalBook.SetActive(true);
-    }
-
     public void Interact()
     {
         if (hasInteracted) return;
+        
         hasInteracted = true;
-
         finalPhaseGame = true;
-        finalBook.SetActive(false);
+
         Collider collider = GetComponent<Collider>();
         if (collider != null)
         {
@@ -29,6 +23,7 @@ public class CollectBook : MonoBehaviour, IInteractable
         }
 
         SpawnBoss();
+        Destroy(gameObject, 5f);
     }
 
     private void SpawnBoss()
@@ -39,5 +34,12 @@ public class CollectBook : MonoBehaviour, IInteractable
 
             bossFightHUD.SetActive(true);
         }
+    }
+
+    public void Initialize(GameObject bossFightHUD, GameObject enemyBoss, Transform bossSpawnPosition)
+    {
+        this.bossFightHUD = bossFightHUD;
+        this.enemyBoss = enemyBoss;
+        this.bossSpawnPosition = bossSpawnPosition;
     }
 }

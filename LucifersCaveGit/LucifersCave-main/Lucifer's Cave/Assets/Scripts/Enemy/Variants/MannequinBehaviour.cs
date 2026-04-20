@@ -6,22 +6,32 @@ public class MannequinBehaviour : MonoBehaviour
 {
     NavMeshAgent agent;
     [SerializeField] private Transform player;
+    private IsEnemyInView isEnemyInViewScript;
     public float spottingDistance;
     public EnemyHealth health;
+    float checkTimer;
 
     [Header("Animations")]
     Animator animator;
-    [SerializeField] private float speedDamp = 0.15f;
-    private int randomWalkIndex;
     private bool hasStartedWalking = false;
-    public bool isInView = false;
     private bool hasGottenUp = false;
+    public bool isInView;
+    bool isActive = false;
+
+    Renderer[] renderers;
+
+    void Awake()
+    {
+        renderers = GetComponentsInChildren<Renderer>();
+    }
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
+        isEnemyInViewScript = player.GetComponent<IsEnemyInView>();
         agent.isStopped = true;
+        agent.updateRotation = false;
 
         EnsureOnNavMesh(agent);
 
@@ -35,8 +45,29 @@ public class MannequinBehaviour : MonoBehaviour
     {
         if (health != null && health.isDead) return;
         if (player == null || agent == null || !agent.isOnNavMesh) return;
+        if (!isActive) return;
+
+        if (!hasGottenUp && Vector3.Distance(transform.position, player.position) < spottingDistance)
+        {
+            StartCoroutine(GetUp());
+        }
+
+        checkTimer += Time.deltaTime;
+
+        if (checkTimer > 0.25f)
+        {
+            checkTimer = 0;
+            float viewDistance;
+            isInView = isEnemyInViewScript.isEnemyInView(this, out viewDistance);
+        }
 
         float distanceToPlayer = Vector3.Distance(player.position, transform.position);
+
+        if (distanceToPlayer > 30f)
+        {
+            agent.isStopped = true;
+            return;
+        }
 
         if (distanceToPlayer < spottingDistance && !isInView)
         {
@@ -50,7 +81,25 @@ public class MannequinBehaviour : MonoBehaviour
             agent.isStopped = true;
         }
 
-        float navSpeed = agent.desiredVelocity.magnitude / Mathf.Max(agent.speed, 0.01f);
+        if (!isInView && distanceToPlayer > 25f) 
+        { 
+            foreach (Renderer r in renderers)
+            {
+                r.enabled = false;
+            }
+        }
+        else
+        {
+            foreach (Renderer r in renderers)
+            {
+                r.enabled = true;
+            }
+        }
+
+        if (isInView)
+        {
+            transform.rotation = Quaternion.LookRotation(player.position - transform.position);
+        }
 
         bool shouldMove = !agent.isStopped &&
             !agent.pathPending &&
@@ -78,7 +127,6 @@ public class MannequinBehaviour : MonoBehaviour
     {
         if (hasStartedWalking) return;
 
-        animator.SetInteger("WalkInt", randomWalkIndex);
         hasStartedWalking = true;
     }
 
@@ -97,8 +145,13 @@ public class MannequinBehaviour : MonoBehaviour
 
     public IEnumerator GetUp()
     {
-        animator.SetTrigger("GetUp");
-        yield return new WaitForSeconds(1f);
+        agent.isStopped = true;
+        animator.SetTrigger("hasGotUp");
+
+        yield return new WaitForSeconds(1.17f);
+
         hasGottenUp = true;
+        isActive = true;
+        agent.isStopped = false;
     }
 }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5786383995700603859}
   - component: {fileID: 140172956554118455}
   - component: {fileID: 4116851353877611064}
+  - component: {fileID: 8827307252951967637}
   m_Layer: 0
   m_Name: Warrok
   m_TagString: Untagged
@@ -112,6 +113,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!65 &8827307252951967637
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5689510069540630335}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.7599305, y: 2.1589282, z: 1}
+  m_Center: {x: -0.01616013, y: 1.0812347, z: 0}
 --- !u!1001 &7195803126859753538
 PrefabInstance:
   m_ObjectHideFlags: 0

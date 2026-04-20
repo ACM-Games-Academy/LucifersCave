@@ -6,7 +6,7 @@ public class WallBuy : MonoBehaviour, IInteractable
     public RecoilProfiles weaponRecoil;
     private PlayerScore points;
     private PointSpawner pointSpawner;
-    public Vector3 spawnedWeaponOffset = new Vector3(0, 0, 0);
+    public Vector3 spawnedWeaponOffset = new Vector3(0.1f, 0, 0);
     private bool isPurchased = false;
 
     private WeaponManager inventory;
