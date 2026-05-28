@@ -8,7 +8,7 @@ public class DungeonGenerator : MonoBehaviour
     public class Cell
     {
         public bool visited = false;
-        public bool[] walls = new bool[4];
+        public bool[] walls = new bool[4] {true, true, true, true};
     }
 
     public DoorLift doorLift;
@@ -97,7 +97,7 @@ public class DungeonGenerator : MonoBehaviour
         Vector3 bossPosition = new Vector3(
             spawnOrigin.x + x * offset.x,
             spawnOrigin.y,
-            spawnOrigin.z + y * offset.y
+            spawnOrigin.z - y * offset.y
         );
 
         Instantiate(bossRoomPrefab, bossPosition, Quaternion.identity, transform);
@@ -146,29 +146,7 @@ public class DungeonGenerator : MonoBehaviour
                 visitedCells++;
             }
 
-            int dx = newCell % size.x - currentCell % size.x;
-            int dy = newCell / size.x - currentCell / size.x;
-
-            if (dx == 1)
-            {
-                board[currentCell].walls[1] = false;
-                board[newCell].walls[3] = false;
-            }
-            else if (dx == -1)
-            {
-                board[currentCell].walls[3] = false;
-                board[newCell].walls[1] = false;
-            }
-            else if (dy == 1)
-            {
-                board[currentCell].walls[2] = false;
-                board[newCell].walls[0] = false;
-            }
-            else if (dy == -1)
-            {
-                board[currentCell].walls[0] = false;
-                board[newCell].walls[2] = false;
-            }
+            RemoveWall(currentCell, newCell);
 
             currentCell = newCell;
         }
@@ -177,16 +155,15 @@ public class DungeonGenerator : MonoBehaviour
 
         board[startPosition].visited = true;
 
-        bool hasExit = board[startPosition].walls.All(wall => wall);
+        bool fullyClosed = board[startPosition].walls.All(wall => wall);
 
-        if (!hasExit)
+        if (fullyClosed)
         {
             int below = startPosition + size.x;
 
             if (below < board.Count)
             {
-                board[startPosition].walls[2] = true;
-                board[below].walls[0] = true;
+                RemoveWall(startPosition, below);
             }
         }
 
