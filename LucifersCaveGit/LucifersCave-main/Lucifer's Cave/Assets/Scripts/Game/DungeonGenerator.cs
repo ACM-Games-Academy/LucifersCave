@@ -72,24 +72,32 @@ public class DungeonGenerator : MonoBehaviour
 
     void GenerateDungeon()
     {
+        int bossIndex = FindFurthestCellFromStart();
+
         for (int i = 0; i < size.x; i++)
         {
             for (int j = 0; j < size.y; j++)
             {
-                Cell currentCell = board[Mathf.FloorToInt(i + j * size.x)];
+                int index = i + j;
+
+                if (index == bossIndex)
+                    continue;
+
+                Cell currentCell = board[index];
 
                 if (currentCell.visited)
                 {
-                    var roomInstance = Instantiate(roomPrefab, new Vector3(spawnOrigin.x + i * offset.x, spawnOrigin.y, spawnOrigin.z - j * offset.y),
+                    var roomInstance = Instantiate
+                        (roomPrefab, new Vector3
+                        (spawnOrigin.x + i * offset.x, spawnOrigin.y, spawnOrigin.z - j * offset.y),
                     Quaternion.identity, transform).GetComponent<RoomBehaviour>();
+
                     roomInstance.UpdateRoom(currentCell.walls);
 
                     roomInstance.name += " " + i + "-" + j;
                 }
             }
         }
-
-        int bossIndex = FindFurthestCellFromStart();
 
         int x = bossIndex % size.x;
         int y = bossIndex / size.x;

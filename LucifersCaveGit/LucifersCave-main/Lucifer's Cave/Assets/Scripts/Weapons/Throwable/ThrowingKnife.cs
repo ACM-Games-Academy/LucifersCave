@@ -42,17 +42,13 @@ public class ThrowingKnife : MonoBehaviour
             Destroy(gameObject, destructionDelay);
             return;
         }
-        if (collision.gameObject.GetComponent<EnemyHealth>() == null)
+        
+        if (!collision.gameObject.TryGetComponent(out enemyHealth))
         {
-            Debug.LogWarning("The object hit does not have an EnemyHealth component.");
+            Debug.LogError("EnemyHealth component not found on the collided object.");
             return;
         }
-        EnemyHealth enemyHealth;
-        if (!collision.gameObject.TryGetComponent<EnemyHealth>(out enemyHealth))
-        {
-            enemyHealth = collision.gameObject.GetComponent<EnemyHealth>();
-        }
-        
+
         enemyHealth.TakeDamage(damage);
 
         if (enemyHealth.currentHealth > 0)
