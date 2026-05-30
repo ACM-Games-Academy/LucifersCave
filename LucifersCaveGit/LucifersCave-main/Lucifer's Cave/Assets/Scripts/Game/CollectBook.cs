@@ -7,7 +7,13 @@ public class CollectBook : MonoBehaviour, IInteractable
     public GameObject enemyBoss;
 
     public Transform bossSpawnPosition;
+    public Transform Player;
     bool hasInteracted;
+
+    void Start()
+    {
+        Player = GameObject.FindGameObjectWithTag("Player").transform;
+    }
 
     public void Interact()
     {
@@ -30,9 +36,12 @@ public class CollectBook : MonoBehaviour, IInteractable
     {
         if (finalPhaseGame)
         {
-            Instantiate(enemyBoss, bossSpawnPosition.position, Quaternion.identity);
+            GameObject instantiatedBoss = Instantiate(enemyBoss, bossSpawnPosition.position, Quaternion.identity);
 
             bossFightHUD.SetActive(true);
+
+            BossBase bossBase = instantiatedBoss.GetComponent<BossBase>();
+            bossBase.Initialize(Player);
         }
     }
 
