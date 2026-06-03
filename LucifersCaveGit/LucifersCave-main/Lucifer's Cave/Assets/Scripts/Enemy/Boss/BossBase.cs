@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class BossBase : MonoBehaviour
+public abstract class BossBase : MonoBehaviour
 {
     NavMeshAgent agent;
     [SerializeField] private Transform player;
@@ -10,6 +10,18 @@ public class BossBase : MonoBehaviour
     [Header("Animations")]
     Animator animator;
     [SerializeField] private float speedDamp = 0.15f;
+
+    public enum BossState
+    {
+        Idle,
+        Chasing,
+        Stomping,
+        Jumping,
+        MagicAttacking,
+        Reinforcements
+    }
+
+    public BossState state;
 
     void Start()
     {

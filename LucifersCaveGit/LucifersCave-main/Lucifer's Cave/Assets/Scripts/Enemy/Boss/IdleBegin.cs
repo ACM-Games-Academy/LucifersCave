@@ -6,6 +6,8 @@ public class IdleBegin : MonoBehaviour
     private Animator animator;
     [SerializeField] private float idleWaitTime = 2f;
 
+    public static bool isIdle = true;
+
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -26,5 +28,6 @@ public class IdleBegin : MonoBehaviour
         }
 
         elapsedTime = 0f;
+        isIdle = false;
     }
 }
