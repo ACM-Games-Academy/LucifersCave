@@ -1,10 +1,15 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BossAttacks : BossBase, IMagicAttack, IStompAttack, IJumpAttack, ICallReinforcements
 {
+    private static readonly int RoarHash = Animator.StringToHash("Roar");
+    private static readonly int MagicHash = Animator.StringToHash("Magic");
+    private static readonly int JumpAttackHash = Animator.StringToHash("jumpAttack");
+    private static readonly int StompAttackHash = Animator.StringToHash("stompAttack");
+
     [Header("Stomp Attack")]
-    public float stompRange = 5f;
     public float stompDamage = 20f;
     public float stompCooldown = 5f;
     public float stompActivationDistance = 3f;
@@ -12,8 +17,6 @@ public class BossAttacks : BossBase, IMagicAttack, IStompAttack, IJumpAttack, IC
     public LayerMask playerLayer;
 
     [Header("Jump Attack")]
-    public float jumpHeight = 5f;
-    public float jumpForce = 7f;
     public float jumpDamage = 30f;
     public float jumpCooldown = 3f;
     public float jumpActivationDistance = 15f;
@@ -29,85 +32,121 @@ public class BossAttacks : BossBase, IMagicAttack, IStompAttack, IJumpAttack, IC
     public GameObject magicProjectilePrefab;
     public Transform magicSpawnPoint;
     public float magicAttackCooldown = 4f;
+    public float magicGrowthMultiplier = 3f;
     public float magicAttackRange = 10f;
     public float magicThrowDelay = 1.2f;
     public float throwForce = 10f;
     public float throwUpwardForceMagic = 5f;
 
-    [Header("States and Animation Settings")]
+    [Header("States, Animation and Audio")]
+    private BossAudio bossAudio;
     private float nextAttackTime;
-    private bool isAttacking;
+    public float idleTime;
 
-    void Start()
+
+    protected override void Start()
     {
+        base.Start();
+
         RandomizeReinforcementCount();
         rb = GetComponent<Rigidbody>();
+
+        bossAudio = GetComponent<BossAudio>();
+
+        if (player == null)
+            Debug.LogError("Player reference missing");
+
+        if (animator == null)
+            Debug.LogError("Animator missing");
+
+        if (agent == null)
+            Debug.LogError("NavMeshAgent missing");
+
+        if (rb == null)
+            Debug.LogError("Rigidbody missing");
     }
 
-    void Update()
+    protected override void Update()
     {
-        if (isAttacking)
-            return;
+        base.Update();
+
+        float currentTime = Time.time;
+        if (currentTime >= idleTime && state == BossState.Idle)
+        {
+            state = BossState.Chasing;
+        }
+
+        if (state == BossState.Chasing)
+        {
+            ExecuteAttack();
+        }
     }
 
     public IEnumerator StompAttack()
     {
         agent.isStopped = true;
-        isAttacking = true;
-        animator.SetTrigger("stompAttack");
+        state = BossState.Stomping;
+        animator.SetTrigger(StompAttackHash);
 
         yield return new WaitForSeconds(stompDelay);
-
-        Collider playerHit = Physics.OverlapSphere(transform.position, stompRange, playerLayer)[0];
-
-        isAttacking = false;
+        agent.isStopped = false;
+        state = BossState.Idle;
     }
 
-    public IEnumerator JumpAttack(Transform playersLastPosition)
+    public IEnumerator JumpAttack()
     {
         agent.isStopped = true;
-        isAttacking = true;
-        
+        state = BossState.Jumping;
 
-        animator.SetTrigger("jumpAttack");
-        isAttacking = false;
+        animator.SetTrigger(JumpAttackHash);
+
+        yield return null;
+        agent.isStopped = false;
+        state = BossState.Idle;
     }
 
-    public Transform GetPlayersLastPosition()
+    public IEnumerator MagicAttack()
     {
-        return player;
-    }
-
-    public IEnumerator MagicAttack(Transform playersLastPosition)
-    {
-        isAttacking = true;
-        animator.SetTrigger("Magic");
+        state = BossState.MagicAttacking;
+        animator.SetTrigger(MagicHash);
         GameObject magicProjectile = Instantiate(magicProjectilePrefab, 
             magicSpawnPoint.position, 
             magicSpawnPoint.rotation);
+
+        StartCoroutine(IncreaseSize(magicProjectile, magicGrowthMultiplier));
 
         yield return new WaitForSeconds(magicThrowDelay);
 
         magicProjectile.transform.parent = null;
         Rigidbody magicProjectileRB = magicProjectile.GetComponent<Rigidbody>();
-        Vector3 direction = (playersLastPosition.position - magicSpawnPoint.position).normalized;
+        Vector3 direction = (player.position - magicSpawnPoint.position).normalized;
 
         magicProjectileRB.AddForce(direction * throwForce + Vector3.up * 
             throwUpwardForceMagic, ForceMode.Impulse);
 
-        isAttacking = false;
+        state = BossState.Idle;
     }
 
     public void CallReinforcements()
     {
         RandomizeReinforcementCount();
-        animator.SetTrigger("Roar");
+        animator.SetTrigger(RoarHash);
+        bossAudio.PlayEarthQuakeSound();
+        bossAudio.PlayMinionSpawningSound();
 
-        foreach (Transform SpawnPoint in spawnPoints)
+        List<Transform> availableSpawnPoints = new List<Transform>(spawnPoints);
+
+        for (int i = 0; i < reinforcementCount && availableSpawnPoints.Count > 0; i++)
         {
-            Instantiate(instantiateCoverSmoke, SpawnPoint.position, Quaternion.identity);
+            int spawnIndex = Random.Range(0, availableSpawnPoints.Count);
+
+            Transform spawn = availableSpawnPoints[spawnIndex];
+
+            availableSpawnPoints.RemoveAt(spawnIndex);
+
+            Instantiate(instantiateCoverSmoke, spawn.position, Quaternion.identity);
             int randomEnemy = Random.Range(0, reinforcementPrefabs.Length);
-            Instantiate(reinforcementPrefabs[randomEnemy], SpawnPoint.position, Quaternion.identity);
+            Instantiate(reinforcementPrefabs[randomEnemy], spawn.position, Quaternion.identity);
         }
     }
 
@@ -122,15 +161,15 @@ public class BossAttacks : BossBase, IMagicAttack, IStompAttack, IJumpAttack, IC
             StartCoroutine(StompAttack());
             nextAttackTime = Time.time + stompCooldown;
         }
-        else if (distanceToPlayer <= jumpActivationDistance)
+        else if (distanceToPlayer <= magicAttackRange)
         {
-            StartCoroutine(JumpAttack(GetPlayersLastPosition()));
-            nextAttackTime = Time.time + jumpCooldown;
+            StartCoroutine(MagicAttack());
+            nextAttackTime = Time.time + magicAttackCooldown;
         }
         else
         {
-            StartCoroutine(MagicAttack(GetPlayersLastPosition()));
-            nextAttackTime = Time.time + magicAttackCooldown;
+            StartCoroutine(JumpAttack());
+            nextAttackTime = Time.time + jumpCooldown;
         }
     }
 
@@ -154,5 +193,20 @@ public class BossAttacks : BossBase, IMagicAttack, IStompAttack, IJumpAttack, IC
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(attackPoint.position, jumpActivationDistance);
         }
+    }
+
+    private IEnumerator IncreaseSize(GameObject targetToScale, float targetScaleMultiplier)
+    {
+        Vector3 originalScale = targetToScale.transform.localScale;
+        Vector3 targetScale = originalScale * targetScaleMultiplier;
+        float duration = 0.5f;
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            targetToScale.transform.localScale = Vector3.Lerp(originalScale, targetScale, elapsed / duration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        targetToScale.transform.localScale = targetScale;
     }
 }

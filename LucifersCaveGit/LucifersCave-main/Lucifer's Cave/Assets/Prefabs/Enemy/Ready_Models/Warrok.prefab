@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1142389924386549061
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1367421642675414030}
+  m_Layer: 0
+  m_Name: magicSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1367421642675414030
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1142389924386549061}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5853424505150110633}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5689510069540630335
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,11 +40,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1766343081240884259}
+  - component: {fileID: 654360883191227350}
   - component: {fileID: 3762050607088045874}
   - component: {fileID: 5786383995700603859}
   - component: {fileID: 140172956554118455}
   - component: {fileID: 4116851353877611064}
   - component: {fileID: 8827307252951967637}
+  - component: {fileID: 7266352459877313684}
   m_Layer: 0
   m_Name: Warrok
   m_TagString: Untagged
@@ -37,6 +70,50 @@ Transform:
   - {fileID: 7229994482016685993}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &654360883191227350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5689510069540630335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccf5767c87de72f40bbbd5bf679bae52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossAttacks
+  agent: {fileID: 0}
+  player: {fileID: 0}
+  health: {fileID: 3762050607088045874}
+  animator: {fileID: 0}
+  state: 0
+  stompDamage: 20
+  stompCooldown: 5
+  stompActivationDistance: 3
+  stompDelay: 0.8
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  jumpDamage: 30
+  jumpCooldown: 3
+  jumpActivationDistance: 15
+  reinforcementCount: 0
+  instantiateCoverSmoke: {fileID: 0}
+  reinforcementPrefabs:
+  - {fileID: 8526947690517126619, guid: 537077edf0d3e8348a3d562af2c8bf4b, type: 3}
+  - {fileID: 3401183447925182666, guid: 698a97d4464d25f4db0d77c0da328de2, type: 3}
+  - {fileID: 8935311748847187635, guid: 3c9069e571e2abc4cadad8bf19fcfff9, type: 3}
+  - {fileID: 8494250285558358416, guid: c864a03746f2b584483f87fcc754a09d, type: 3}
+  spawnPoints: []
+  magicProjectilePrefab: {fileID: 3186158815252186314, guid: 47906a59331618d4ebe7fae5a38ce2c7, type: 3}
+  magicSpawnPoint: {fileID: 1367421642675414030}
+  magicAttackCooldown: 4
+  magicGrowthMultiplier: 3
+  magicAttackRange: 10
+  magicThrowDelay: 1.2
+  throwForce: 10
+  throwUpwardForceMagic: 5
+  idleTime: 0
 --- !u!114 &3762050607088045874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,7 +146,6 @@ MonoBehaviour:
   stompSound: {fileID: 8300000, guid: 1fd31868d68903d4f9e2c4a3b7ef98f3, type: 3}
   roarSound: {fileID: 8300000, guid: 7d156b8a5b340cd46bcf0a76557dd2dd, type: 3}
   laserSound: {fileID: 8300000, guid: 5ae4d298ed547ba4c88587effb75d7e1, type: 3}
-  swipeSound: {fileID: 8300000, guid: cc6699269b4c1d44ea1e860518b9bb73, type: 3}
   earthQuakeSound: {fileID: 8300000, guid: 5ae4d298ed547ba4c88587effb75d7e1, type: 3}
   minionSpawningSound: {fileID: 8300000, guid: 26fbf6bb6963666478f6992bc53b9145, type: 3}
   deathSound: {fileID: 8300000, guid: 958408b32ccf3714ea02821877b0870c, type: 3}
@@ -134,6 +210,28 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.7599305, y: 2.1589282, z: 1}
   m_Center: {x: -0.01616013, y: 1.0812347, z: 0}
+--- !u!195 &7266352459877313684
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5689510069540630335}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 1.75
+  m_Acceleration: 5
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1001 &7195803126859753538
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -196,22 +294,30 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 1ff2f75fc7d30844799037f771c50039, type: 2}
     - target: {fileID: 5866666021909216657, guid: 7cf8c9b54267dc54d9d3bd25776149b8, type: 3}
       propertyPath: m_WarningMessage
-      value: "\nBinding warning: Some generic clip(s) animate transforms that are
-        already bound by a Humanoid avatar. These transforms can only be changed
-        by Humanoid clips.\n\tTransform 'mixamorig:Hips'\n\tTransform 'mixamorig:LeftFoot'\n\tTransform
-        'mixamorig:Spine1'\n\tTransform 'mixamorig:LeftToeBase'\n\tTransform 'mixamorig:RightArm'\n\tTransform
-        'mixamorig:LeftLeg'\n\tTransform 'mixamorig:LeftShoulder'\n\tTransform 'mixamorig:RightHandIndex3'\n\tTransform
-        'mixamorig:RightFoot'\n\tTransform 'mixamorig:Head'\n\tand more ...\n\tFrom
-        animation clip 'Jump Attack'\n\tFrom animation clip 'Stomp'"
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3667946887678727147, guid: 7cf8c9b54267dc54d9d3bd25776149b8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1367421642675414030}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7cf8c9b54267dc54d9d3bd25776149b8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4215148934177400111}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7cf8c9b54267dc54d9d3bd25776149b8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6530295140061857636}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7cf8c9b54267dc54d9d3bd25776149b8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4740418083191714297}
   m_SourcePrefab: {fileID: 100100000, guid: 7cf8c9b54267dc54d9d3bd25776149b8, type: 3}
+--- !u!4 &5853424505150110633 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3667946887678727147, guid: 7cf8c9b54267dc54d9d3bd25776149b8, type: 3}
+  m_PrefabInstance: {fileID: 7195803126859753538}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7229994482016685993 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7cf8c9b54267dc54d9d3bd25776149b8, type: 3}
@@ -234,4 +340,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79ddb6f50a8f14b448c13da8c782c044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IdleBegin
+  agent: {fileID: 0}
+  player: {fileID: 0}
+  health: {fileID: 3762050607088045874}
+  animator: {fileID: 0}
+  state: 0
   idleWaitTime: 2
+--- !u!114 &6530295140061857636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8006776715547497747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee79c9497cad8854ca01e680f8e1e61d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::JumpEvent
+  shakeDuration: 0.8
+  shakeAmount: 0.75
+--- !u!114 &4740418083191714297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8006776715547497747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c58ca0cb801d2446bee92ec1562462c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StompEvent
+  stompRange: 3
+  stompDamage: 20
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 64

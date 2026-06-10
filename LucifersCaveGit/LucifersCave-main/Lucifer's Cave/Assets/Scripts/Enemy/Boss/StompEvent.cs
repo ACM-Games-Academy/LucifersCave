@@ -2,15 +2,18 @@ using UnityEngine;
 
 public class StompEvent : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public float stompRange = 3f;
+    public int stompDamage = 20;
+    public LayerMask playerLayer;
 
-    // Update is called once per frame
-    void Update()
+    BossAudio bossAudio;
+
+    public void StompLand()
     {
-        
+        bossAudio = GetComponentInParent<BossAudio>();
+
+        Collider playerHit = Physics.OverlapSphere(transform.position, stompRange, playerLayer)[0];
+        playerHit.GetComponent<PlayerHealth>().TakeDamage(stompDamage);
+        bossAudio.PlayStompSound();
     }
 }

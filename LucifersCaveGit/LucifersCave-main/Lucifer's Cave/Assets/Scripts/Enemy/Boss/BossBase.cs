@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Rendering;
 
 public abstract class BossBase : MonoBehaviour
 {
@@ -11,7 +10,6 @@ public abstract class BossBase : MonoBehaviour
 
     [Header("Animations")]
     [HideInInspector] public Animator animator;
-    [SerializeField] private float speedDamp = 0.15f;
 
     public enum BossState
     {
@@ -25,10 +23,11 @@ public abstract class BossBase : MonoBehaviour
 
     public BossState state;
 
-    void Start()
+    protected virtual void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
+        player = GameObject.FindGameObjectWithTag("Player").transform;
 
         EnsureOnNavMesh(agent);
 
@@ -38,7 +37,7 @@ public abstract class BossBase : MonoBehaviour
         }
     }
 
-    void Update()
+    protected virtual void Update()
     {
         if (health != null && health.isDead) return;
         if (player == null || agent == null || !agent.isOnNavMesh) return;
@@ -69,6 +68,14 @@ public abstract class BossBase : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        if (health != null)
+        {
+            health.OnDeathEvent -= HandleDeath;
+        }
+    }
+
     public void EnsureOnNavMesh(NavMeshAgent agent, float distance = 2f)
     {
         if (agent == null || agent.isOnNavMesh)
@@ -76,7 +83,7 @@ public abstract class BossBase : MonoBehaviour
             return;
         }
 
-        if (NavMesh.SamplePosition(agent.transform.position, out var hit, 5f, NavMesh.AllAreas))
+        if (NavMesh.SamplePosition(agent.transform.position, out var hit, distance, NavMesh.AllAreas))
         {
             agent.Warp(hit.position);
         }
@@ -85,7 +92,7 @@ public abstract class BossBase : MonoBehaviour
 
 public interface IMagicAttack
 {
-    IEnumerator MagicAttack(Transform playersLastPosition);
+    IEnumerator MagicAttack();
 }
 
 public interface IStompAttack
@@ -95,7 +102,7 @@ public interface IStompAttack
 
 public interface IJumpAttack
 {
-    IEnumerator JumpAttack(Transform playersLastPosition);
+    IEnumerator JumpAttack();
 }
 
 public interface ICallReinforcements

@@ -6,10 +6,14 @@ public class IdleBegin : BossBase
     [SerializeField] private float idleWaitTime = 2f;
 
     public static bool isIdle = true;
+    BossAudio bossAudio;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         animator = GetComponent<Animator>();
+        bossAudio = GetComponentInParent<BossAudio>();
+        bossAudio.PlayRoarSound();
     }
 
     public void RoarFinish()
