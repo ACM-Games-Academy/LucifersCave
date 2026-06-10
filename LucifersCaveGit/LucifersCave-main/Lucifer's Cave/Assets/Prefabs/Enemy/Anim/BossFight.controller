@@ -63,27 +63,23 @@ AnimatorStateMachine:
     m_State: {fileID: -6769160729418095553}
     m_Position: {x: 100, y: -100, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 6858534856083686035}
-    m_Position: {x: 570, y: -90, z: 0}
-  - serializedVersion: 1
     m_State: {fileID: 8839572188759146910}
-    m_Position: {x: 330, y: -150, z: 0}
+    m_Position: {x: 300, y: -160, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3606327293684892260}
-    m_Position: {x: 20, y: 30, z: 0}
+    m_Position: {x: 0, y: 30, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3063907666361026234}
     m_Position: {x: 220, y: 370, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6739355254899296532}
-    m_Position: {x: 640, y: 20, z: 0}
+    m_Position: {x: 600, y: 30, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6963457766328552265}
-    m_Position: {x: 100, y: 150, z: 0}
+    m_Position: {x: 100, y: 160, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: -4176545677428663587}
-  - {fileID: -1127919594961514460}
   - {fileID: 6779086178048930951}
   - {fileID: -8593047414696474287}
   - {fileID: 2743378763875850237}
@@ -91,8 +87,8 @@ AnimatorStateMachine:
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 350, y: 40, z: 0}
-  m_EntryPosition: {x: 240, y: 250, z: 0}
+  m_AnyStatePosition: {x: 320, y: 40, z: 0}
+  m_EntryPosition: {x: 240, y: 310, z: 0}
   m_ExitPosition: {x: 860, y: -280, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 3063907666361026234}
@@ -199,31 +195,6 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1101 &-1127919594961514460
-AnimatorStateTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: jumpAttack
-    m_EventTreshold: 0
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: 6858534856083686035}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 0
-  serializedVersion: 3
-  m_TransitionDuration: 2.162473
-  m_TransitionOffset: 0.00000006214861
-  m_ExitTime: 0.032822788
-  m_HasExitTime: 0
-  m_HasFixedDuration: 1
-  m_InterruptionSource: 1
-  m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 0
 --- !u!91 &9100000
 AnimatorController:
   m_ObjectHideFlags: 0
@@ -361,32 +332,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 0
---- !u!1102 &6858534856083686035
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Jump Attack
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 865a5c7659b683248accdb77c8c17976, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
 --- !u!1102 &6963457766328552265
 AnimatorState:
   serializedVersion: 6
@@ -433,7 +378,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 770ae79ea120e464081fafb51f5ee276, type: 2}
+  m_Motion: {fileID: 7400000, guid: ee586a1922b2f844d9d07fea2a2bb967, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

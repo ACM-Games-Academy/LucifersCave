@@ -1,9 +1,8 @@
 using UnityEngine;
 
-public class IdleBegin : MonoBehaviour
+public class IdleBegin : BossBase
 {
     private static readonly int IsIdleHash = Animator.StringToHash("isIdle");
-    private Animator animator;
     [SerializeField] private float idleWaitTime = 2f;
 
     public static bool isIdle = true;
@@ -16,6 +15,7 @@ public class IdleBegin : MonoBehaviour
     public void RoarFinish()
     {
         animator.SetBool(IsIdleHash, true);
+        state = BossState.Idle;
 
         float elapsedTime = 0f;
         while (elapsedTime < idleWaitTime)

@@ -141,13 +141,13 @@ Material:
     - _EnvironmentReflections: 1
     - _Float: 0
     - _Fresnel_strength: 0.4
-    - _Frost_middle_stregth: 0.92
+    - _Frost_middle_stregth: 1
     - _Frost_strength: 0.57
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Inner_Fog_Noise_Size: 10
-    - _Inner_Fog_Power: 0.3
+    - _Inner_Fog_Noise_Size: 7.36
+    - _Inner_Fog_Power: 0.85
     - _Inner_Fog_Size: 10
     - _Metallic: 0
     - _OcclusionStrength: 1
@@ -167,7 +167,7 @@ Material:
     - _middle: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 0.66261864, g: 1.890929, b: 2.2297645, a: 1}
+    - _Color: {r: 2.9769104, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Frost_tile: {r: 2, g: 2, b: 0, a: 0}
     - _Ice_tile: {r: 1, g: 1, b: 0, a: 0}

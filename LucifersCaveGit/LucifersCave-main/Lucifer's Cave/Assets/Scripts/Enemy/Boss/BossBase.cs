@@ -1,14 +1,16 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering;
 
 public abstract class BossBase : MonoBehaviour
 {
-    NavMeshAgent agent;
-    [SerializeField] private Transform player;
+    [HideInInspector] public NavMeshAgent agent;
+    [HideInInspector] public Transform player;
     public EnemyHealth health;
 
     [Header("Animations")]
-    Animator animator;
+    [HideInInspector] public Animator animator;
     [SerializeField] private float speedDamp = 0.15f;
 
     public enum BossState
@@ -42,13 +44,16 @@ public abstract class BossBase : MonoBehaviour
         if (player == null || agent == null || !agent.isOnNavMesh) return;
         if (PlayerHealth.isDead) return;
 
-        float distanceToPlayer = Vector3.Distance(player.position, transform.position);
+        if (state == BossState.Chasing)
+        {
+            float distanceToPlayer = Vector3.Distance(player.position, transform.position);
 
-        agent.SetDestination(player.position);
+            agent.SetDestination(player.position);
 
-        bool isMoving = distanceToPlayer > agent.stoppingDistance;
+            bool isMoving = distanceToPlayer > agent.stoppingDistance;
 
-        animator.SetBool("isMoving", isMoving);
+            animator.SetBool("isMoving", isMoving);
+        }
     }
 
     public void Initialize(Transform player)
@@ -80,17 +85,17 @@ public abstract class BossBase : MonoBehaviour
 
 public interface IMagicAttack
 {
-    void CastMagic();
+    IEnumerator MagicAttack(Transform playersLastPosition);
 }
 
 public interface IStompAttack
 {
-    void Stomp();
+    IEnumerator StompAttack();
 }
 
 public interface IJumpAttack
 {
-    void JumpAttack();
+    IEnumerator JumpAttack(Transform playersLastPosition);
 }
 
 public interface ICallReinforcements
