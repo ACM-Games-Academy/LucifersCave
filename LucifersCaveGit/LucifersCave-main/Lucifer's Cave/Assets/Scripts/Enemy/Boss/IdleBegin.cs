@@ -1,25 +1,26 @@
 using UnityEngine;
 
-public class IdleBegin : BossBase
+public class IdleBegin : MonoBehaviour
 {
     private static readonly int IsIdleHash = Animator.StringToHash("isIdle");
     [SerializeField] private float idleWaitTime = 2f;
 
     public static bool isIdle = true;
     BossAudio bossAudio;
+    BossAttacks attacks;
 
-    protected override void Start()
+    private void Start()
     {
-        base.Start();
-        animator = GetComponent<Animator>();
+        attacks = GetComponentInParent<BossAttacks>();
+        attacks.animator = GetComponent<Animator>();
         bossAudio = GetComponentInParent<BossAudio>();
         bossAudio.PlayRoarSound();
     }
 
     public void RoarFinish()
     {
-        animator.SetBool(IsIdleHash, true);
-        state = BossState.Idle;
+        attacks.animator.SetBool(IsIdleHash, true);
+        attacks.state = BossBase.BossState.Idle;
 
         float elapsedTime = 0f;
         while (elapsedTime < idleWaitTime)
@@ -27,11 +28,12 @@ public class IdleBegin : BossBase
             elapsedTime += Time.deltaTime;
             if (elapsedTime >= idleWaitTime)
             {
-                animator.SetBool(IsIdleHash, false);
+                attacks.animator.SetBool(IsIdleHash, false);
             }
         }
 
         elapsedTime = 0f;
         isIdle = false;
+        attacks.state = BossBase.BossState.Chasing;
     }
 }

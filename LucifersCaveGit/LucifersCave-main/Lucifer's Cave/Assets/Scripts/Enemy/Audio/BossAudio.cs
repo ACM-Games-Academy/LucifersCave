@@ -10,33 +10,41 @@ public class BossAudio : MonoBehaviour
     public AudioClip minionSpawningSound;
     public AudioClip deathSound;
 
+    public AudioSource audioSource;
+    public AudioSource musicSource;
+
+    private void Start()
+    {
+        musicSource.clip = bossMusic; musicSource.Play();
+    }
+
     public void PlayRoarSound()
     {
-        AudioSource.PlayClipAtPoint(roarSound, transform.position);
+        audioSource.PlayOneShot(roarSound);
     }
 
     public void PlayStompSound()
     {
-        AudioSource.PlayClipAtPoint(stompSound, transform.position);
+        audioSource.PlayOneShot(stompSound);
     }
 
     public void PlayEarthQuakeSound()
     {
-        AudioSource.PlayClipAtPoint(earthQuakeSound, transform.position);
+        audioSource.PlayOneShot(earthQuakeSound);
     }
 
     public void PlayLaserSound()
     {
-        AudioSource.PlayClipAtPoint(laserSound, transform.position);
+        audioSource.PlayOneShot(laserSound);
     }
 
     public void PlayMinionSpawningSound()
     {
-        AudioSource.PlayClipAtPoint(minionSpawningSound, transform.position);
+        audioSource.PlayOneShot(minionSpawningSound);
     }
 
     public void PlayDeathSound()
     {
-        AudioSource.PlayClipAtPoint(deathSound, transform.position);
+        audioSource.PlayOneShot(deathSound);
     }
 }

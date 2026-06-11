@@ -20,12 +20,24 @@ public class DungeonGenerator : MonoBehaviour
     public Vector2 offset;
 
     public Vector3 spawnOrigin;
+    public float spawnOffset = 20f;
 
     private bool hasStarted = false;
     List<Cell> board;
 
+    private static int dungeonCount = 0;
+
+    void Awake()
+    {
+        Debug.Log($"AWAKE DungeonGenerator: {gameObject.name} ID:{GetInstanceID()} " +
+            $"Scene:{gameObject.scene.name}");
+    }
+
     void Start()
     {
+        spawnOrigin += new Vector3(dungeonCount * (size.x * offset.x + spawnOffset), 0, 0);
+        dungeonCount++;
+
         MazeGenerator();
         hasStarted = true;
         if (hasStarted && doorLift != null)
@@ -43,6 +55,11 @@ public class DungeonGenerator : MonoBehaviour
         Queue<int> queue = new Queue<int>();
         int[] dist = new int[board.Count];
         bool[] visited = new bool[board.Count];
+
+        for (int i = 0; i < dist.Length; i++)
+            dist[i] = -1;
+
+        dist[startPosition] = 0;
 
         queue.Enqueue(startPosition);
         visited[startPosition] = true;
@@ -78,7 +95,7 @@ public class DungeonGenerator : MonoBehaviour
         {
             for (int j = 0; j < size.y; j++)
             {
-                int index = i + j;
+                int index = i + j * size.x;
 
                 if (index == bossIndex)
                     continue;
@@ -113,6 +130,7 @@ public class DungeonGenerator : MonoBehaviour
 
     void MazeGenerator()
     {
+        Debug.Log($"Dungeon Size: {size.x} x {size.y}");
         board = new List<Cell>();
 
         for (int i = 0; i < size.x * size.y; i++)
@@ -129,52 +147,51 @@ public class DungeonGenerator : MonoBehaviour
         while (visitedCells < board.Count)
         {
             List<int> neighbours = CheckNeighbours(currentCell);
+            Shuffle(neighbours);
 
-            if (neighbours.Count == 0)
+            int nextCell = -1;
+
+            foreach (int cell in neighbours)
             {
-                if (cellStack.Count > 0)
+                if (!board[cell].visited)
                 {
-                    currentCell = cellStack.Pop();
-                    continue;
-                }
-                else
-                {
+                    nextCell = cell;
                     break;
                 }
             }
 
-            cellStack.Push(currentCell);
-
-            Shuffle(neighbours);
-            int newCell = neighbours[0];
-
-            if (!board[newCell].visited)
+            if (nextCell != -1)
             {
-                board[newCell].visited = true;
+                cellStack.Push(currentCell);
+
+                RemoveWall(currentCell, nextCell);
+
+                currentCell = nextCell;
+
+                board[currentCell].visited = true;
+
                 visitedCells++;
             }
-
-            RemoveWall(currentCell, newCell);
-
-            currentCell = newCell;
+            else
+            {
+                if (cellStack.Count > 0)
+                    currentCell = cellStack.Pop();
+                else
+                    break;
+            }
         }
 
         // 0 = top, 1 = right, 2 = bottom, 3 = left
+        int frontCell = startPosition + size.x;
 
-        board[startPosition].visited = true;
+        if (frontCell < board.Count)
+            RemoveWall(startPosition, frontCell);
 
-        bool fullyClosed = board[startPosition].walls.All(wall => wall);
+        Debug.Log($"Visited Cells: {visitedCells}");
+        Debug.Log($"Board Count: {board.Count}");
 
-        if (fullyClosed)
-        {
-            int below = startPosition + size.x;
-
-            if (below < board.Count)
-            {
-                RemoveWall(startPosition, below);
-            }
-        }
-
+        int actualVisited = board.Count(c => c.visited);
+        Debug.Log($"Actual visited flags: {actualVisited}");
         GenerateDungeon();
     }
 
@@ -233,9 +250,6 @@ public class DungeonGenerator : MonoBehaviour
     {
         List<int> result = new List<int>();
 
-        int x = cell % size.x;
-        int y = cell / size.x;
-
         // top
         if (!board[cell].walls[0] && cell - size.x >= 0)
             result.Add(cell - size.x);
@@ -257,8 +271,13 @@ public class DungeonGenerator : MonoBehaviour
 
     void RemoveWall(int currentCell, int newCell)
     {
+        if (newCell < 0 || newCell >= board.Count)
+            return;
+
         int dx = newCell % size.x - currentCell % size.x;
         int dy = newCell / size.x - currentCell / size.x;
+
+        if (Mathf.Abs(dx) + Mathf.Abs(dy) != 1) return;
 
         // moving right
         if (dx == 1)

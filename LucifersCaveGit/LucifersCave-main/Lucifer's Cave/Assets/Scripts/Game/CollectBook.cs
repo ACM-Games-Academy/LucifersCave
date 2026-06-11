@@ -10,6 +10,8 @@ public class CollectBook : MonoBehaviour, IInteractable
     public Transform Player;
     bool hasInteracted;
 
+    public Initializer initializer;
+
     void Start()
     {
         Player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -42,6 +44,8 @@ public class CollectBook : MonoBehaviour, IInteractable
 
             BossBase bossBase = instantiatedBoss.GetComponent<BossBase>();
             bossBase.Initialize(Player);
+            GiantHealthBar healthBar = instantiatedBoss.GetComponent<GiantHealthBar>();
+            healthBar.Initialize(initializer.healthBar, Player, bossFightHUD);
         }
     }
 

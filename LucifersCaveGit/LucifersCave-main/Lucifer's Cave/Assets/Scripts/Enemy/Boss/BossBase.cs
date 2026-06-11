@@ -4,21 +4,24 @@ using UnityEngine.AI;
 
 public abstract class BossBase : MonoBehaviour
 {
+    private static readonly int IsIdleHash = Animator.StringToHash("isIdle");
     [HideInInspector] public NavMeshAgent agent;
     [HideInInspector] public Transform player;
-    public EnemyHealth health;
+    public GiantHealthBoss health;
 
     [Header("Animations")]
     [HideInInspector] public Animator animator;
 
     public enum BossState
     {
+        Roaring,
         Idle,
         Chasing,
         Stomping,
         Jumping,
         MagicAttacking,
-        Reinforcements
+        Reinforcements,
+        Dead
     }
 
     public BossState state;
@@ -45,13 +48,19 @@ public abstract class BossBase : MonoBehaviour
 
         if (state == BossState.Chasing)
         {
-            float distanceToPlayer = Vector3.Distance(player.position, transform.position);
-
+            agent.isStopped = false;
             agent.SetDestination(player.position);
 
-            bool isMoving = distanceToPlayer > agent.stoppingDistance;
+            animator.SetBool("isMoving",
+            state == BossState.Chasing &&
+            !agent.isStopped &&
+            agent.velocity.sqrMagnitude > 0.01f);
+        }
 
-            animator.SetBool("isMoving", isMoving);
+        if (state == BossState.Idle)
+        {
+            agent.isStopped = true;
+            animator.SetBool(IsIdleHash, state == BossState.Idle);
         }
     }
 
@@ -65,6 +74,7 @@ public abstract class BossBase : MonoBehaviour
         if (agent != null && agent.isOnNavMesh)
         {
             agent.isStopped = true;
+            state = BossState.Dead;
         }
     }
 
@@ -107,5 +117,5 @@ public interface IJumpAttack
 
 public interface ICallReinforcements
 {
-    void CallReinforcements();
+    IEnumerator CallReinforcements();
 }
